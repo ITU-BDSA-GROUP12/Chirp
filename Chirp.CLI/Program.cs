@@ -1,6 +1,14 @@
 ﻿using System.IO;
 using System;
 
+var shouldRun = true;
+
+while (shouldRun)
+{
+
+
+}
+
 if (args[0]=="read")
 {   // Read part from: https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-read-text-from-a-file
     try
