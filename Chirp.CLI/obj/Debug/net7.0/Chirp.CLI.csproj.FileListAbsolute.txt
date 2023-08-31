@@ -1,0 +1,14 @@
+/Users/Rasmus/Chirp.CLI/bin/Debug/net7.0/Chirp.CLI
+/Users/Rasmus/Chirp.CLI/bin/Debug/net7.0/Chirp.CLI.deps.json
+/Users/Rasmus/Chirp.CLI/bin/Debug/net7.0/Chirp.CLI.runtimeconfig.json
+/Users/Rasmus/Chirp.CLI/bin/Debug/net7.0/Chirp.CLI.dll
+/Users/Rasmus/Chirp.CLI/bin/Debug/net7.0/Chirp.CLI.pdb
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.AssemblyInfoInputs.cache
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.AssemblyInfo.cs
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.csproj.CoreCompileInputs.cache
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.dll
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/refint/Chirp.CLI.dll
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.pdb
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/Chirp.CLI.genruntimeconfig.cache
+/Users/Rasmus/Chirp.CLI/obj/Debug/net7.0/ref/Chirp.CLI.dll
