@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\allan\\Programs\\3. Semester\\DSA\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\DSA\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj",
       "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\allan\\Programs\\3. Semester\\DSA\\Chirp\\Chirp.CLI\\obj\\",
+      "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
