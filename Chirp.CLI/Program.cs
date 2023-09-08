@@ -1,46 +1,42 @@
 ﻿using System.IO;
 using System;
+using CsvHelper;
+using System.Globalization;
+using System.ComponentModel.Design;
+
 
 //All references to "GPT" in comments are references to chat.opanai.com
 
+
 string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
+
+
 
 if (args[0]=="read")
 {   // Read part from: https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-read-text-from-a-file
-    try
-        {
-        // Open the text file using a stream reader.
-        using var sr = new StreamReader(path);
-        
-        
-        var line = sr.ReadLine();       //Read first line without printing
 
-        //Using https://stackoverflow.com/questions/5282999/reading-csv-file-and-storing-values-into-an-array
-        while (!sr.EndOfStream)
+    StreamReader reader = new StreamReader(path);
+    CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture);
+    IEnumerable<Cheep> records = csv.GetRecords<Cheep>();
+    
+    if (args.Length == 1) 
+    {
+        foreach (Cheep cheep in records)
         {
-            line = sr.ReadLine();       // Read each line
-            var values = line.Split(',');
-            var message = values[1];    
-            long timeSeconds = long.Parse(values[^1])+7200; //Plus 7200 to adjust timezone 
-            var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
-            string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
-
-            for (int i = 2; i < values.Length-1;i++) //Reading the message and adding possible commas
-            {
-                 message += "," + values[i];
-            }    
-            message = message.Trim('"');            //Trimming quotations
-            Console.WriteLine(values[0] +" @ "+ formattedTimeStamp +": "+ message);    
-        }      
-    }
-        catch (IOException e)
-        {
-            Console.WriteLine("The file could not be read:");
-            Console.WriteLine(e.Message);
+            Console.WriteLine(cheep.Author + " @ " + cheep.Timestamp + " : " + cheep.Message);
         }
+    }
+    else if (args.Length == 2)
+    {
+        int cheeps_left = int.Parse(args[1]);
+        foreach (Cheep cheep in records)
+        {
+            Console.WriteLine(cheep.Author + " @ " + cheep.Timestamp + " : " + cheep.Message);
+            cheeps_left -= 1;
+            if (cheeps_left == 0) { break; }
+        }
+    }
 }
-
-
 
 if (args[0]=="cheep")
 {
@@ -52,3 +48,6 @@ if (args[0]=="cheep")
             sw.WriteLine(Environment.UserName + ",\"" + message + "\"," + unixTimestamp);
         }
 }
+
+
+public record Cheep(string Author , string Message , long Timestamp);
