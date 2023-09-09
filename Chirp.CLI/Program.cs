@@ -15,9 +15,12 @@ string path = "../src/chirp_cli_db.csv"; //Path to CSV file
 if (args[0]=="read")
 {   // Read part from: https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-read-text-from-a-file
 
-    StreamReader reader = new StreamReader(path);
-    CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture);
-    IEnumerable<Cheep> records = csv.GetRecords<Cheep>();
+    IEnumerable<Cheep> records;
+    using (StreamReader reader = new StreamReader(path))
+    using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
+    {
+        records = csv.GetRecords<Cheep>();
+    }
     
     if (args.Length == 1) 
     {
@@ -30,6 +33,7 @@ if (args[0]=="read")
     {
         int cheeps_left = int.Parse(args[1]);
         foreach (Cheep cheep in records)
+
         {
             Console.WriteLine(cheep.Author + " @ " + cheep.Timestamp + " : " + cheep.Message);
             cheeps_left -= 1;
