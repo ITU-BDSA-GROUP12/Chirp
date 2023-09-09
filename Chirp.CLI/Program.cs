@@ -40,13 +40,13 @@ if (args[0]=="read")
 
 if (args[0]=="cheep")
 {
-    long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds; //Used GPT for this
+    long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
 
     using (StreamWriter sw = File.AppendText(path))  
-        {
-            string message = args[1]; //Saving the message given as argument inside quotations
-            sw.WriteLine(Environment.UserName + ",\"" + message + "\"," + unixTimestamp);
-        }
+    {
+        string message = args[1]; //Saving the message given as argument inside quotations
+        sw.WriteLine(Environment.UserName + ",\"" + message + "\"," + unixTimestamp);
+    }
 }
 
 
