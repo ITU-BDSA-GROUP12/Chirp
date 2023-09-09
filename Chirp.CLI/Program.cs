@@ -15,29 +15,30 @@ string path = "../src/chirp_cli_db.csv"; //Path to CSV file
 if (args[0]=="read")
 {   // Read part from: https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-read-text-from-a-file
 
-    IEnumerable<Cheep> records;
+    
     using (StreamReader reader = new StreamReader(path))
     using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
     {
-        records = csv.GetRecords<Cheep>();
-    }
+        IEnumerable<Cheep> records = csv.GetRecords<Cheep>();
     
-    if (args.Length == 1) 
-    {
-        foreach (Cheep cheep in records)
+    
+        if (args.Length == 1) 
         {
-            Console.WriteLine(cheep.Author + " @ " + cheep.Timestamp + " : " + cheep.Message);
+            foreach (Cheep cheep in records)
+            {
+                Console.WriteLine($"{cheep.Author} @ {cheep.Timestamp} : {cheep.Message}");
+            }
         }
-    }
-    else if (args.Length == 2)
-    {
-        int cheeps_left = int.Parse(args[1]);
-        foreach (Cheep cheep in records)
-
+        else if (args.Length == 2)
         {
-            Console.WriteLine(cheep.Author + " @ " + cheep.Timestamp + " : " + cheep.Message);
-            cheeps_left -= 1;
-            if (cheeps_left == 0) { break; }
+            int cheeps_left = int.Parse(args[1]);
+            foreach (Cheep cheep in records)
+
+            {
+                Console.WriteLine($"{cheep.Author} @ {cheep.Timestamp} : {cheep.Message}");
+                cheeps_left -= 1;
+                if (cheeps_left == 0) { break; }
+            }
         }
     }
 }
