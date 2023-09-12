@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "aHU2QkTxhMbDBtvMp4NU8XKIQMul7D/AmTMRL1OmwnluAVnZCusLYdrGrf7D1RjIsC04Jy5rn3RcCZGqZ+MHgg==",
+  "dgSpecHash": "T8ynpgiwldunw5r+fM20fEOLLM67kKgSI6bRdX8V7gKYGKKtQDzEu7SxnsDlaq4hccVNZyQFGAH2G0In4geFlw==",
   "success": true,
-  "projectFilePath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+  "projectFilePath": "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/Chirp.CLI.csproj",
   "expectedPackageFiles": [
-    "/Users/markushojgaard/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512"
+    "/Users/lukaspallesen/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512"
   ],
   "logs": []
 }

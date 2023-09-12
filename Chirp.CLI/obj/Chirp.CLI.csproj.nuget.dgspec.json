@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
+    "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
+    "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
-        "packagesPath": "/Users/markushojgaard/.nuget/packages/",
-        "outputPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/obj/",
+        "projectPath": "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "packagesPath": "/Users/lukaspallesen/.nuget/packages/",
+        "outputPath": "/Users/lukaspallesen/SWU/BDSA/Chirp/Chirp.CLI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/markushojgaard/.nuget/NuGet/NuGet.Config"
+          "/Users/lukaspallesen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
