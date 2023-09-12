@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj": {}
+    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj": {
+    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj",
-        "packagesPath": "C:\\Users\\madsh\\.nuget\\packages\\",
-        "outputPath": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\obj\\",
+        "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp.CLI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\madsh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"

@@ -4,29 +4,28 @@ using CsvHelper;
 using System.Globalization;
 using System.ComponentModel.Design;
 
-
 //All references to "GPT" in comments are references to chat.opanai.com
-
 
 string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
 
 
 
 if (args[0]=="read")
-{   // Read part from: https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-read-text-from-a-file
-
-    
+{   //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
     using (StreamReader reader = new StreamReader(path))
     using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
     {
-        IEnumerable<Cheep> records = csv.GetRecords<Cheep>();
-    
+        IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
     
         if (args.Length == 1) 
         {
             foreach (Cheep cheep in records)
             {
-                Console.WriteLine($"{cheep.Author} @ {cheep.Timestamp} : {cheep.Message}");
+                long timeSeconds = cheep.Timestamp + 7200; //Plus 7200 to adjust timezone 
+                var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
+                string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
+
+                Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
             }
         }
         else if (args.Length == 2)
@@ -44,8 +43,7 @@ if (args[0]=="read")
 }
 
 if (args[0]=="cheep")
-{
-
+{   //CSV Write part from: https://joshclose.github.io/CsvHelper/getting-started/
     long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
     Cheep cheep = new Cheep(Environment.UserName , args[1] , unixTimestamp);
     using (StreamWriter sw = File.AppendText(path))  

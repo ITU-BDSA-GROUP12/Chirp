@@ -57,3 +57,20 @@ C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\
 C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\CsvHelper.dll
 C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
 C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.csproj.CopyComplete
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.pdb
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.exe
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.pdb
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\bin\Debug\net7.0\CsvHelper.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CopyComplete
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
