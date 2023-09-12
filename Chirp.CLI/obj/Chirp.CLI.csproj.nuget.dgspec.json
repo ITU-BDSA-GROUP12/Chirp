@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
+    "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
+    "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
-        "packagesPath": "/Users/Rasmus/.nuget/packages/",
-        "outputPath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/obj/",
+        "projectPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "packagesPath": "/Users/markushojgaard/.nuget/packages/",
+        "outputPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/Rasmus/.nuget/NuGet/NuGet.Config"
+          "/Users/markushojgaard/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
