@@ -9,12 +9,21 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         this.path = path;
     }     
-    public List<T> Read(int? limit = null)
+    public IEnumerable<T> Read(int? limit = null)
     {
+        if (limit <= 0)
+        {
+            throw new ArgumentOutOfRangeException($"{nameof(limit)} must be greater than 0");
+        }
         using (StreamReader reader = new StreamReader(path))
         using (CsvReader csv = new CsvReader(reader , CultureInfo.InvariantCulture))
         {
-            return csv.GetRecords<T>().ToList(); // Reading cheeps from CSV File
+            foreach (T record in csv.GetRecords<T>())
+            {
+                yield return record;
+                limit = limit == null ? null : limit - 1;
+                if (limit == 0) { break; }
+            }
         }
     }
     public void Store(T record)
