@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
+    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
+    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj",
         "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\obj\\",
+        "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj": {
-                "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj"
+              "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj": {
+                "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj"
               }
             }
           }
@@ -67,14 +67,14 @@
         }
       }
     },
-    "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj": {
+    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj",
+        "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj",
         "projectName": "SimpleDB",
-        "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj",
+        "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj",
         "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\obj\\",
+        "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -100,6 +100,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

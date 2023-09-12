@@ -57,3 +57,5 @@ C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chir
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.pdb
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\Chirp\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\chirp\Chirp.CLI\bin\Debug\net7.0\SimpleDB.dll
+C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp\chirp\Chirp.CLI\bin\Debug\net7.0\SimpleDB.pdb

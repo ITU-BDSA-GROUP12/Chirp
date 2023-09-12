@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "H9bosKXjMVVAE9wGXJYHmvTS73T4HBQTflVauIsv3H2WKR0/S4TpaiI45sayydZE28jtdW1J3FiCppa5SXuAuQ==",
+  "dgSpecHash": "Jv3qj02ErF+U+9U/owGByBXFiVfqSupNPJ/xByKYX+eXpnzvGzMgooykYn1J9A7V/UpeQffgEEAYsFJFMDQQEg==",
   "success": true,
-  "projectFilePath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\allan\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
   ],
