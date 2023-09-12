@@ -15,6 +15,8 @@ if (args[0]=="read")
     using (StreamReader reader = new StreamReader(path))
     using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
     {
+
+        //Test comment for change 
         IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
     
         if (args.Length == 1) 
