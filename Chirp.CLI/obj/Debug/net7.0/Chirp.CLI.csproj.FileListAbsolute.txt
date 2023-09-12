@@ -40,3 +40,20 @@ C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chir
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp-1\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.pdb
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp-1\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
 C:\Users\allan\Programs\3. Semester\Analysis Design & Software Architecture\Chirp-1\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\Chirp.CLI.exe
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\Chirp.CLI.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\Chirp.CLI.pdb
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.pdb
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\ref\Chirp.CLI.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\bin\Debug\net7.0\CsvHelper.dll
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
+C:\Mads\progs\analysis_design_and_software_architecture\project\Chirp\chirp.cli\obj\Debug\net7.0\Chirp.CLI.csproj.CopyComplete

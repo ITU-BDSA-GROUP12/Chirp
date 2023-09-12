@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj": {}
+    "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj": {
+    "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj",
-        "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\obj\\",
+        "projectPath": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\Chirp.CLI.csproj",
+        "packagesPath": "C:\\Users\\madsh\\.nuget\\packages\\",
+        "outputPath": "C:\\Mads\\progs\\analysis_design_and_software_architecture\\project\\Chirp\\chirp.cli\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\madsh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
