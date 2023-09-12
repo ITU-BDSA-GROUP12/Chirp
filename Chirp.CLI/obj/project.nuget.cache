@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VgjvB7mo9LFq7kMzgJs0MytI6pZM2xpsASMabEJ7GOYBl5Q+m/yPCOAN36v6ub8cFtzFVc3JTyE1lhs/MosI7w==",
+  "dgSpecHash": "EBoAuI2zXJp6maSvUgzvgbw2JKZ+PI4+byDGhpaLuhvzTno3/1QyORrp4TJQL5x/bjGT0Z+GoWl/m7sVMTXn6A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp-1\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
