@@ -1,26 +1,67 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {}
+    "net7.0": {
+      "CsvHelper/30.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/CsvHelper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/CsvHelper.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "CsvHelper/30.0.1": {
+      "sha512": "rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg==",
+      "type": "package",
+      "path": "csvhelper/30.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "csvhelper.30.0.1.nupkg.sha512",
+        "csvhelper.nuspec",
+        "lib/net45/CsvHelper.dll",
+        "lib/net45/CsvHelper.xml",
+        "lib/net47/CsvHelper.dll",
+        "lib/net47/CsvHelper.xml",
+        "lib/net5.0/CsvHelper.dll",
+        "lib/net5.0/CsvHelper.xml",
+        "lib/net6.0/CsvHelper.dll",
+        "lib/net6.0/CsvHelper.xml",
+        "lib/netstandard2.0/CsvHelper.dll",
+        "lib/netstandard2.0/CsvHelper.xml",
+        "lib/netstandard2.1/CsvHelper.dll",
+        "lib/netstandard2.1/CsvHelper.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net7.0": []
+    "net7.0": [
+      "CsvHelper >= 30.0.1"
+    ]
   },
   "packageFolders": {
-    "/Users/Rasmus/.nuget/packages/": {}
+    "/Users/markushojgaard/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+      "projectUniqueName": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
-      "packagesPath": "/Users/Rasmus/.nuget/packages/",
-      "outputPath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/obj/",
+      "projectPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+      "packagesPath": "/Users/markushojgaard/.nuget/packages/",
+      "outputPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/Rasmus/.nuget/NuGet/NuGet.Config"
+        "/Users/markushojgaard/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -43,6 +84,12 @@
     "frameworks": {
       "net7.0": {
         "targetAlias": "net7.0",
+        "dependencies": {
+          "CsvHelper": {
+            "target": "Package",
+            "version": "[30.0.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
