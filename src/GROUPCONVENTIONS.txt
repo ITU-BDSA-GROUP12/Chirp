@@ -10,11 +10,11 @@ This file contains the conventions we as a group have agreed upon, regarding:
             Co-authored-by: Helge <ropf@itu.dk>"
         
         our emails:
-        Markus: mbrh@itu.dk
-        Lukas: lupa@itu.dk
-        Rasmus: rhra@itu.dk
-        Allan: asia@itu.dk
-        Mads: mhve@itu.dk
+        Co-Authored-by: Markus: <mbrh@itu.dk>
+        Co-Authored-by: Lukas: <lupa@itu.dk>
+        Co-Authored-by: Rasmus: <rhra@itu.dk>
+        Co-Authored-by: Allan: <asia@itu.dk>
+        Co-Authored-by: Mads: <mhve@itu.dk>
 
     - Merge:
 
