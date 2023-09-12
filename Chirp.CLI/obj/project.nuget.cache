@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "PPt8krHGTakwBWA699Un/Rvf7qYFItM46W6sUJ+VWyyzlvYneiXvFiwxBbxeyanZ3KJh7Da2FkF8OBEBnH683Q==",
+  "dgSpecHash": "61M7wxzZGLayXEUGXGLkV2bUYiw6kAoV7iaei7H0SDMD3PyZr94eVLybtgCLhXBSFewi48pqwb/fr4syGD1vzw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "/Users/Rasmus/itu/3-semester/BDSA/Projekt/Chirp/Chirp.CLI/Chirp.CLI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\allan\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
+    "/Users/Rasmus/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512",
+    "/Users/Rasmus/.nuget/packages/system.commandline/2.0.0-beta4.22272.1/system.commandline.2.0.0-beta4.22272.1.nupkg.sha512"
   ],
   "logs": []
 }
