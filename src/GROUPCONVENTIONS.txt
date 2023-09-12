@@ -3,18 +3,17 @@ This file contains the conventions we as a group have agreed upon, regarding:
     - Commit comments:
         In the form of:
 
-            git commit -m "Refactor main to print CLI arguments.
 
-            Longer description...
+git commit -m "Refactor main to print CLI arguments.
 
-            Co-authored-by: Helge <ropf@itu.dk>"
-        
-        our emails:
-        Co-Authored-by: Markus: <mbrh@itu.dk>
-        Co-Authored-by: Lukas: <lupa@itu.dk>
-        Co-Authored-by: Rasmus: <rhra@itu.dk>
-        Co-Authored-by: Allan: <asia@itu.dk>
-        Co-Authored-by: Mads: <mhve@itu.dk>
+Longer description...
+
+Co-authored-by: Markus: <mbrh@itu.dk>
+Co-authored-by: Lukas: <lupa@itu.dk>
+Co-authored-by: Rasmus: <rhra@itu.dk>
+Co-authored-by: Allan: <asia@itu.dk>
+Co-authored-by: Mads: <mhve@itu.dk>
+
 
     - Merge:
 

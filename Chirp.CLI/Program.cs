@@ -13,6 +13,7 @@ class Program
     static async Task Main(string[] args)
     {
 
+
         string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
         var rootCommand = new RootCommand();
         var readCommand = new Command("read", "Displays cheeps");
@@ -29,10 +30,8 @@ class Program
 
         readCommand.SetHandler((limitOption)=>{
             //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
-            using (StreamReader reader = new StreamReader(path))
-            using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
-            {
-                IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
+                IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>("../src/chirp_cli_db.csv");
+                IEnumerable<Cheep> records = data_access.Read();
                 
                 foreach (Cheep cheep in records)
                 {
@@ -42,7 +41,7 @@ class Program
 
                     Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
                 }
-            }
+            
         },limitOption);
 
         /*
@@ -77,6 +76,11 @@ class Program
                     }
                 }
             }
+            if (args[0]=="cheep")
+                {   //CSV Write part from: https://joshclose.github.io/CsvHelper/getting-started/
+                    long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
+                     Cheep cheep = new Cheep(Environment.UserName , args[1] , unixTimestamp);
+                    data_access.Store(cheep);
         }*/
 
         if (args[0]=="cheep")
@@ -91,6 +95,7 @@ class Program
         }
     await rootCommand.InvokeAsync(args);
     
+
 }
 
     public record Cheep(string Author , string Message , long Timestamp);
