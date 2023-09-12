@@ -14,6 +14,19 @@
             "related": ".xml"
           }
         }
+      },
+      "SimpleDB/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "CsvHelper": "30.0.1"
+        },
+        "compile": {
+          "bin/placeholder/SimpleDB.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SimpleDB.dll": {}
+        }
       }
     }
   },
@@ -41,27 +54,33 @@
         "lib/netstandard2.1/CsvHelper.dll",
         "lib/netstandard2.1/CsvHelper.xml"
       ]
+    },
+    "SimpleDB/1.0.0": {
+      "type": "project",
+      "path": "../SimpleDB/SimpleDB.csproj",
+      "msbuildProject": "../SimpleDB/SimpleDB.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "CsvHelper >= 30.0.1"
+      "CsvHelper >= 30.0.1",
+      "SimpleDB >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "/Users/markushojgaard/.nuget/packages/": {}
+    "C:\\Users\\allan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+      "projectUniqueName": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/Chirp.CLI.csproj",
-      "packagesPath": "/Users/markushojgaard/.nuget/packages/",
-      "outputPath": "/Users/markushojgaard/Documents/ITU/3._semester/analyse/Chirp/Chirp.CLI/obj/",
+      "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/markushojgaard/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -72,7 +91,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj": {
+              "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -106,7 +129,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
