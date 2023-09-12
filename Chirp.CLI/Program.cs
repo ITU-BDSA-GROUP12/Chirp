@@ -3,6 +3,7 @@ using System;
 using CsvHelper;
 using System.Globalization;
 using System.ComponentModel.Design;
+using Chirp.CLI;
 
 //All references to "GPT" in comments are references to chat.opanai.com
 
@@ -19,14 +20,7 @@ if (args[0]=="read")
     
         if (args.Length == 1) 
         {
-            foreach (Cheep cheep in records)
-            {
-                long timeSeconds = cheep.Timestamp + 7200; //Plus 7200 to adjust timezone 
-                var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
-                string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
-
-                Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
-            }
+            UserInterface.PrintCheeps(records);
         }
         else if (args.Length == 2)
         {
