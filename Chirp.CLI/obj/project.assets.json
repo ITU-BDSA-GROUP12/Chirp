@@ -73,11 +73,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectUniqueName": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
       "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\Chirp.CLI\\obj\\",
+      "outputPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\Chirp.CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -92,8 +92,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj": {
-              "projectPath": "C:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\chirp\\SimpleDB\\SimpleDB.csproj"
+            "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj": {
+              "projectPath": "c:\\Users\\allan\\Programs\\3. Semester\\Analysis Design & Software Architecture\\Chirp\\Chirp\\SimpleDB\\SimpleDB.csproj"
             }
           }
         }
