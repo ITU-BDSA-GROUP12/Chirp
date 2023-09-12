@@ -9,8 +9,6 @@ using Chirp.CLI;
 
 string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
 
-
-
 if (args[0]=="read")
 {   //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
     using (StreamReader reader = new StreamReader(path))
@@ -22,6 +20,9 @@ if (args[0]=="read")
         {
             UserInterface.PrintCheeps(records);
         }
+
+        //This is temporarely. Will be changed after 2.2b is done. The idea is that lim in the databasecsv will specify how many cheeps to read
+        //Should not be part of final product
         else if (args.Length == 2)
         {
             int cheeps_left = int.Parse(args[1]);

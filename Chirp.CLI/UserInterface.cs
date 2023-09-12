@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Chirp.CLI;
 
-public class UserInterface
+public static class UserInterface
 {
     public static void PrintCheeps(IEnumerable<Cheep> cheeps)
     {
