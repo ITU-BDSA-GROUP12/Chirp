@@ -1,4 +1,5 @@
 namespace SimpleDB;
+using System.Globalization;
 using CsvHelper;
 
 public class CSVDatabase<T> : IDatabaseRepository<T>
@@ -8,16 +9,21 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         this.path = path;
     }     
-    public IEnumerable<T> Read(int? limit = null)
+    public List<T> Read(int? limit = null)
     {
         using (StreamReader reader = new StreamReader(path))
-        using (CsvReader csv = new CsvReader(reader,CsvHelper.CultureInfo.InvariantCulture))
+        using (CsvReader csv = new CsvReader(reader , CultureInfo.InvariantCulture))
         {
-            return csv.GetRecords<T>(); // Reading cheeps from CSV File
+            return csv.GetRecords<T>().ToList(); // Reading cheeps from CSV File
         }
     }
     public void Store(T record)
     {
+        using (StreamWriter sw = File.AppendText(path))  
+        using (CsvWriter csv = new CsvWriter(sw , CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecord(record);
+        }
 
     }
 }
