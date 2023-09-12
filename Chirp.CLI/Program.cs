@@ -14,30 +14,26 @@ class Program
     {
 
         string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
-        var rootCommand1 = new RootCommand();
-        var readCommand = new Command("read");
+        var rootCommand = new RootCommand();
+        var readCommand = new Command("read", "Displays cheeps");
 
         var limitOption = new Option<int>
             (name: "--limit",
             description: "limits the number of cheeps to be displayed",
             getDefaultValue: () => 30);
 
-        var readOption = new Option<string>
-            (name: "read",
-            description: "shits all over",
-            getDefaultValue: () => "olaa");
 
 
-        rootCommand1.Add(readOption);
-        rootCommand1.Add(limitOption);
+        rootCommand.Add(readCommand);
+        readCommand.Add(limitOption);
 
-        rootCommand1.SetHandler((readOption)=>{
+        readCommand.SetHandler((limitOption)=>{
             //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
             using (StreamReader reader = new StreamReader(path))
             using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
             {
                 IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
-                Console.WriteLine("JEG ER HER");
+                
                 foreach (Cheep cheep in records)
                 {
                     long timeSeconds = cheep.Timestamp + 7200; //Plus 7200 to adjust timezone 
@@ -47,7 +43,7 @@ class Program
                     Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
                 }
             }
-        },readOption);
+        },limitOption);
 
         /*
 
@@ -93,7 +89,7 @@ class Program
                 csv.WriteRecord(cheep);
             }
         }
-    await rootCommand1.InvokeAsync(args);
+    await rootCommand.InvokeAsync(args);
     
 }
 
