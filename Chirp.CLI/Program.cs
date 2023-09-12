@@ -3,19 +3,18 @@ using System;
 using CsvHelper;
 using System.Globalization;
 using System.ComponentModel.Design;
+using SimpleDB;
 
 //All references to "GPT" in comments are references to chat.opanai.com
 
-string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
+
 
 
 
 if (args[0]=="read")
 {   //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
-    using (StreamReader reader = new StreamReader(path))
-    using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
-    {
-        IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
+    IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>("../src/chirp_cli_db.csv");
+    IEnumerable<Cheep> records = data_access.Read();
     
         if (args.Length == 1) 
         {
