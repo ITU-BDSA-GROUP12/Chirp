@@ -14,7 +14,7 @@ IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>("../src/chirp_cl
 
 if (args[0]=="read")
 {   //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
-    List<Cheep> records = data_access.Read();
+    IEnumerable<Cheep> records = data_access.Read();
     
     if (args.Length == 1) 
     {
