@@ -9,6 +9,8 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         this.path = path;
     }     
+
+    //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
     public IEnumerable<T> Read(int? limit = null)
     {
         if (limit <= 0)
@@ -26,12 +28,15 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
             }
         }
     }
+    //CSV Write part from: https://joshclose.github.io/CsvHelper/getting-started/
     public void Store(T record)
     {
         using (StreamWriter sw = File.AppendText(path))  
         using (CsvWriter csv = new CsvWriter(sw , CultureInfo.InvariantCulture))
         {
+            csv.NextRecord();
             csv.WriteRecord(record);
+            
         }
 
     }
