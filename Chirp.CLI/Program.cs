@@ -3,55 +3,84 @@ using System;
 using CsvHelper;
 using System.Globalization;
 using System.ComponentModel.Design;
+using System.CommandLine;
+using System.Runtime.CompilerServices;
+using SimpleDB;
 
 //All references to "GPT" in comments are references to chat.opanai.com
 
-string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
+namespace Chirp.CLI;
 
+//Definition of the record, used by the csvHelper to format the values in the csv file to variables we define.
+    public record Cheep(string Author, string Message, long Timestamp);
 
+public class Program
+{
+    static string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
+    //The accesspoint to the database
+    static IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>(path);
 
-if (args[0]=="read")
-{   //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
-    using (StreamReader reader = new StreamReader(path))
-    using (CsvReader csv = new CsvReader(reader,CultureInfo.InvariantCulture))
+    //The usage of System.CommandLine is inspired by the documentation https://learn.microsoft.com/en-us/dotnet/standard/commandline/
+    static async Task Main(string[] args)
     {
-        IEnumerable<Cheep> records = csv.GetRecords<Cheep>(); // Reading cheeps from CSV File
-    
-        if (args.Length == 1) 
-        {
-            foreach (Cheep cheep in records)
-            {
-                long timeSeconds = cheep.Timestamp + 7200; //Plus 7200 to adjust timezone 
-                var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
-                string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
 
-                Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
-            }
-        }
-        else if (args.Length == 2)
-        {
-            int cheeps_left = int.Parse(args[1]);
-            foreach (Cheep cheep in records)
+        //the rootCommand is "dotnet run"
+        var rootCommand = new RootCommand();
 
-            {
-                Console.WriteLine($"{cheep.Author} @ {cheep.Timestamp} : {cheep.Message}");
-                cheeps_left -= 1;
-                if (cheeps_left == 0) { break; }
-            }
-        }
+        // by making a new Command, we create a subCommand to the rootCommand, namingly "read"
+        var readCommand = new Command("read", "Displays cheeps");
+
+        // by making a new Command, we create a subCommand to the rootCommand, namingly "cheep"
+        var cheepCommand = new Command("cheep", "stores the message");
+
+        // by making a new Argument, we create an argument to the cheepCommand, namingly "message", which takes a string as argument
+        var messageArgument = new Argument<string>(
+            name: "message",
+            description: "provides a message to be stored"); //Make an Error hanlder
+
+        // by making a new Option, we create an option to the subCommand, namingly "--limit"
+        // Which gives an integer to our data_access.Read(), so that we limit the amount of cheeps displayed
+        var limitOption = new Option<int?> //"int?" makes the interger nullable
+            (name: "--limit",
+            description: "limits the number of cheeps to be displayed",
+            getDefaultValue: () => null );
+
+
+        //we add the readCommand to the rootCommand, to engage with readCommand type "dotnet run read" in the terminal
+        rootCommand.Add(readCommand);
+
+        //we add the cheepCommand to the rootCommand, to engage with cheepCommand type "dotnet run cheep" in the terminal
+        rootCommand.Add(cheepCommand);
+
+        // //We add the messageArgument to the cheepCommand, to engage with messageArgument type "dotnet run cheep <'strimg'> " in the terminal
+        cheepCommand.Add(messageArgument);
+
+        //We add the limitOption to the readCommand, to engage with limitOption type "dotnet run read --limit <int>" in the terminal
+        readCommand.Add(limitOption);
+
+        // gets the commands from the commandline and exectutes the following code
+        readCommand.SetHandler((limitOptionValue) =>
+        {
+            
+            IEnumerable<Cheep> records = data_access.Read(limitOptionValue);
+            
+            //The records are passed to the UserInterface, which handles how the records are presented to the user
+            UserInterface.PrintCheeps(records);
+
+        }, limitOption);
+
+        //Handling of reseving message and pass it to the database
+        cheepCommand.SetHandler((messageArgumentValue) => 
+        {   
+            long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
+            Cheep cheep = new Cheep(Environment.UserName, messageArgumentValue, unixTimestamp);
+            
+            data_access.Store(cheep);
+
+        }, messageArgument);
+
+        await rootCommand.InvokeAsync(args);
     }
 }
 
-if (args[0]=="cheep")
-{   //CSV Write part from: https://joshclose.github.io/CsvHelper/getting-started/
-    long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
-    Cheep cheep = new Cheep(Environment.UserName , args[1] , unixTimestamp);
-    using (StreamWriter sw = File.AppendText(path))  
-    using (CsvWriter csv = new CsvWriter(sw , CultureInfo.InvariantCulture))
-    {
-        csv.WriteRecord(cheep);
-    }
-}
-
-
-public record Cheep(string Author , string Message , long Timestamp);
+ 
