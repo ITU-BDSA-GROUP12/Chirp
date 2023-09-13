@@ -3,6 +3,7 @@ using System;
 using CsvHelper;
 using System.Globalization;
 using System.ComponentModel.Design;
+using Chirp.CLI;
 using System.CommandLine;
 using System.Runtime.CompilerServices;
 using SimpleDB;
@@ -13,6 +14,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
+
 
 
         string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
@@ -42,15 +44,9 @@ class Program
             //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
             IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>("../src/chirp_cli_db.csv");
             IEnumerable<Cheep> records = data_access.Read(limitOption);
-
-            foreach (Cheep cheep in records)
-            {
-                long timeSeconds = cheep.Timestamp + 7200; //Plus 7200 to adjust timezone 
-                var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
-                string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
-
-                Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
-            }
+            
+            //The records are passed to the UserInterface, which handles how the records are presented to the user
+            UserInterface.PrintCheeps(records);
 
         }, limitOption);
 
