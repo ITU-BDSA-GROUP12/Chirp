@@ -51,5 +51,7 @@ jobs:
       - name: Merge to Main
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          git merge origin/dev --allow-unrelated-histories
+          git merge --no-ff ${{ github.event.pull_request.head.ref }}
           git push origin/main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
