@@ -63,7 +63,7 @@ jobs:
       - name: Merge to Main
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          git merge --no-ff origin/dev --allow-unrelated-histories
+          git merge --no-ff origin/dev #--allow-unrelated-histories
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
