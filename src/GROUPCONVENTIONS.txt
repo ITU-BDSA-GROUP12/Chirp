@@ -1,0 +1,56 @@
+This file contains the conventions we as a group have agreed upon, regarding:
+
+    - Commit comments:
+        In the form of:
+
+
+git commit -m "Refactor main to print CLI arguments.
+
+Longer description...
+
+Co-authored-by: Markus: <mbrh@itu.dk>
+Co-authored-by: Lukas: <lupa@itu.dk>
+Co-authored-by: Rasmus: <rhra@itu.dk>
+Co-authored-by: Allan: <asia@itu.dk>
+Co-authored-by: Mads: <mhve@itu.dk>
+
+
+    - Merge:
+
+    - GitHub issue practis:
+        We follow a structure of:
+        **User Story**
+        //Who, What, Why.
+
+        **Description of the solution you'd like**
+        //Elaberate on what the issue consist of.
+
+        **Definition of Done**
+        //A concrete list of what the solutions should contain.
+
+        The User story is used as the headline of the issue
+
+
+    - GitHub project practis:
+        New:
+            Adding new issues
+
+        Backlog:
+            If a Issue is raised but there is no immediate way to fix the issue,
+            It shouldd be in the backlog, to further discusion, until a concrete solution is found.
+
+        Ready: 
+            When an issue has a concrete solution, it should be placed in the ready column.
+            Herefrom a member of the team can take responsebility of the issue.
+
+        In progress:
+            If a member (or members) of the team has taken an issue upon them, the issue should be placed
+            into the "In progress" column
+
+        In review:
+            When an issue has been resolved, it should be placed in the "In review" column.
+            Here should a new member of the team, who was not invold in resolving the issue,
+            review the solution.
+
+        Done:
+            When the solution of the issue is accepted, it should be placed in the "Done" column
