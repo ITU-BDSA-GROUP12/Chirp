@@ -17,6 +17,8 @@ jobs:
         run: |
           if [ "${{ github.event.pull_request.merged }}" == "true" ] && [ "${{ github.event.pull_request.base.ref }}" == "dev" ]; then
             echo "::set-output name=merge::true"
+            echo "::set-output name=email::${{ github.event.pull_request.user.login }}@users.noreply.github.com"
+            echo "::set-output name=username::${{ github.event.pull_request.user.login }}"
           else
             echo "::set-output name=merge::false"
           fi
@@ -48,10 +50,14 @@ jobs:
         with:
             ref: main
 
+      - name: Configure Git
+        if: steps.check_pr.outputs.merge == 'true'
+        run: |
+          git config --global user.email "${{ steps.check_pr.outputs.email }}"
+          git config --global user.name "${{ steps.check_pr.outputs.username }}"
+
       - name: Merge to Main
         if: steps.check_pr.outputs.merge == 'true'
         run: |
           git merge --no-ff origin/dev --allow-unrelated-histories
           git push origin/main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
