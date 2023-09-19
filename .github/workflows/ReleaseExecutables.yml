@@ -2,8 +2,8 @@ name: Release executables on tag-push
 
 on:
   push:
-    tags:
-        -'*'
+    branches:
+      - main 
 
 jobs:
   release-executables:
