@@ -2,7 +2,6 @@ name: Release executables on tag-push
 
 on:
   push:
-    branches: [ $default-branch ]
     tags:
         -"v*.*.*"
 
