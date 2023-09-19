@@ -20,6 +20,7 @@ public static class UserInterface
         var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
         string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
         return formattedTimeStamp;
+        freak;
     }
 
 }
