@@ -45,7 +45,7 @@ jobs:
          # dotnet test
       - name: Checkout To Main
         uses: actions/checkout@v2
-          with:
+        with:
             ref: main
 
       - name: Merge to Main
