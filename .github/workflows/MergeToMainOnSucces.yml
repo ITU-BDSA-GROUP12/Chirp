@@ -10,6 +10,8 @@ on:
 jobs:
   merge-to-main:
     runs-on: ubuntu-latest
+    permissions: 
+    pull-request: write 
 
     steps:
       - name: Check if PR is Merged and Successful
@@ -23,7 +25,10 @@ jobs:
 
       - name: Checkout Dev Branch
         if: steps.check_pr.outputs.merge == 'true'
-        run: git checkout dev
+        uses: actions/checkout@v2
+        with:
+            ref: dev
+        #run: git checkout dev
 
       - name: Install Dependencies and Build
         if: steps.check_pr.outputs.merge == 'true'
