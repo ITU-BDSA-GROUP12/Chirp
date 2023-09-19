@@ -10,8 +10,6 @@ on:
 jobs:
   merge-to-main:
     runs-on: ubuntu-latest
-    permissions: 
-    pull-request: write 
 
     steps:
       - name: Check if PR is Merged and Successful
