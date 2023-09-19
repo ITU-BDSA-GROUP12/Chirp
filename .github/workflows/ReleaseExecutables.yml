@@ -3,7 +3,7 @@ name: Release executables on tag-push
 on:
   push:
     tags:
-      - '*'
+      - "v*.*.*"
 
 jobs:
   release-executables:
