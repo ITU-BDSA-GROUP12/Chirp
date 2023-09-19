@@ -60,4 +60,4 @@ jobs:
         if: steps.check_pr.outputs.merge == 'true'
         run: |
           git merge --no-ff origin/dev --allow-unrelated-histories
-          git push origin/main
+          git push origin  https://github.com/ITU-BDSA23-GROUP12/Chirp.git 
