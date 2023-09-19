@@ -1,6 +1,8 @@
 namespace SimpleDB;
 using System.Globalization;
 using CsvHelper;
+using System;
+using System.Linq;
 
 public class CSVDatabase<T> : IDatabaseRepository<T>
 {
@@ -10,7 +12,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         this.path = path;
     }     
 
-    //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
+    // CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
     public IEnumerable<T> Read(int? limit = null)
     {
         if (limit <= 0)
@@ -20,11 +22,17 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         using (StreamReader reader = new StreamReader(path))
         using (CsvReader csv = new CsvReader(reader , CultureInfo.InvariantCulture))
         {
-            foreach (T record in csv.GetRecords<T>())
+            List<T> records = csv.GetRecords<T>().ToList(); // from https://stackoverflow.com/questions/7617771/converting-from-ienumerable-to-list
+            int nTotalRecords = records.Count();
+            int? nRecordsUntilYielded = nTotalRecords - limit;
+            foreach (T record in records)
             {
+                if (nRecordsUntilYielded > 0)
+                {
+                    nRecordsUntilYielded -= 1;
+                    continue;
+                }
                 yield return record;
-                limit = limit == null ? null : limit - 1;
-                if (limit == 0) { break; }
             }
         }
     }
