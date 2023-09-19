@@ -7,12 +7,6 @@ using System.CommandLine;
 using System.Runtime.CompilerServices;
 using SimpleDB;
 
-//this is a test comment
-// yes ye 
-// 20
-// hej med dig
-
-
 //All references to "GPT" in comments are references to chat.opanai.com
 
 namespace Chirp.CLI;
