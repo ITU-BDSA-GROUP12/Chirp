@@ -61,3 +61,5 @@ jobs:
         run: |
           git merge --no-ff origin/dev --allow-unrelated-histories
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
