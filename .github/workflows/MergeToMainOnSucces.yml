@@ -39,12 +39,14 @@ jobs:
           dotnet restore 
           dotnet build
 
-      #- name: Run Tests
-       # if: steps.check_pr.outputs.merge == 'true'
-        #run: |
-          # Replace with your test commands
-          # Example for .NET:
-         # dotnet test
+      - name: Run Tests
+        if: steps.check_pr.outputs.merge == 'true'
+        run: |
+          cd ../test/Chirp.CLI.Clien.Tests
+          dotnet test
+          cd ../test/Chirp.CSVDB.Tests
+          dotnet test
+         
       - name: Checkout To Main
         uses: actions/checkout@v2
         with:
