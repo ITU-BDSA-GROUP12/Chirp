@@ -16,7 +16,7 @@ namespace Chirp.CLI;
 
 public class Program
 {
-    static string path = "../chirp_cli_db.csv"; //Path to CSV file 
+    static string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
     //The accesspoint to the database
     static IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>(path);
 
