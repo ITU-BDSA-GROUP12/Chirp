@@ -20,7 +20,7 @@ public static class UserInterface
         long offset = (long)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalSeconds; //Get offset from UTC in seconds
         long timeSeconds = Seconds + offset;
         var timeStamp = DateTimeOffset.FromUnixTimeSeconds(timeSeconds).DateTime; //Convert to DateTime
-        string formattedTimeStamp = timeStamp.ToString("dd/MM/yy HH:mm:ss"); //Format timeStamp - used GPT for this
+        string formattedTimeStamp = timeStamp.ToString("MM/dd/yy HH:mm:ss"); //Format timeStamp - used GPT for this
         return formattedTimeStamp;
     }
 
