@@ -43,10 +43,13 @@ jobs:
           # Replace with your test commands
           # Example for .NET:
          # dotnet test
+      - name: Checkout To Main
+        uses: actions/checkout@v2
+          with:
+            ref: main
 
       - name: Merge to Main
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          git checkout main
           git merge --no-ff "${{ github.event.pull_request.head.sha }}"
           git push origin main
