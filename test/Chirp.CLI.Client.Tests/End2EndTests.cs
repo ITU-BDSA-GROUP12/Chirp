@@ -3,9 +3,48 @@ using System.Globalization;
 using System.Diagnostics;
 using CsvHelper;
 using Chirp.CLI;
+using System.IO;
 
 public class End2End
 {
+
+    [Fact]
+    public void TestCheeps()
+    {
+        // Arrange
+        ArrangeTestDatabase();
+        // Act
+        using (var process = new Process())
+        {
+            process.StartInfo.FileName = FindDotnetExecutableInPath();
+            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.Start();
+            // Synchronously read the standard output of the spawned process.
+            process.WaitForExit();
+        }
+
+        string output = "";
+        using (var process = new Process())
+        {
+            process.StartInfo.FileName = FindDotnetExecutableInPath();
+            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.Start();
+            // Synchronously read the standard output of the spawned process.
+            StreamReader reader = process.StandardOutput;
+            output = reader.ReadToEnd();
+            process.WaitForExit();
+        }
+
+        // Assert
+        Assert.EndsWith("this is a test cheep" , output);
+    }
+
     [Fact]
     public void TestReadCheep()
     {
@@ -15,7 +54,7 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "C:/Program Files/dotnet/dotnet.exe";
+            process.StartInfo.FileName = FindDotnetExecutableInPath();
             process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -71,5 +110,17 @@ public class End2End
         {
             csv.WriteRecords(records);
         }
+    }
+
+    private string FindDotnetExecutableInPath() // this method is entiely written by ChatGPT
+    {
+        string path = Environment.GetEnvironmentVariable("PATH");
+        string[] paths = path.Split(Path.PathSeparator);
+        foreach (string dir in paths)
+        {
+            string dotnetPath = Path.Combine(dir , "dotnet");
+            if (File.Exists(dotnetPath)) { return dotnetPath; }
+        }
+        return null;
     }
 }
