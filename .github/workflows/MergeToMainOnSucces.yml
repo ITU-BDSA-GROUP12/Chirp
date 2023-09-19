@@ -42,7 +42,7 @@ jobs:
       - name: Run Tests
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          cd ../../test/Chirp.CLI.Client.Tests
+          cd test/Chirp.CLI.Client.Tests
           dotnet test
           cd ../Chirp.CSVDB.Tests
           dotnet test
