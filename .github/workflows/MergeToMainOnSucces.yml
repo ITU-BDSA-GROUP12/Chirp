@@ -51,5 +51,5 @@ jobs:
       - name: Merge to Main
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          git merge origin/dev
+          git merge origin/dev --allow-unrelated-histories
           git push origin/main
