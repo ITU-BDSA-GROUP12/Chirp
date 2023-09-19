@@ -4,7 +4,7 @@ using CsvHelper;
 using System;
 using System.Linq;
 
-public class CSVDatabase<T> : IDatabaseRepository<T>
+public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     string path;
     public CSVDatabase(string path)
