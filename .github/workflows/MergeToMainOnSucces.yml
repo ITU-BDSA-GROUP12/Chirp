@@ -39,14 +39,11 @@ jobs:
           dotnet restore 
           dotnet build
 
-      - name: Set Timezone to Denmark (CET)
-        run: |
-          # Set the timezone to Denmark (CET):
-          export TZ="Europe/Copenhagen"
-
       - name: Run Tests
         if: steps.check_pr.outputs.merge == 'true'
         run: |
+          # Set the timezone to Denmark (CET):
+          export TZ="Europe/Copenhagen"
           cd test/Chirp.CLI.Client.Tests
           dotnet test
           cd ../Chirp.CSVDB.Tests
