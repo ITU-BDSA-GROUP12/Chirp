@@ -8,11 +8,14 @@ public static class UserInterface
     {
         foreach (Cheep cheep in cheeps)
         {
-            string formattedTimeStamp = ConvertToTimestamp(cheep.Timestamp);
-            Console.WriteLine($"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}");
+            Console.WriteLine(GetOutputString(cheep));
         }
-        Console.WriteLine("it works");
+    }
 
+    public static string GetOutputString(Cheep cheep)
+    {
+        string formattedTimeStamp = ConvertToTimestamp(cheep.Timestamp);
+        return $"{cheep.Author} @ {formattedTimeStamp} : {cheep.Message}";
     }
 
     public static string ConvertToTimestamp(long Seconds)
