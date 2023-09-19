@@ -10,7 +10,7 @@ using SimpleDB;
 //this is a test comment
 // yes ye 
 // 17
-// hej
+// hej med dig
 
 
 //All references to "GPT" in comments are references to chat.opanai.com
