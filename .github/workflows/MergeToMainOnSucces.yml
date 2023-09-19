@@ -33,6 +33,7 @@ jobs:
         run: |
           # Replace with your build and dependency installation commands
           # Example for .NET:
+          cd src/Chirp.CLI.Client
           dotnet restore 
           dotnet build
 
