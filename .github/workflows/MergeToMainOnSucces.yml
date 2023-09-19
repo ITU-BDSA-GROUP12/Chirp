@@ -39,12 +39,16 @@ jobs:
           dotnet restore 
           dotnet build
 
-      #- name: Run Tests
-       # if: steps.check_pr.outputs.merge == 'true'
-        #run: |
-          # Replace with your test commands
-          # Example for .NET:
-         # dotnet test
+      - name: Run Tests
+        if: steps.check_pr.outputs.merge == 'true'
+        run: |
+          # Set the timezone to Denmark (CET):
+          export TZ="Europe/Copenhagen"
+          cd test/Chirp.CLI.Client.Tests
+          dotnet test
+          cd ../Chirp.CSVDB.Tests
+          dotnet test
+         
       - name: Checkout To Main
         uses: actions/checkout@v2
         with:
