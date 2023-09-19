@@ -42,7 +42,7 @@ jobs:
       - name: Cross-Compile and Package
         shell: bash
         run: |
-          tag=$(git describe --tags --abbrev=0)
+          tag=$(git describe --tags)
           release_name="App-$tag-${{ matrix.target }}"
           
           # Cross-compile and publish
