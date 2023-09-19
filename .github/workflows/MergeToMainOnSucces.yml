@@ -42,9 +42,11 @@ jobs:
       - name: Run Tests
         if: steps.check_pr.outputs.merge == 'true'
         run: |
-          cd ../test/Chirp.CLI.Clien.Tests
+          # Set the timezone to Denmark (CET):
+          export TZ="Europe/Copenhagen"
+          cd test/Chirp.CLI.Client.Tests
           dotnet test
-          cd ../test/Chirp.CSVDB.Tests
+          cd ../Chirp.CSVDB.Tests
           dotnet test
          
       - name: Checkout To Main
