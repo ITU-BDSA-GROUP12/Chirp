@@ -1,12 +1,12 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Release executables on merge to main
+name: Release executables
 
 on:
   push:
     branches: [ $default-branch ]
-      tags:
+    tags:
         -"v*.*.*"
   pull_request:
     branches: [ $default-branch ]
