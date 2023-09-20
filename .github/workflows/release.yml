@@ -1,0 +1,64 @@
+name: Release executables on tag
+
+on:
+  push:
+    branches:
+      -main
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release-executables:
+    strategy:
+      matrix:
+        target: ['linux-x64', 'win-x64', 'osx-x64', 'osx-arm64']
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout To Main
+        uses: actions/checkout@v2
+        with:
+            ref: main
+            fetch-depth: 0 # Fetch all history
+            
+      - name: Install Dependencies and Build
+        run: |
+          cd src/Chirp.CLI.Client
+          dotnet restore 
+          dotnet build
+
+      - name: Run Tests
+        run: |
+          # Set the timezone to Denmark (CET):
+          export TZ="Europe/Copenhagen"
+          cd test/Chirp.CLI.Client.Tests
+          dotnet test
+          cd ../Chirp.CSVDB.Tests
+          dotnet test
+
+      - name: Set Up .NET 7
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Cross-Compile and Package
+        shell: bash
+        run: |
+          tag=$(git tag -l "v*.*.*" | tail -n 1)
+          release_name="Chirp-$tag-${{ matrix.target }}"
+          
+          # Cross-compile and publish
+          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
+
+          # Create an archive
+          7z a -tzip "${release_name}.zip" "./${release_name}"
+          
+          # Delete output directory
+          rm -r "$release_name"
+    
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "Chirp*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
