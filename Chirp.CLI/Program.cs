@@ -12,13 +12,12 @@ using SimpleDB;
 namespace Chirp.CLI;
 
 //Definition of the record, used by the csvHelper to format the values in the csv file to variables we define.
-    public record Cheep(string Author, string Message, long Timestamp);
+public record Cheep(string Author, string Message, long Timestamp);
 
 public class Program
 {
-    static string path = "../src/chirp_cli_db.csv"; //Path to CSV file 
     //The accesspoint to the database
-    static IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>(path);
+    static IDatabaseRepository<Cheep> data_access = CSVDatabase<Cheep>.Instance;
 
     //The usage of System.CommandLine is inspired by the documentation https://learn.microsoft.com/en-us/dotnet/standard/commandline/
     static async Task Main(string[] args)
@@ -43,7 +42,7 @@ public class Program
         var limitOption = new Option<int?> //"int?" makes the interger nullable
             (name: "--limit",
             description: "limits the number of cheeps to be displayed",
-            getDefaultValue: () => null );
+            getDefaultValue: () => null);
 
 
         //we add the readCommand to the rootCommand, to engage with readCommand type "dotnet run read" in the terminal
@@ -61,20 +60,20 @@ public class Program
         // gets the commands from the commandline and exectutes the following code
         readCommand.SetHandler((limitOptionValue) =>
         {
-            
+
             IEnumerable<Cheep> records = data_access.Read(limitOptionValue);
-            
+
             //The records are passed to the UserInterface, which handles how the records are presented to the user
             UserInterface.PrintCheeps(records);
 
         }, limitOption);
 
         //Handling of reseving message and pass it to the database
-        cheepCommand.SetHandler((messageArgumentValue) => 
-        {   
+        cheepCommand.SetHandler((messageArgumentValue) =>
+        {
             long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
             Cheep cheep = new Cheep(Environment.UserName, messageArgumentValue, unixTimestamp);
-            
+
             data_access.Store(cheep);
 
         }, messageArgument);
@@ -83,4 +82,3 @@ public class Program
     }
 }
 
- 

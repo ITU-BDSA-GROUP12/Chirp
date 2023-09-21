@@ -7,7 +7,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     private static CSVDatabase<T> instance = null;
     private static readonly object padlock = new object();
     string path;
-    public CSVDatabase(string path)
+    private CSVDatabase(string path = "../src/chirp_cli_db.csv")
     {
         this.path = path;
     }
