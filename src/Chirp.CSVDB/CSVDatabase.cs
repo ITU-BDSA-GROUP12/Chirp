@@ -4,6 +4,7 @@ using CsvHelper;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+    //Setup of singelton pattern
     private static CSVDatabase<T> instance = null;
     private static readonly object padlock = new object();
     string path;

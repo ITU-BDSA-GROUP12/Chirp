@@ -16,7 +16,7 @@ namespace Chirp.CLI;
 
 public class Program
 {
-    //The accesspoint to the database
+    //The accesspoint to the database, to the singleton pattern CSVDatabase
     static IDatabaseRepository<Cheep> data_access = CSVDatabase<Cheep>.Instance;
 
     //The usage of System.CommandLine is inspired by the documentation https://learn.microsoft.com/en-us/dotnet/standard/commandline/
