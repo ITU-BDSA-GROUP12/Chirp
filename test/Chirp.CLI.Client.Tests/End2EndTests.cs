@@ -8,16 +8,16 @@ using System.IO;
 public class End2End
 {
 
+
     [Fact]
     public void TestCheeps()
     {
         // Arrange
         ArrangeTestDatabase();
-        Console.WriteLine(System.Environment.OSVersion.Platform.ToString());
         // Act
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
+            process.StartInfo.FileName = dotNetPath();
             process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\""; //The cheep msg
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -30,7 +30,7 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
+            process.StartInfo.FileName = dotNetPath();
             process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -56,7 +56,7 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
+            process.StartInfo.FileName = dotNetPath();
             process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -111,15 +111,18 @@ public class End2End
         }
     }
 
-    private string FindDotnetExecutableInPath() // this method is entiely written by ChatGPT
+    //Generate path for dotnetcore based on platform
+    private string dotNetPath()
     {
-        string path = Environment.GetEnvironmentVariable("PATH");
-        string[] paths = path.Split(Path.PathSeparator);
-        foreach (string dir in paths)
-        {
-            string dotnetPath = Path.Combine(dir , "dotnet");
-            if (File.Exists(dotnetPath)) { return dotnetPath; }
+        string platform = System.Environment.OSVersion.Platform.ToString(); //This line is taken from chat.openai.com
+        string path;
+        if(platform == "Unix") {
+            path = "/usr/local/share/dotnet/dotnet";
+        } else if (platform == "Win32NT") {
+            path = @"C:\program files\dotnet\dotnet";
+        } else {
+            path = "/home/user/share/dotnet/dotnet";
         }
-        return null;
+        return path;
     }
 }
