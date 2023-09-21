@@ -16,9 +16,8 @@ namespace Chirp.CLI;
 
 public class Program
 {
-    static string path = "../chirp_cli_db.csv"; //Path to CSV file 
     //The accesspoint to the database
-    static IDatabaseRepository<Cheep> data_access = new CSVDatabase<Cheep>(path);
+    static IDatabaseRepository<Cheep> data_access = CSVDatabase<Cheep>.Instance;
 
     //The usage of System.CommandLine is inspired by the documentation https://learn.microsoft.com/en-us/dotnet/standard/commandline/
     static async Task Main(string[] args)
