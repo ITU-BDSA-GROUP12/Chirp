@@ -13,6 +13,7 @@ public class End2End
     {
         // Arrange
         ArrangeTestDatabase();
+        Console.WriteLine(System.Environment.OSVersion.Platform.ToString());
         // Act
         using (var process = new Process())
         {
