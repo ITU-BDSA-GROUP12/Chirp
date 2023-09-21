@@ -16,8 +16,8 @@ public class End2End
         // Act
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\"";
+            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\"";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -29,8 +29,8 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
+            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -42,7 +42,8 @@ public class End2End
         }
 
         // Assert
-        Assert.EndsWith("this is a test cheep" , output);
+        System.Console.WriteLine(output);
+        Assert.EndsWith("this is a test cheep", output);
     }
 
     [Fact]
@@ -54,8 +55,8 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
+            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -74,11 +75,8 @@ public class End2End
 
         // Assert
 
-        string mikkel = "hej mikkel";
-        Assert.EndsWith("mikkel" , mikkel);
-
         Assert.StartsWith("rnie" , cheep1);
-        Assert.EndsWith("I hope you had a good summer" , cheep1);
+        Assert.EndsWith("I hope you had a good summer." , cheep1);
     
         Assert.StartsWith("ropf" , cheep2);
         Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep2);
