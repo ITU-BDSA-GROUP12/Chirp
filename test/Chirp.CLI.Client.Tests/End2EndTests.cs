@@ -16,8 +16,8 @@ public class End2End
         // Act
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\"";
+            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\""; //The cheep msg
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -29,7 +29,7 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
+            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
             process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -43,7 +43,7 @@ public class End2End
 
         // Assert
         System.Console.WriteLine(output);
-        Assert.EndsWith("this is a test cheep", output);
+        Assert.EndsWith("this is a test cheep", output.Trim());
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = "/usr/local/share/dotnet/dotnet";
+            process.StartInfo.FileName = "/home/user/share/dotnet/dotnet";
             process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
@@ -67,11 +67,11 @@ public class End2End
             process.WaitForExit();
         }
         string[] lines = output.Split("\n");
-        string cheep1 = lines[0];
-        string cheep2 = lines[1];
-        string cheep3 = lines[2];
-        string cheep4 = lines[3];
-        string cheep5 = lines[4];
+        string cheep1 = lines[0].Trim();
+        string cheep2 = lines[1].Trim();
+        string cheep3 = lines[2].Trim();
+        string cheep4 = lines[3].Trim();
+        string cheep5 = lines[4].Trim();
 
         // Assert
 
