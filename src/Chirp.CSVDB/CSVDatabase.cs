@@ -106,7 +106,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
                 Directory.CreateDirectory(possibly_existing_path); // a new folder has been added and possibly_existing_path now definitely exists
             }
         }
-        Console.WriteLine(possibly_existing_path);
     }
 }
 
