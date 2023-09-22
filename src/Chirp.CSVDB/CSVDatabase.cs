@@ -2,6 +2,7 @@ namespace SimpleDB;
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using CsvHelper;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
@@ -45,6 +46,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     {
         if (!Path.Exists(path))
         {
+            CreatePath();
             PrepareCsvFile(record);
         }
         using (StreamWriter sw = File.AppendText(path))
@@ -86,6 +88,25 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             sw.Write(string.Join("," , substrings)); // this writes in the property names of the record like so: Property1,Property2,...
         }
         // the file is now ready to be written to
+    }
+    private void CreatePath()
+    {
+        path = path.Replace("\\" , "/");
+        string[] path_items = path.Split("/");
+        string possibly_existing_path = "";
+        foreach (string path_item in path_items)
+        {
+            if (path_item.EndsWith(".csv")) // the path up to the missing file now exists - the missing file is created by the StreamWriter
+            {
+                break;
+            }
+            possibly_existing_path = possibly_existing_path + path_item + "/";
+            if (!Path.Exists(possibly_existing_path))
+            {
+                Directory.CreateDirectory(possibly_existing_path); // a new folder has been added and possibly_existing_path now definitely exists
+            }
+        }
+        Console.WriteLine(possibly_existing_path);
     }
 }
 
