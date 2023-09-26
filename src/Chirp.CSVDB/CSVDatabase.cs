@@ -11,9 +11,9 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     private static CSVDatabase<T> instance = null;
     private static readonly object padlock = new object();
     string path;
-    private CSVDatabase(string path = "../../src/chrip_cli_db.csv")
+    private CSVDatabase()
     {
-        this.path = path;
+        path = "../../src/chirp_cli_db.csv";
     }
 
     //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/

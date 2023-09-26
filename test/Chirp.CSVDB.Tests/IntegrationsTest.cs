@@ -11,7 +11,7 @@ public class UnitTest1
 
     
         //Arrange
-        IDatabaseRepository<Cheep> db = new CSVDatabase<Cheep>("../../../../test_db.csv");
+        IDatabaseRepository<Cheep> db = CSVDatabase<Cheep>.Instance;
         var storedCheep = new Cheep("ropf", "Hello, BDSA students!", 1690891760);
         Cheep readCheep;
             
