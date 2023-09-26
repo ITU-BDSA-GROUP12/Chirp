@@ -17,6 +17,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     }
 
     //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
+    //Reviewed by Lukas 
     public IEnumerable<T> Read(int? limit = null)
     {
         if (limit <= 0)
