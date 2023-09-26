@@ -13,7 +13,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     string path;
     private CSVDatabase()
     {
-        path = "../../src/chirp_cli_db.csv";
+        path = "/.data/chirp_cli_db.csv";
     }
 
     //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
@@ -29,7 +29,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             using (StreamReader reader = new StreamReader(path))
             using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                foreach (T record in csv.GetRecords<T>())
+                List<T> all_records = csv.GetRecords<T>().ToList();
+                foreach (T record in all_records.Reverse<T>())
                 {
                     yield return record;
                     limit = limit == null ? null : limit - 1;

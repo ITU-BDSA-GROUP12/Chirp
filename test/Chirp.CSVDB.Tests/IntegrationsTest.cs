@@ -1,7 +1,7 @@
 namespace Chirp.CSVDB.Tests;
 using SimpleDB;
-using Chirp.CLI; 
-
+using Chirp.CLI;
+using System.Diagnostics;
 
 public class UnitTest1
 {
@@ -12,7 +12,7 @@ public class UnitTest1
     
         //Arrange
         IDatabaseRepository<Cheep> db = CSVDatabase<Cheep>.Instance;
-        var storedCheep = new Cheep("ropf", "Hello, BDSA students!", 1690891760);
+        var storedCheep = new Cheep("ropf", "some message", 1690891760);
         Cheep readCheep;
             
         //Act 

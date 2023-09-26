@@ -76,20 +76,20 @@ public class End2End
 
         // Assert
 
-        Assert.StartsWith("rnie" , cheep1);
-        Assert.EndsWith("I hope you had a good summer." , cheep1);
+        Assert.StartsWith("allan" , cheep1);
+        Assert.EndsWith("Rasmus Cock er ok ig" , cheep1);
     
-        Assert.StartsWith("ropf" , cheep2);
-        Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep2);
+        Assert.StartsWith("allan" , cheep2);
+        Assert.EndsWith("Hello coffee! Can you formulate this better?" , cheep2);
         
         Assert.StartsWith("allan" , cheep3);
         Assert.EndsWith("Rasmus Cock er cool :)" , cheep3);
         
-        Assert.StartsWith("allan" , cheep4);
-        Assert.EndsWith("Hello coffee! Can you formulate this better?" , cheep4);
+        Assert.StartsWith("ropf" , cheep4);
+        Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep4);
         
-        Assert.StartsWith("allan" , cheep5);
-        Assert.EndsWith("Rasmus Cock er ok ig" , cheep5);
+        Assert.StartsWith("rnie" , cheep5);
+        Assert.EndsWith("I hope you had a good summer." , cheep5);
     }
     private void ArrangeTestDatabase()
     {
