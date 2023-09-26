@@ -4,6 +4,7 @@ using System.Diagnostics;
 using CsvHelper;
 using Chirp.CLI;
 using System.IO;
+using System.Runtime.InteropServices;
 
 public class End2End
 {
@@ -113,12 +114,13 @@ public class End2End
 
     //Generate path for dotnetcore based on platform
     private string dotNetPath()
-    {
-        string platform = System.Environment.OSVersion.Platform.ToString(); //This line is taken from chat.openai.com
+    {   
+        
+       //This line is taken from chat.openai.com
         string path;
-        if(platform == "Unix") {
+        if(System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
             path = "/usr/local/share/dotnet/dotnet";
-        } else if (platform == "Win32NT") {
+        } else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             path = @"C:\program files\dotnet\dotnet";
         } else {
             path = "/home/user/share/dotnet/dotnet";
