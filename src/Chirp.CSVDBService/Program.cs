@@ -7,15 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 
-app.MapGet("/cheeps" , () => Read());
+app.MapGet("/cheeps" , (int? limit) => Read(limit));
 
 app.MapPost("/cheep" , (Cheep cheep) => Store(cheep));
 
 app.Run();
 
 List<Cheep> Read(int? limit = null)
-{        
-    System.Console.WriteLine("Read called");
+{
     string path = "./data/chirp_cli_db.csv";
     if (limit <= 0)
     {
@@ -39,7 +38,6 @@ List<Cheep> Read(int? limit = null)
 
 void Store(Cheep record)
 {
-    System.Console.WriteLine("Store called");
     string path = "./data/chirp_cli_db.csv";
     using (StreamWriter sw = File.AppendText(path))
     using (CsvWriter csv = new CsvWriter(sw, CultureInfo.InvariantCulture))
