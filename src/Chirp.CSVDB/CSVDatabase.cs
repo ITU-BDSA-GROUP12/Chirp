@@ -13,7 +13,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     string path;
     private CSVDatabase()
     {
-        path = "/.data/chirp_cli_db.csv";
+        path = "./data/chirp_cli_db.csv";
     }
 
     //CSV Read part from: https://joshclose.github.io/CsvHelper/getting-started/
