@@ -6,6 +6,9 @@ using System.ComponentModel.Design;
 using System.CommandLine;
 using System.Runtime.CompilerServices;
 using SimpleDB;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 //All references to "GPT" in comments are references to chat.opanai.com
 
@@ -58,24 +61,48 @@ public class Program
         readCommand.Add(limitOption);
 
         // gets the commands from the commandline and exectutes the following code
-        readCommand.SetHandler((limitOptionValue) =>
+        readCommand.SetHandler(async (limitOptionValue) =>
         {
             
-            IEnumerable<Cheep> records = data_access.Read(limitOptionValue);
+            // IEnumerable<Cheep> records = data_access.Read(limitOptionValue);
             
             //The records are passed to the UserInterface, which handles how the records are presented to the user
+            IEnumerable<Cheep> records;
+            string baseURL = "http://localhost:5089/";
+            using HttpClient client = new();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri(baseURL);
+            records = await client.GetFromJsonAsync<List<Cheep>>("cheeps");
+            
             UserInterface.PrintCheeps(records);
 
         }, limitOption);
 
         //Handling of reseving message and pass it to the database
-        cheepCommand.SetHandler((messageArgumentValue) => 
+        cheepCommand.SetHandler(async (messageArgumentValue) => 
         {   
+            string baseURL = "http://localhost:5089/";
+            using HttpClient client = new();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri(baseURL);
+            
             long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
             Cheep cheep = new Cheep(Environment.UserName, messageArgumentValue, unixTimestamp);
+            // data_access.Store(cheep);
             
-            data_access.Store(cheep);
-
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "/cheep" , cheep
+            );
+            response.EnsureSuccessStatusCode();
+            /*static async Task PostAsync(client)
+            {
+                using StringContent jsonContent = new(
+                    JsonSerializer.Serialize(cheep) , 
+                    Encoding.UFT8 , 
+                    "application/json")
+            }*/
         }, messageArgument);
 
         await rootCommand.InvokeAsync(args);
