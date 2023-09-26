@@ -105,7 +105,7 @@ public class End2End
             new Cheep("allan","Rasmus Cock er ok ig",1694520339),
 
         };
-        using (StreamWriter writer = new StreamWriter("../../../../../src/Chirp.CLI.Client/data/chirp_cli_db.csv"))
+        using (StreamWriter writer = new StreamWriter("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
         using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
         {
             csv.WriteRecords(records);
