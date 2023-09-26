@@ -123,7 +123,7 @@ public class End2End
         } else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             path = @"C:\program files\dotnet\dotnet";
         } else {
-            path = "/home/user/share/dotnet/dotnet";
+            path = "/usr/bin/dotnet";
         }
         return path;
     }
