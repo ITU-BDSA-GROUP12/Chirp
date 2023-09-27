@@ -42,10 +42,19 @@ public class Program
 
         // by making a new Option, we create an option to the subCommand, namingly "--limit"
         // Which gives an integer to our data_access.Read(), so that we limit the amount of cheeps displayed
-        var limitOption = new Option<int?> //"int?" makes the interger nullable
+        var limitOption = new Option<int?>
             (name: "--limit",
-            description: "limits the number of cheeps to be displayed",
-            getDefaultValue: () => null );
+            description : "limits the number of cheeps to be displayed",
+            parseArgument: result =>
+                {
+                    if (!int.TryParse(result.Tokens.First().Value, out int limitValue))
+                    {
+                        result.ErrorMessage = "--limit only accepts an integer as an argument";
+                        return null;
+                    }
+                    return limitValue;
+                }
+            );
 
 
         //we add the readCommand to the rootCommand, to engage with readCommand type "dotnet run read" in the terminal
