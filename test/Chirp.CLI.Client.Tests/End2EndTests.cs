@@ -6,20 +6,20 @@ using Chirp.CLI;
 using System.IO;
 using System.Runtime.InteropServices;
 
+
 public class End2End
 {
 
 
     [Fact]
-    public void TestCheeps()
+    public void Test_That_A_Cheep_Is_Stored_As_Expected() //E2E test to test the cheep command.
     {
         // Arrange
-        ArrangeTestDatabase();
         // Act
         using (var process = new Process())
         {
             process.StartInfo.FileName = dotNetPath();
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\""; //The cheep msg
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a cheep for testing E2E cheeping\""; //The cheep msg
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -29,36 +29,37 @@ public class End2End
         }
 
         string output = "";
-        using (var process = new Process())
+        List<Cheep> cheepRecords = new List<Cheep>();
+        using (StreamReader reader = new StreamReader("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
+        using (CsvReader csvReader = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
         {
-            process.StartInfo.FileName = dotNetPath();
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            // Synchronously read the standard output of the spawned process.
-            StreamReader reader = process.StandardOutput;
-            output = reader.ReadToEnd();
-            process.WaitForExit();
+            cheepRecords = csvReader.GetRecords<Cheep>().ToList();
+            output = UserInterface.GetOutputString(cheepRecords[cheepRecords.Count()-1]); //Read the last record out into output string.
         }
 
         // Assert
         System.Console.WriteLine(output);
-        Assert.EndsWith("this is a test cheep", output.Trim());
+        Assert.EndsWith("this is a cheep for testing E2E cheeping", output.Trim()); //Trim to ensure that trailing whitespace does not interfere with the test.
+
+        RemoveLastCheep(); //Cleanup step
     }
 
     [Fact]
-    public void TestReadCheep()
+    public void Test_Read_Cheep_Limit_1() //E2E test to test the read command
     {
         // Arrange
-        ArrangeTestDatabase();
+        using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
+        using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
+        {
+            csv.NextRecord();
+            csv.WriteRecord(new Cheep("allan","this is a cheep for testing E2E reading",1694520339)); //A cheep is added to the csv file, to be read in the test.
+        }
         // Act
         string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = dotNetPath();
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1"; //The read command with limit 1
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -68,55 +69,47 @@ public class End2End
             output = reader.ReadToEnd();
             process.WaitForExit();
         }
-        string[] lines = output.Split("\n");
-        string cheep1 = lines[0].Trim();
-        string cheep2 = lines[1].Trim();
-        string cheep3 = lines[2].Trim();
-        string cheep4 = lines[3].Trim();
-        string cheep5 = lines[4].Trim();
-
         // Assert
+        Assert.StartsWith("allan" , output.Trim()); //Trim to ensure that trailing whitespace doesnt interfere with the test.
+        Assert.EndsWith("this is a cheep for testing E2E reading" , output.Trim());
 
-        Assert.StartsWith("allan" , cheep1);
-        Assert.EndsWith("Rasmus Cock er ok ig" , cheep1);
-    
-        Assert.StartsWith("allan" , cheep2);
-        Assert.EndsWith("Hello coffee! Can you formulate this better?" , cheep2);
-        
-        Assert.StartsWith("allan" , cheep3);
-        Assert.EndsWith("Rasmus Cock er cool :)" , cheep3);
-        
-        Assert.StartsWith("ropf" , cheep4);
-        Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep4);
-        
-        Assert.StartsWith("rnie" , cheep5);
-        Assert.EndsWith("I hope you had a good summer." , cheep5);
+        RemoveLastCheep(); //Cleanup step
     }
-    private void ArrangeTestDatabase()
+
+    //A cleanup step that removes the cheep created by the tests.
+    private void RemoveLastCheep() //This method is written by chat.openai.com
     {
+        string csvFilePath = "../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv";
 
-        IEnumerable<Cheep> records = new List<Cheep> {
-            new Cheep("ropf","Hello, BDSA students!",1690891760),
-            new Cheep("rnie","Welcome to the course!",1690978778),
-            new Cheep("rnie","I hope you had a good summer.",1690979858),
-            new Cheep("ropf","Cheeping cheeps on Chirp :)",1690981487),
-            new Cheep("allan","Rasmus Cock er cool :)",1693905159),
-            new Cheep("allan","Hello coffee! Can you formulate this better?",1693905353),
-            new Cheep("allan","Rasmus Cock er ok ig",1694520339),
-
-        };
-        using (StreamWriter writer = new StreamWriter("../../../../../src/Chirp.CLI.Client/data/chirp_cli_db.csv"))
-        using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
+        // Read all records from the CSV file
+        List<Cheep> cheepRecords = new List<Cheep>();
+        using (StreamReader reader = new StreamReader(csvFilePath))
+        using (CsvReader csvReader = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
         {
-            csv.WriteRecords(records);
+            cheepRecords = csvReader.GetRecords<Cheep>().ToList();
         }
+
+        // Check if there are records to delete
+        if (cheepRecords.Count > 0)
+        {
+            // Remove the last cheep record
+            cheepRecords.RemoveAt(cheepRecords.Count - 1);
+
+            // Write the modified data back to the CSV file
+            using (StreamWriter writer = new StreamWriter(csvFilePath))
+            using (CsvWriter csvWriter = new CsvWriter(writer, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
+            {
+                csvWriter.WriteRecords(cheepRecords);
+            }
+        }
+        
     }
 
     //Generate path for dotnetcore based on platform
     private string dotNetPath()
     {   
-        
-       //This line is taken from chat.openai.com
+        // The feature of extracting the runtimeinformation is inspired by stackoverflow
+        //https://stackoverflow.com/questions/38790802/determine-operating-system-in-net-core
         string path;
         if(System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
             path = "/usr/local/share/dotnet/dotnet";
