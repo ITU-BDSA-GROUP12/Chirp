@@ -63,48 +63,36 @@ public class Program
         // gets the commands from the commandline and exectutes the following code
         readCommand.SetHandler(async (limitOptionValue) =>
         {
-            if (limitOptionValue < 0)
-            {
-                System.Console.WriteLine("the --limit option should be greater than or equal to 0");
-                return;
-            }
+            // if (limitOptionValue < 0)
+            // {
+            //     System.Console.WriteLine("the --limit option should be greater than or equal to 0");
+            //     return;
+            // }
             
-            // IEnumerable<Cheep> records = data_access.Read(limitOptionValue);
-            
-            //The records are passed to the UserInterface, which handles how the records are presented to the user
-            List<Cheep> all_records;
-            List<Cheep> relevant_records = new List<Cheep>();
+            List<Cheep> records;
             string baseURL = "http://localhost:5089/";
+            string uri = $"cheeps?limit={limitOptionValue}";
+
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.BaseAddress = new Uri(baseURL);
 
-            HttpResponseMessage response = await client.GetAsync("cheeps"); 
+            var response = await client.GetAsync(uri); 
 
             if (response.IsSuccessStatusCode)//response.IsSuccessStatusCode From GPT
             {
                 // The HTTP request was successful
-                all_records = await response.Content.ReadFromJsonAsync<List<Cheep>>();
-                
-                if (limitOptionValue != null && limitOptionValue < all_records.Count)
-                {
-                    for (int i = all_records.Count - 1; i >= all_records.Count - limitOptionValue; i--)
-                    {
-                        relevant_records.Add(all_records[i]);
-                    }
-                }
-                else
-                {
-                    relevant_records = all_records;
-                }
-
-                UserInterface.PrintCheeps(relevant_records);
+                records = await response.Content.ReadFromJsonAsync<List<Cheep>>();
+                //The records are passed to the UserInterface, which handles how the records are presented to the user
+                UserInterface.PrintCheeps(records);
             }
             else
             {
                 // Handle the case when the HTTP request was not successful - From GPT
+                string errorMessage = await response.Content.ReadAsStringAsync();
                 System.Console.WriteLine($"HTTP request failed with status code: {response.StatusCode}");
+                System.Console.WriteLine($"Error Message: {errorMessage}");
             }
         }, limitOption);
 

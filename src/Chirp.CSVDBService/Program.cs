@@ -7,7 +7,23 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 
-app.MapGet("/cheeps" , (int? limit) => Read(limit));
+app.MapGet("/cheeps" , (int? limit) =>            
+            {           
+                List<Cheep> response;                 //From https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0 
+                try{                                  //Section: IResult return values
+                    response = Read(limit);           // Try-catch: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements
+                } 
+                catch (ArgumentOutOfRangeException e){ 
+                    return Results.BadRequest(e.Message); // this line is from GPT
+                } 
+                catch (FileNotFoundException e){ 
+                    return Results.NotFound(e.Message);
+                }
+                //The response is a list of Cheeps
+                return Results.Ok(response);
+            })
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
 app.MapPost("/cheep" , (Cheep cheep) => Store(cheep));
 
@@ -16,9 +32,10 @@ app.Run();
 List<Cheep> Read(int? limit = null) //Reads the cheeps, whit a limit as an option
 {
     string path = "./data/chirp_cli_db.csv";
+
     if (limit <= 0)
     {
-        throw new ArgumentOutOfRangeException($"{nameof(limit)} must be greater than 0");
+        throw new ArgumentOutOfRangeException($"--limit must be greater than 0");
     }
     if (Path.Exists(path))
     {
@@ -26,13 +43,20 @@ List<Cheep> Read(int? limit = null) //Reads the cheeps, whit a limit as an optio
         using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             List<Cheep> all_records = csv.GetRecords<Cheep>().ToList();
-            return all_records;
+            List<Cheep> records = new List<Cheep>();
+            if(limit < all_records.Count){
+                for (int i = all_records.Count-1; i >= all_records.Count- limit; i--){ //this forloop insures getting the lates cheeps
+                    records.Add(all_records[i]);
+                }
+            } else {
+                records = all_records;
+            }
+            return records;
         }
     }
     else
     {
-        Console.WriteLine($"There are no cheeps to read from here: {path}\nPlease specify a different path, or simply begin cheeping to create some cheeps!");
-        return null;
+        throw new FileNotFoundException($"There are no cheeps to read from here: {path}\nPlease specify a different path, or simply begin cheeping to create some cheeps!");
     }
 }
 
