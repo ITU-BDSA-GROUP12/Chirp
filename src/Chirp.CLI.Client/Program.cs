@@ -45,7 +45,7 @@ public class Program
         var limitOption = new Option<int?>
             (name: "--limit",
             description : "limits the number of cheeps to be displayed",
-            parseArgument: result =>
+            parseArgument: result => //from validation https://learn.microsoft.com/en-us/dotnet/standard/commandline/model-binding#custom-validation-and-binding
                 {
                     if (!int.TryParse(result.Tokens.First().Value, out int limitValue))
                     {
