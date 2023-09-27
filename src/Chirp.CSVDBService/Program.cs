@@ -13,7 +13,7 @@ app.MapPost("/cheep" , (Cheep cheep) => Store(cheep));
 
 app.Run();
 
-List<Cheep> Read(int? limit = null)
+List<Cheep> Read(int? limit = null) //Reads the cheeps, whit a limit as an option
 {
     string path = "./data/chirp_cli_db.csv";
     if (limit <= 0)

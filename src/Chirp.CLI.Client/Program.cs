@@ -79,23 +79,33 @@ public class Program
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.BaseAddress = new Uri(baseURL);
-            all_records = await client.GetFromJsonAsync<List<Cheep>>("cheeps");
-            
-            if (limitOptionValue != null && limitOptionValue < all_records.Count())
-            {
-                for (int i = all_records.Count() - 1 ; i >= all_records.Count() - limitOptionValue ; i--)
-                {
-                    relevant_records.Add(all_records[i]);
-                } 
-            }
-            
-            else 
-            {
-                relevant_records = all_records;
-            }
-            
-            UserInterface.PrintCheeps(relevant_records);
 
+            HttpResponseMessage response = await client.GetAsync("cheeps"); 
+
+            if (response.IsSuccessStatusCode)//response.IsSuccessStatusCode From GPT
+            {
+                // The HTTP request was successful
+                all_records = await response.Content.ReadFromJsonAsync<List<Cheep>>();
+                
+                if (limitOptionValue != null && limitOptionValue < all_records.Count)
+                {
+                    for (int i = all_records.Count - 1; i >= all_records.Count - limitOptionValue; i--)
+                    {
+                        relevant_records.Add(all_records[i]);
+                    }
+                }
+                else
+                {
+                    relevant_records = all_records;
+                }
+
+                UserInterface.PrintCheeps(relevant_records);
+            }
+            else
+            {
+                // Handle the case when the HTTP request was not successful - From GPT
+                System.Console.WriteLine($"HTTP request failed with status code: {response.StatusCode}");
+            }
         }, limitOption);
 
         //Handling of reseving message and pass it to the database
