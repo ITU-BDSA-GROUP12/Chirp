@@ -11,7 +11,7 @@ public class End2End
 
 
     [Fact]
-    public void TestCheeps()
+    public void Test_That_A_Cheep_Is_Stored_As_Expected()
     {
         // Arrange
         // ArrangeTestDatabase();
@@ -47,11 +47,11 @@ public class End2End
         System.Console.WriteLine(output);
         Assert.EndsWith("this is a cheep for testing E2E cheeping", output.Trim());
 
-        RemoveLastCheep();
+        RemoveLastCheep(); //Cleanup step
     }
 
     [Fact]
-    public void TestReadCheep()
+    public void Test_Read_Cheep_Limit_1()
     {
         // Arrange
         // ArrangeTestDatabase();
@@ -90,9 +90,10 @@ public class End2End
         Assert.StartsWith("allan" , output.Trim());
         Assert.EndsWith("this is a cheep for testing E2E reading" , output.Trim());
 
-        RemoveLastCheep();
+        RemoveLastCheep(); //Cleanup step
     }
 
+    //A cleanup step that removes the cheep created by the tests.
     private void RemoveLastCheep() //This method is written by chat.openai.com
     {
         string csvFilePath = "../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv";
