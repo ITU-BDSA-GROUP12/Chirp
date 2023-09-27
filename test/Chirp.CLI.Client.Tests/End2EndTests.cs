@@ -6,6 +6,7 @@ using Chirp.CLI;
 using System.IO;
 using System.Runtime.InteropServices;
 
+
 public class End2End
 {
 
@@ -29,18 +30,12 @@ public class End2End
         }
 
         string output = "";
-        using (var process = new Process())
+        List<Cheep> cheepRecords = new List<Cheep>();
+        using (StreamReader reader = new StreamReader("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
+        using (CsvReader csvReader = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
         {
-            process.StartInfo.FileName = dotNetPath();
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            // Synchronously read the standard output of the spawned process.
-            StreamReader reader = process.StandardOutput;
-            output = reader.ReadToEnd();
-            process.WaitForExit();
+            cheepRecords = csvReader.GetRecords<Cheep>().ToList();
+            output = UserInterface.GetOutputString(cheepRecords[cheepRecords.Count()-1]);
         }
 
         // Assert
@@ -54,16 +49,13 @@ public class End2End
     public void Test_Read_Cheep_Limit_1()
     {
         // Arrange
-        // ArrangeTestDatabase();
-        // Act
         using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
         using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
         {
             csv.NextRecord();
             csv.WriteRecord(new Cheep("allan","this is a cheep for testing E2E reading",1694520339));
         }
-
-
+        // Act
         string output = "";
         using (var process = new Process())
         {
@@ -78,15 +70,7 @@ public class End2End
             output = reader.ReadToEnd();
             process.WaitForExit();
         }
-        // string[] lines = output.Split("\n");
-        // string cheep1 = lines[0].Trim();
-        // string cheep2 = lines[1].Trim();
-        // string cheep3 = lines[2].Trim();
-        // string cheep4 = lines[3].Trim();
-        // string cheep5 = lines[4].Trim();
-
         // Assert
-
         Assert.StartsWith("allan" , output.Trim());
         Assert.EndsWith("this is a cheep for testing E2E reading" , output.Trim());
 
@@ -121,26 +105,6 @@ public class End2End
         }
         
     }
-
-    // private void ArrangeTestDatabase()
-    // {
-
-    //     IEnumerable<Cheep> records = new List<Cheep> {
-    //         new Cheep("ropf","Hello, BDSA students!",1690891760),
-    //         new Cheep("rnie","Welcome to the course!",1690978778),
-    //         new Cheep("rnie","I hope you had a good summer.",1690979858),
-    //         new Cheep("ropf","Cheeping cheeps on Chirp :)",1690981487),
-    //         new Cheep("allan","Rasmus Cock er cool :)",1693905159),
-    //         new Cheep("allan","Hello coffee! Can you formulate this better?",1693905353),
-    //         new Cheep("allan","Rasmus Cock er ok ig",1694520339),
-
-    //     };
-    //     using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
-    //     using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
-    //     {
-    //         csv.WriteRecords(records);
-    //     }
-    // }
 
     //Generate path for dotnetcore based on platform
     private string dotNetPath()
