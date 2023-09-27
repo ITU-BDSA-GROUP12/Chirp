@@ -12,10 +12,9 @@ public class End2End
 
 
     [Fact]
-    public void Test_That_A_Cheep_Is_Stored_As_Expected()
+    public void Test_That_A_Cheep_Is_Stored_As_Expected() //E2E test to test the cheep command.
     {
         // Arrange
-        // ArrangeTestDatabase();
         // Act
         using (var process = new Process())
         {
@@ -35,32 +34,32 @@ public class End2End
         using (CsvReader csvReader = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
         {
             cheepRecords = csvReader.GetRecords<Cheep>().ToList();
-            output = UserInterface.GetOutputString(cheepRecords[cheepRecords.Count()-1]);
+            output = UserInterface.GetOutputString(cheepRecords[cheepRecords.Count()-1]); //Read the last record out into output string.
         }
 
         // Assert
         System.Console.WriteLine(output);
-        Assert.EndsWith("this is a cheep for testing E2E cheeping", output.Trim());
+        Assert.EndsWith("this is a cheep for testing E2E cheeping", output.Trim()); //Trim to ensure that trailing whitespace does not interfere with the test.
 
         RemoveLastCheep(); //Cleanup step
     }
 
     [Fact]
-    public void Test_Read_Cheep_Limit_1()
+    public void Test_Read_Cheep_Limit_1() //E2E test to test the read command
     {
         // Arrange
         using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
         using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
         {
             csv.NextRecord();
-            csv.WriteRecord(new Cheep("allan","this is a cheep for testing E2E reading",1694520339));
+            csv.WriteRecord(new Cheep("allan","this is a cheep for testing E2E reading",1694520339)); //A cheep is added to the csv file, to be read in the test.
         }
         // Act
         string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = dotNetPath();
-            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1"; //The read command with limit 1
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -71,7 +70,7 @@ public class End2End
             process.WaitForExit();
         }
         // Assert
-        Assert.StartsWith("allan" , output.Trim());
+        Assert.StartsWith("allan" , output.Trim()); //Trim to ensure that trailing whitespace doesnt interfere with the test.
         Assert.EndsWith("this is a cheep for testing E2E reading" , output.Trim());
 
         RemoveLastCheep(); //Cleanup step
@@ -109,8 +108,8 @@ public class End2End
     //Generate path for dotnetcore based on platform
     private string dotNetPath()
     {   
-        
-       //This line is taken from chat.openai.com
+        // The feature of extracting the runtimeinformation is inspired by stackoverflow
+        //https://stackoverflow.com/questions/38790802/determine-operating-system-in-net-core
         string path;
         if(System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
             path = "/usr/local/share/dotnet/dotnet";
