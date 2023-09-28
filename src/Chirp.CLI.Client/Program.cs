@@ -73,9 +73,14 @@ public class Program
         readCommand.SetHandler(async (limitOptionValue) =>
         {
             List<Cheep> records;
-            string baseURL = "http://bdsagroup12bchirpremotedb.azurewebsites.net";
-            string uri = $"cheeps?limit={limitOptionValue}";
-
+            string baseURL = "http://localhost:5089/";
+            string uri;
+            if( limitOptionValue.ToString() == ""){
+                uri = $"cheeps";
+            } else {
+                uri = $"cheeps?limit={limitOptionValue}";
+            }
+            
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
