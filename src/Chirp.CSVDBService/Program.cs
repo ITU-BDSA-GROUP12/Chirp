@@ -58,7 +58,6 @@ void Store(Cheep record)
 //This method creates the csv file if it doesnt exits. This way it is made on the azure site.
 void SeedCsvFileIfNeeded()
 {
-    Console.WriteLine("hej");
     string path = "./chirp_cli_db.csv";
 
     if (!File.Exists(path))
@@ -79,8 +78,6 @@ void SeedCsvFileIfNeeded()
 
             // You can add more initial data rows as needed
         }
-
-        Console.WriteLine("CSV file created and seeded with initial data.");
     }
 }
 public record Cheep(string Author , string Message , long Timestamp);
