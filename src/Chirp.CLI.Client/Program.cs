@@ -73,7 +73,7 @@ public class Program
         readCommand.SetHandler(async (limitOptionValue) =>
         {
             List<Cheep> records;
-            string baseURL = "http://localhost:5089/";
+            string baseURL = "http://bdsagroup12bchirpremotedb.azurewebsites.net/";
             string uri = $"cheeps?limit={limitOptionValue}";
 
             using HttpClient client = new();
@@ -102,7 +102,7 @@ public class Program
         //Handling of reseving message and pass it to the database
         cheepCommand.SetHandler(async (messageArgumentValue) => 
         {   
-            string baseURL = "http://localhost:5089/";
+            string baseURL = "http://bdsagroup12bchirpremotedb.azurewebsites.net/";
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
