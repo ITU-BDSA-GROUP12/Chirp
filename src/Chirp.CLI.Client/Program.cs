@@ -63,12 +63,6 @@ public class Program
         // gets the commands from the commandline and exectutes the following code
         readCommand.SetHandler(async (limitOptionValue) =>
         {
-            // if (limitOptionValue < 0)
-            // {
-            //     System.Console.WriteLine("the --limit option should be greater than or equal to 0");
-            //     return;
-            // }
-            
             List<Cheep> records;
             string baseURL = "http://localhost:5089/";
             string uri = $"cheeps?limit={limitOptionValue}";
