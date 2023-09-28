@@ -74,8 +74,13 @@ public class Program
         {
             List<Cheep> records;
             string baseURL = "http://localhost:5089/";
-            string uri = $"cheeps?limit={limitOptionValue}";
-
+            string uri;
+            if( limitOptionValue.ToString() == ""){
+                uri = $"cheeps";
+            } else {
+                uri = $"cheeps?limit={limitOptionValue}";
+            }
+            
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

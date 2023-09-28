@@ -11,11 +11,29 @@ using System.ComponentModel.Design;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/cheeps" , (int? limit) =>            
+app.MapGet("/cheeps" , (int? limit) => 
             {           
                 List<Cheep> response;                 //From https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0 
                 try{                                  //Section: IResult return values
                     response = Read(limit);           // Try-catch: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements
+                } 
+                catch (ArgumentOutOfRangeException e){ 
+                    return Results.BadRequest(e.Message); // this line is from GPT
+                } 
+                catch (FileNotFoundException e){ 
+                    return Results.NotFound(e.Message);
+                }
+                //The response is a list of Cheeps
+                return Results.Ok(response);
+            })
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
+app.MapGet("/cheeps", () => 
+            {        
+                List<Cheep> response;                 //From https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0 
+                try{                                  //Section: IResult return values
+                    response = Read(null);           // Try-catch: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements
                 } 
                 catch (ArgumentOutOfRangeException e){ 
                     return Results.BadRequest(e.Message); // this line is from GPT
