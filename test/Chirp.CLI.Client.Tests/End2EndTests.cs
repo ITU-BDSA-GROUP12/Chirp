@@ -30,7 +30,7 @@ public class End2End
 
         string output = "";
         List<Cheep> cheepRecords = new List<Cheep>();
-        using (StreamReader reader = new StreamReader("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
+        using (StreamReader reader = new StreamReader("../../../../../src/Chirp.CSVDBService/chirp_cli_db.csv"))
         using (CsvReader csvReader = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
         {
             cheepRecords = csvReader.GetRecords<Cheep>().ToList();
@@ -48,7 +48,7 @@ public class End2End
     public void Test_Read_Cheep_Limit_1() //E2E test to test the read command
     {
         // Arrange
-        using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv"))
+        using (StreamWriter writer = File.AppendText("../../../../../src/Chirp.CSVDBService/chirp_cli_db.csv"))
         using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
         {
             csv.NextRecord();
@@ -79,7 +79,7 @@ public class End2End
     //A cleanup step that removes the cheep created by the tests.
     private void RemoveLastCheep() //This method is written by chat.openai.com
     {
-        string csvFilePath = "../../../../../src/Chirp.CSVDBService/data/chirp_cli_db.csv";
+        string csvFilePath = "../../../../../src/Chirp.CSVDBService/chirp_cli_db.csv";
 
         // Read all records from the CSV file
         List<Cheep> cheepRecords = new List<Cheep>();
