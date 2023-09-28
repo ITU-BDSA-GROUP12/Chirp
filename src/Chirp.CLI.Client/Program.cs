@@ -107,7 +107,7 @@ public class Program
         //Handling of reseving message and pass it to the database
         cheepCommand.SetHandler(async (messageArgumentValue) => 
         {   
-            string baseURL = "http://localhost:5089/";
+            string baseURL = "https://bdsagroup12bchirpremotedb.azurewebsites.net";
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
