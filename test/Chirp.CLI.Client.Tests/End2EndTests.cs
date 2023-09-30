@@ -8,6 +8,7 @@ using System.IO;
 public class End2End
 {
 
+
     [Fact]
     public void TestCheeps()
     {
@@ -16,8 +17,8 @@ public class End2End
         // Act
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\"";
+            process.StartInfo.FileName = dotNetPath();
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll cheep \"this is a test cheep\""; //The cheep msg
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -29,8 +30,8 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
+            process.StartInfo.FileName = dotNetPath();
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 1";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -42,7 +43,8 @@ public class End2End
         }
 
         // Assert
-        Assert.EndsWith("this is a test cheep" , output);
+        System.Console.WriteLine(output);
+        Assert.EndsWith("this is a test cheep", output.Trim());
     }
 
     [Fact]
@@ -54,8 +56,8 @@ public class End2End
         string output = "";
         using (var process = new Process())
         {
-            process.StartInfo.FileName = FindDotnetExecutableInPath();
-            process.StartInfo.Arguments = "C:/Mads/progs/analysis_design_and_software_architecture/project/Chirp/test/Chirp.CLI.Client.Tests/bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
+            process.StartInfo.FileName = dotNetPath();
+            process.StartInfo.Arguments = "bin/Debug/net7.0/Chirp.CLI.dll read --limit 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Chirp.CLI.Client/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -66,31 +68,28 @@ public class End2End
             process.WaitForExit();
         }
         string[] lines = output.Split("\n");
-        string cheep1 = lines[0];
-        string cheep2 = lines[1];
-        string cheep3 = lines[2];
-        string cheep4 = lines[3];
-        string cheep5 = lines[4];
+        string cheep1 = lines[0].Trim();
+        string cheep2 = lines[1].Trim();
+        string cheep3 = lines[2].Trim();
+        string cheep4 = lines[3].Trim();
+        string cheep5 = lines[4].Trim();
 
         // Assert
 
-        string mikkel = "hej mikkel";
-        Assert.EndsWith("mikkel" , mikkel);
-
-        Assert.StartsWith("rnie" , cheep1);
-        Assert.EndsWith("I hope you had a good summer" , cheep1);
+        Assert.StartsWith("allan" , cheep1);
+        Assert.EndsWith("Rasmus Cock er ok ig" , cheep1);
     
-        Assert.StartsWith("ropf" , cheep2);
-        Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep2);
+        Assert.StartsWith("allan" , cheep2);
+        Assert.EndsWith("Hello coffee! Can you formulate this better?" , cheep2);
         
         Assert.StartsWith("allan" , cheep3);
         Assert.EndsWith("Rasmus Cock er cool :)" , cheep3);
         
-        Assert.StartsWith("allan" , cheep4);
-        Assert.EndsWith("Hello coffee! Can you formulate this better?" , cheep4);
+        Assert.StartsWith("ropf" , cheep4);
+        Assert.EndsWith("Cheeping cheeps on Chirp :)" , cheep4);
         
-        Assert.StartsWith("allan" , cheep5);
-        Assert.EndsWith("Rasmus Cock er ok ig" , cheep5);
+        Assert.StartsWith("rnie" , cheep5);
+        Assert.EndsWith("I hope you had a good summer." , cheep5);
     }
     private void ArrangeTestDatabase()
     {
@@ -105,22 +104,25 @@ public class End2End
             new Cheep("allan","Rasmus Cock er ok ig",1694520339),
 
         };
-        using (StreamWriter writer = new StreamWriter("../../../../../src/chirp_cli_db.csv"))
+        using (StreamWriter writer = new StreamWriter("../../../../../src/Chirp.CLI.Client/data/chirp_cli_db.csv"))
         using (CsvWriter csv = new CsvWriter(writer , CultureInfo.InvariantCulture))
         {
             csv.WriteRecords(records);
         }
     }
 
-    private string FindDotnetExecutableInPath() // this method is entiely written by ChatGPT
+    //Generate path for dotnetcore based on platform
+    private string dotNetPath()
     {
-        string path = Environment.GetEnvironmentVariable("PATH");
-        string[] paths = path.Split(Path.PathSeparator);
-        foreach (string dir in paths)
-        {
-            string dotnetPath = Path.Combine(dir , "dotnet");
-            if (File.Exists(dotnetPath)) { return dotnetPath; }
+        string platform = System.Environment.OSVersion.Platform.ToString(); //This line is taken from chat.openai.com
+        string path;
+        if(platform == "Unix") {
+            path = "/usr/local/share/dotnet/dotnet";
+        } else if (platform == "Win32NT") {
+            path = @"C:\program files\dotnet\dotnet";
+        } else {
+            path = "/home/user/share/dotnet/dotnet";
         }
-        return null;
+        return path;
     }
 }

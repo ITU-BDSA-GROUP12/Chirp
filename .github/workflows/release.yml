@@ -1,9 +1,11 @@
-name: Release executables on tag-push
+name: Release executables on tag
 
 on:
   push:
+    branches:
+      -main
     tags:
-        -'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   release-executables:
@@ -34,19 +36,20 @@ jobs:
           cd ../Chirp.CSVDB.Tests
           dotnet test
 
-      - name: Setup dotnet
+      - name: Set Up .NET 7
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.101
+          dotnet-version: 7.0.x
 
       - name: Cross-Compile and Package
         shell: bash
         run: |
-          tag=$(git describe --tags --abbrev=0)
-          release_name="App-$tag-${{ matrix.target }}"
+          tag=$(git tag -l "v*.*.*" | tail -n 1)
+          release_name="Chirp-$tag-${{ matrix.target }}"
           
           # Cross-compile and publish
-          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
+
           # Create an archive
           7z a -tzip "${release_name}.zip" "./${release_name}"
           
@@ -56,6 +59,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: "App*"
+          files: "Chirp-v*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
