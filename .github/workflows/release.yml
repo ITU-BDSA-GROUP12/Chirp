@@ -47,7 +47,7 @@ jobs:
           tag=$(git tag -l "v*.*.*" | tail -n 1)
           release_name="Chirp-$tag-${{ matrix.target }}"
           
-          # Cross-compile and publish
+          # Cross-compile and publish - build for each OS and create release
           dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
 
           # Create an archive
