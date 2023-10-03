@@ -52,7 +52,7 @@ public class CheepService : ICheepService
         var sqlQuery = 
         @"SELECT u.username as username , m.text as message, m.pub_date as date 
         FROM message m JOIN user u ON u.user_id = m.author_id
-        WHERE u.username = '@author' ORDER by m.pub_date desc";
+        WHERE u.username = @author ORDER by m.pub_date desc";
         List<CheepViewModel> cheeps = new List<CheepViewModel>(); 
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -77,7 +77,7 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
-        return LoadLocalSqlite().Where(x => x.Author == author).ToList();
+        return LoadLocalSqlite(author);
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
