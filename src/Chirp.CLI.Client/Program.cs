@@ -76,7 +76,7 @@ public class Program
             string baseURL = "https://bdsagroup12bchirpremotedb.azurewebsites.net/";
             string uri;
             if( limitOptionValue.ToString() == ""){
-                uri = $"cheeps";
+                uri = $"cheeps?limit={200}"; //Default value
             } else {
                 uri = $"cheeps?limit={limitOptionValue}";
             }
