@@ -73,7 +73,7 @@ public class Program
         readCommand.SetHandler(async (limitOptionValue) =>
         {
             List<Cheep> records;
-            string baseURL = "http://localhost:5089/";
+            string baseURL = "https://bdsagroup12bchirpremotedb.azurewebsites.net/";
             string uri;
             if( limitOptionValue.ToString() == ""){
                 uri = $"cheeps";
@@ -116,7 +116,7 @@ public class Program
             long unixTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; //Used GPT for this
             Cheep cheep = new Cheep(Environment.UserName, messageArgumentValue, unixTimestamp);
             // data_access.Store(cheep);
-            
+
             HttpResponseMessage response = await client.PostAsJsonAsync(
                 "/cheep" , cheep
             );
