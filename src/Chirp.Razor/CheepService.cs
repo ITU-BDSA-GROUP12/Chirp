@@ -18,9 +18,10 @@ public class CheepService : ICheepService
     }
 
     private List<CheepViewModel> LoadLocalSqlite()
-    {
+    {   
+        Console.WriteLine(Path.GetTempPath());
         
-        var sqlDBFilePath = "/tmp/chirp.db";
+        var sqlDBFilePath = SeedingDBfileDir();
         var sqlQuery = 
         @"SELECT u.username as username , m.text as message, m.pub_date as date FROM 
         message m JOIN user u ON u.user_id = m.author_id
@@ -48,7 +49,7 @@ public class CheepService : ICheepService
     
     private List<CheepViewModel> LoadLocalSqlite(string author)
     {
-        var sqlDBFilePath = "/tmp/chirp.db";
+        var sqlDBFilePath = SeedingDBfileDir();
         var sqlQuery = 
         @"SELECT u.username as username , m.text as message, m.pub_date as date 
         FROM message m JOIN user u ON u.user_id = m.author_id
@@ -87,6 +88,16 @@ public class CheepService : ICheepService
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
+    }
+
+    private static string SeedingDBfileDir (){ // Retreeves the the given file from the EnvironmentVariable, else creates a path to the Tmp folder
+        string chirpDBpath;                     // https://learn.microsoft.com/en-us/dotnet/api/system.environment.setenvironmentvariable?view=net-7.0
+        if(Environment.GetEnvironmentVariable("CHIRPDBPATH") == null){
+            chirpDBpath = Path.GetTempPath() + "/chirp.db";
+        } else {
+            chirpDBpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        }
+        return chirpDBpath;
     }
 
 }
