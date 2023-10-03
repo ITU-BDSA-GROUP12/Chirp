@@ -60,11 +60,12 @@ public class CheepService : ICheepService
 
             var command = connection.CreateCommand();
             command.CommandText = sqlQuery;
-            command.Parameters.AddWithValue("@author" , author);
+            command.Parameters.AddWithValue("@author" , author); //To prevent SQL injection. Inspired by: https://www.stackhawk.com/blog/net-sql-injection-guide-examples-and-prevention/
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
+                //How to retrieve data is inspired by this: https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlite.sqlitedatareader.getstring?view=msdata-sqlite-7.0.0
                 cheeps.Add(new CheepViewModel(
                     reader.GetString(reader.GetOrdinal("username")) , 
                     reader.GetString(reader.GetOrdinal("message")) , 
