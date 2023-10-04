@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies and Build
         run: |
-          cd src/Chirp.CLI.Client
+          cd src/Chirp.Razor
           dotnet restore 
           dotnet build
 
@@ -53,7 +53,7 @@ jobs:
           release_name="Chirp-$tag-${{ matrix.target }}"
           
           # Cross-compile and publish - build for each OS and create release
-          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
+          dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
 
           # Create an archive
           7z a -tzip "${release_name}.zip" "./${release_name}"
