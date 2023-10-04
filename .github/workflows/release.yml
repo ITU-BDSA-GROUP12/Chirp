@@ -28,10 +28,9 @@ jobs:
         run: |
           # Set the timezone to Denmark (CET):
           export TZ="Europe/Copenhagen"
-          cd test/Chirp.CLI.Client.Tests
+          cd test/Chirp.Razor.Tests
           dotnet test
-          cd ../Chirp.CSVDB.Tests
-          dotnet test    
+       
             
   release-executables:
   needs: build-and-test
