@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 ﻿using System.Data;
+using System.IO;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -20,22 +21,17 @@ public class CheepService : ICheepService
     private List<CheepViewModel> LoadLocalSqlite(string? author = null)
     {
         var sqlDBFilePath = SeedingDBfileDir();
-        bool database_is_ready = File.Exists(sqlDBFilePath); // determines if the database needs to be initialised with the schema, or if it ready to read
-        var sqlQuery = 
-        @"SELECT u.username AS username , m.text AS message, m.pub_date AS date FROM 
-        message m JOIN user u ON u.user_id = m.author_id
-        ORDER BY m.pub_date desc";
+        CreateFileIfMissing(sqlDBFilePath);
+        bool db_initialised = File.ReadAllText(sqlDBFilePath).Trim() != "";
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
-
-            if (!database_is_ready)
+            if (!db_initialised)
             {
-                InitialiseDb(connection);
+                InitialiseDb(connection, sqlDBFilePath);
             }
             SqliteCommand command = CreateQueryCommand(connection, author);
-
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -48,34 +44,42 @@ public class CheepService : ICheepService
         }
         return cheeps;
     }
+
+    void CreateFileIfMissing(string path)
+    {
+        if (Path.Exists(path)) return; // if the file already exists, do nothing
+        path = path.Replace("\\", "/"); // ensure all folders are seperated by / and never \
+        string[] path_items = path.Split('/'); // path_items now contains the individual folder names
+        string possibly_existing_path = ""; // the path will be built on here, as soon as a missing folder is added to the path it will be created
+        foreach (string path_item in path_items)
+        {
+            possibly_existing_path += "/" + path_item;
+            if (path_item.EndsWith(".db")) // the required folders are now in place - create the file
+            {
+                File.WriteAllText(possibly_existing_path, "");
+            }
+            else if (!Directory.Exists(possibly_existing_path)) // the latest folder saved in path_item does not exist!
+            {
+                Directory.CreateDirectory(possibly_existing_path); // create it
+            }
+        }
+    }
     
-    private void InitialiseDb(SqliteConnection connection)
+    private void InitialiseDb(SqliteConnection connection , string sqlDBFilePath)
     {
         SqliteCommand schema_creation_command = connection.CreateCommand();
-        schema_creation_command.CommandText = 
-        @"drop table if exists user;
-        create table user (
-          user_id integer primary key autoincrement,
-          username string not null,
-          email string not null,
-          pw_hash string not null
-        );
-        drop table if exists message;
-        create table message (
-          message_id integer primary key autoincrement,
-          author_id integer not null,
-          text string not null,
-          pub_date integer
-        );";
+        schema_creation_command.CommandText = File.ReadAllText("../../data/schema.sql") + File.ReadAllText("../../data/dump.sql"); // load in the schema and dump a bunch of data in the db
         schema_creation_command.ExecuteNonQuery();
     }
+    
 
     SqliteCommand CreateQueryCommand(SqliteConnection connection , string? author)
     {
+        // if an author is provided, retrieve only entries with username author - if not, retrieve all entries
         SqliteCommand queryCommand = connection.CreateCommand();
         if (author == null)
         {
-            string sqlQuery = 
+            string sqlQuery = // this SQL code fetches every message sent from the database
             @"SELECT u.username AS username , m.text AS message, m.pub_date AS date FROM 
             message m JOIN user u ON u.user_id = m.author_id
             ORDER BY m.pub_date desc";
@@ -83,7 +87,7 @@ public class CheepService : ICheepService
         }
         else
         {
-            string sqlQuery =
+            string sqlQuery = // this SQL code fetches every message sent by ´´author´´
             @"SELECT u.username AS username , m.text AS message, m.pub_date AS date 
             FROM message m JOIN user u ON u.user_id = m.author_id
             WHERE u.username = @author 
@@ -96,7 +100,6 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        // filter by the provided author name
         return LoadLocalSqlite(author);
     }
 
