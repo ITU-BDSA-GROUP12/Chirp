@@ -44,7 +44,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
-
       # - name: Cross-Compile and Package
       #   shell: bash
       #   run: |
@@ -59,7 +58,6 @@ jobs:
           
       #     # Delete output directory
       #     rm -r "$release_name"
-    
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
