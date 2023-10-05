@@ -7,36 +7,8 @@ on:
     tags:
       - "v*.*.*"
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout To Main
-        uses: actions/checkout@v2
-        with:
-            ref: main
-            fetch-depth: 0 # Fetch all history
-
-      - name: Install Dependencies and Build
-        run: |
-          cd src/Chirp.Razor
-          dotnet restore 
-          dotnet build
-
-      - name: Run Tests
-        run: |
-          # Set the timezone to Denmark (CET):
-          export TZ="Europe/Copenhagen"
-          cd test/Chirp.Razor.Tests
-          dotnet test
-       
-            
-  release-executables:
-  needs: build-and-test
-    # strategy:
-    #   matrix:
-    #     target: ['linux-x64', 'win-x64', 'osx-x64', 'osx-arm64']
+jobs:     
+  release:
     runs-on: ubuntu-latest
     
     steps:
@@ -44,20 +16,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
-      # - name: Cross-Compile and Package
-      #   shell: bash
-      #   run: |
-      #     tag=$(git tag -l "v*.*.*" | tail -n 1)
-      #     release_name="Chirp-$tag-${{ matrix.target }}"
-          
-      #     # Cross-compile and publish - build for each OS and create release
-      #     dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
-
-      #     # Create an archive
-      #     7z a -tzip "${release_name}.zip" "./${release_name}"
-          
-      #     # Delete output directory
-      #     rm -r "$release_name"
+  
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
