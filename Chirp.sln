@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.CLI", "src\Chirp.CLI.CLient\Chirp.CLI.csproj", "{E668CC1C-DBBE-4C08-8F99-1675F8BCDACA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8EA531C5-4520-4BEC-A2F7-4E214F30C325}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Tests", "test\Chirp.CLI.Client.Tests\Chirp.Tests.csproj", "{2CC7C519-7AA6-4D63-AC5F-86820FA35C71}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CSVDB.Tests", "test\Chirp.CSVDB.Tests\Chirp.CSVDB.Tests.csproj", "{42BF30FC-56C0-4D55-82CD-A1C3B827219A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D7476A1D-B475-472A-946A-D21E55091A9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDB", "src\Chirp.CSVDB\SimpleDB.csproj", "{E486AC33-CE09-427F-8DC2-4D37726D7423}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +31,10 @@ Global
 		{E486AC33-CE09-427F-8DC2-4D37726D7423}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E486AC33-CE09-427F-8DC2-4D37726D7423}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E486AC33-CE09-427F-8DC2-4D37726D7423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +46,6 @@ Global
 		{2CC7C519-7AA6-4D63-AC5F-86820FA35C71} = {8EA531C5-4520-4BEC-A2F7-4E214F30C325}
 		{42BF30FC-56C0-4D55-82CD-A1C3B827219A} = {8EA531C5-4520-4BEC-A2F7-4E214F30C325}
 		{E486AC33-CE09-427F-8DC2-4D37726D7423} = {D7476A1D-B475-472A-946A-D21E55091A9E}
+		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20} = {D7476A1D-B475-472A-946A-D21E55091A9E}
 	EndGlobalSection
 EndGlobal
