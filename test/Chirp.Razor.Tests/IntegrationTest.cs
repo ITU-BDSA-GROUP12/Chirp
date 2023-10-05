@@ -7,7 +7,7 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly HttpClient _client;
 
-    public TestAPI(WebApplicationFactory<Program> fixture)
+    public IntegrationTest(WebApplicationFactory<Program> fixture)
     {
         _fixture = fixture;
         _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
