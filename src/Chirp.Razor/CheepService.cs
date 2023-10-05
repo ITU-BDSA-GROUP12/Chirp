@@ -7,7 +7,7 @@ public record CheepViewModel(string Author, string Message, string Timestamp);
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps(int page);
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
+    public List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
 }
 
 public class CheepService : ICheepService
@@ -19,7 +19,7 @@ public class CheepService : ICheepService
     }
 
 
-    private List<CheepViewModel> LoadLocalSqlite(string? author = null)
+    private List<CheepViewModel> LoadLocalSqlite(int page, string? author = null)
     {
         var sqlDBFilePath = SeedingDBfileDir();
         CreateFileIfMissing(sqlDBFilePath);
@@ -32,7 +32,7 @@ public class CheepService : ICheepService
             {
                 InitialiseDb(connection, sqlDBFilePath);
             }
-            SqliteCommand command = CreateQueryCommand(connection, author);
+            SqliteCommand command = CreateQueryCommand(connection, page, author );
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -75,7 +75,7 @@ public class CheepService : ICheepService
     }
     
 
-    SqliteCommand CreateQueryCommand(SqliteConnection connection , string? author)
+    SqliteCommand CreateQueryCommand(SqliteConnection connection ,int page , string? author)
     {
         // if an author is provided, retrieve only entries with username author - if not, retrieve all entries
         SqliteCommand queryCommand = connection.CreateCommand();
@@ -87,7 +87,7 @@ public class CheepService : ICheepService
             ORDER by m.pub_date desc
             LIMIT 32 OFFSET @pageoffset"; //https://www.sqlitetutorial.net/sqlite-limit/
             queryCommand.CommandText = sqlQuery;
-            command.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
+            queryCommand.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
         }
         else
         {
@@ -98,14 +98,14 @@ public class CheepService : ICheepService
             ORDER BY m.pub_date desc";
             queryCommand.CommandText = sqlQuery;
             queryCommand.Parameters.AddWithValue("@author", author);
-            command.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
+            queryCommand.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
         }
         return queryCommand;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(int page, string author)
     {
-        return LoadLocalSqlite(author);
+        return LoadLocalSqlite(page, author);
 
     }
 
