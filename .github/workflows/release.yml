@@ -8,22 +8,19 @@ on:
       - "v*.*.*"
 
 jobs:
-  release-executables:
-    strategy:
-      matrix:
-        target: ['linux-x64', 'win-x64', 'osx-x64', 'osx-arm64']
+  build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout To Main
         uses: actions/checkout@v2
         with:
             ref: main
             fetch-depth: 0 # Fetch all history
-            
+
       - name: Install Dependencies and Build
         run: |
-          cd src/Chirp.CLI.Client
+          cd src/Chirp.Razor
           dotnet restore 
           dotnet build
 
@@ -31,11 +28,18 @@ jobs:
         run: |
           # Set the timezone to Denmark (CET):
           export TZ="Europe/Copenhagen"
-          cd test/Chirp.CLI.Client.Tests
+          cd test/Chirp.Razor.Tests
           dotnet test
-          cd ../Chirp.CSVDB.Tests
-          dotnet test
-
+       
+            
+  release-executables:
+  needs: build-and-test
+    strategy:
+      matrix:
+        target: ['linux-x64', 'win-x64', 'osx-x64', 'osx-arm64']
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: Set Up .NET 7
         uses: actions/setup-dotnet@v1
         with:
@@ -48,7 +52,7 @@ jobs:
           release_name="Chirp-$tag-${{ matrix.target }}"
           
           # Cross-compile and publish - build for each OS and create release
-          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
+          dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -r "${{ matrix.target }}" -c Release -o "$release_name" --self-contained false
 
           # Create an archive
           7z a -tzip "${release_name}.zip" "./${release_name}"

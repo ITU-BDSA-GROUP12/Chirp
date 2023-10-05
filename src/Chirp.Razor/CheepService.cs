@@ -6,17 +6,18 @@ public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheeps(int page);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
 }
 
 public class CheepService : ICheepService
 {
 
-    public List<CheepViewModel> GetCheeps()
+    public List<CheepViewModel> GetCheeps(int page)
     {
-        return LoadLocalSqlite();
+        return LoadLocalSqlite(page);
     }
+
 
     private List<CheepViewModel> LoadLocalSqlite(string? author = null)
     {
@@ -55,6 +56,7 @@ public class CheepService : ICheepService
         {
             possibly_existing_path += "/" + path_item;
             if (path_item.EndsWith(".db")) // the required folders are now in place - create the file
+
             {
                 File.WriteAllText(possibly_existing_path, "");
             }
@@ -80,10 +82,12 @@ public class CheepService : ICheepService
         if (author == null)
         {
             string sqlQuery = // this SQL code fetches every message sent from the database
-            @"SELECT u.username AS username , m.text AS message, m.pub_date AS date FROM 
+            @"SELECT u.username as username , m.text as message, m.pub_date as date FROM 
             message m JOIN user u ON u.user_id = m.author_id
-            ORDER BY m.pub_date desc";
+            ORDER by m.pub_date desc
+            LIMIT 32 OFFSET @pageoffset"; //https://www.sqlitetutorial.net/sqlite-limit/
             queryCommand.CommandText = sqlQuery;
+            command.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
         }
         else
         {
@@ -94,6 +98,7 @@ public class CheepService : ICheepService
             ORDER BY m.pub_date desc";
             queryCommand.CommandText = sqlQuery;
             queryCommand.Parameters.AddWithValue("@author", author);
+            command.Parameters.AddWithValue("@pageoffset" , (page - 1)*32);
         }
         return queryCommand;
     }
@@ -101,6 +106,7 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         return LoadLocalSqlite(author);
+
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

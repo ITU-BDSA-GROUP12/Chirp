@@ -9,7 +9,6 @@ git commit -m "Refactor main to print CLI arguments.
 Longer description...
 
 Co-authored-by: chat.openai.com 
-
 Co-authored-by: Markus: <mbrh@itu.dk>
 Co-authored-by: Lukas: <lupa@itu.dk>
 Co-authored-by: Rasmus: <rhra@itu.dk>
@@ -20,16 +19,16 @@ Co-authored-by: Allan: <asia@itu.dk>
 Issues & Management
 
 **Issues must follow the following structure:**
-        Headline: User story
+Headline: User story
 
-        **User Story**
-        //As <role> I want <some goal> to <benefit>
+**User Story**
+//As <role> I want <some goal> to <benefit>
 
-        **Description of the solution you'd like**
-        //Elaborate on solution, if you have one 
+**Description of the solution you'd like**
+//Elaborate on solution, if you have one 
 
-        **Definition of Done**
-        //A specific goal/list of goals the solution has to accomodate
+**Definition of Done**
+//A specific goal/list of goals the solution has to accomodate
 
 
 **Branches concerning a certain issue must contain the issues number after '#', eg: **
