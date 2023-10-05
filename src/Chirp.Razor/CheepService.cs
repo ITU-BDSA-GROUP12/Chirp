@@ -95,8 +95,7 @@ public class CheepService : ICheepService
     private static string SeedingDBfileDir (){ // Retreeves the the given file from the EnvironmentVariable, else creates a path to the Tmp folder
         string chirpDBpath;                     // https://learn.microsoft.com/en-us/dotnet/api/system.environment.setenvironmentvariable?view=net-7.0
         if(Environment.GetEnvironmentVariable("CHIRPDBPATH") == null){
-            // chirpDBpath = Path.GetTempPath() + "/chirp.db";
-            chirpDBpath = "/tmp/chirp.db"; //For now this has to be set for test to run. When merged with new create db feate, we can change back to above
+            chirpDBpath = Path.GetTempPath() + "/chirp.db";
         } else {
             chirpDBpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         }
