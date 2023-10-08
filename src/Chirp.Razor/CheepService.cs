@@ -1,6 +1,7 @@
 using Microsoft.Data.Sqlite;
 ﻿using System.Data;
 using System.IO;
+using System.Reflection;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -69,8 +70,9 @@ public class CheepService : ICheepService
     
     private void InitialiseDb(SqliteConnection connection , string sqlDBFilePath)
     {
+
         SqliteCommand schema_creation_command = connection.CreateCommand();
-        schema_creation_command.CommandText = File.ReadAllText("../../data/schema.sql") + File.ReadAllText("../../data/dump.sql"); // load in the schema and dump a bunch of data in the db
+        schema_creation_command.CommandText = ReadResource("Chirp.Razor.data.schema.sql") + ReadResource("Chirp.Razor.data.dump.sql"); // load in the schema and dump a bunch of data in the db
         schema_creation_command.ExecuteNonQuery();
     }
     
@@ -125,6 +127,28 @@ public class CheepService : ICheepService
             chirpDBpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         }
         return chirpDBpath;
+    }
+
+    //This mehtod of reading embedded resources is inspired by:
+    // https://stackoverflow.com/questions/3314140/how-to-read-embedded-resource-text-file
+    // chat.openi.com
+    // and the two links to documentation:
+    public string ReadResource(string name) {
+    // Determine path
+    var assembly = Assembly.GetExecutingAssembly(); //https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getexecutingassembly?view=net-7.0
+    string resourcePath = name;
+
+        if (resourcePath != null)
+        {
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath)) //https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getmanifestresourcestream?view=net-7.0#system-reflection-assembly-getmanifestresourcestream(system-string)
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+        else {
+            return "";
+        }
     }
 
 }
