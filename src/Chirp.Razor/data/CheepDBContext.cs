@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using src.Chirp.Razor.Models;
 
-namespace src.Chirp.Razor.Data
-{
-    public class CheepContext : DbContext
+
+
+    public class CheepDBContext : DbContext
     {
         
-        public CheepContext(DbContextOptions<CheepContext> options)
+        public CheepDBContext(DbContextOptions<CheepDBContext> options)
             : base(options)
         {
         }
@@ -14,5 +13,5 @@ namespace src.Chirp.Razor.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<Cheep> Cheeps { get; set; }
     }
-}
+
 
