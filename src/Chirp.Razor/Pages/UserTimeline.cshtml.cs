@@ -5,21 +5,21 @@ namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepRepository _reopsitory;
-    public List<CheepViewModel> Cheeps { get; set; }
+    private readonly ICheepRepository _repository;
+    public List<CheepDto> Cheeps { get; set; }
 
     public UserTimelineModel(ICheepRepository repository)
     {
         _repository = repository;
     }
 
-    public ActionResult OnGet(string author)
+    public async Task<IActionResult> OnGet(string author)
     {
         string? pagevalue = Request.Query["page"];
         if(pagevalue == null){
-            Cheeps = _repository.GetCheepsFromAuthor(1,author);
+            Cheeps = await _repository.GetCheepsFromAuthor(1,author);
         }else {
-            Cheeps = _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
+            Cheeps = await _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
         }
         return Page();
     }
