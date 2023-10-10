@@ -28,7 +28,7 @@ Headline: User story
 //Elaborate on solution, if you have one 
 
 **Definition of Done**
-//A specific goal/list of goals the solution has to accomodate
+//A specific goal/list of goals the solution has to accommodate
 
 
 **Branches concerning a certain issue must contain the issues number after '#', eg: **
