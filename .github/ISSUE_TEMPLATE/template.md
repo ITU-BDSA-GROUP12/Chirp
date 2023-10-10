@@ -1,7 +1,7 @@
 ---
 name: Template
 about: 'Custom template '
-title: 0X/ X.A.X)  User Story; As <role> I want <some goal> to <benefit>
+title: 0X/ X.A.(X))  As <role> I want <some goal> to <benefit>
 labels: ''
 assignees: ''
 
