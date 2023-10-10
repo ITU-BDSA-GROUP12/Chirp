@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-    public class CheepDBContext : DbContext
+    public class ChirpDBContext : DbContext
     {
         
-        public CheepDBContext(DbContextOptions<CheepDBContext> options)
+        public ChirpDBContext(DbContextOptions<ChirpDBContext> options)
             : base(options)
         {
         }
