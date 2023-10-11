@@ -2,7 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-var connString = builder.Configuration.GetConnectionString("ChirpDBContextSQLite");
+
+builder.Configuration.AddJsonFile("appsettings.json");
+var tempFolder = Path.GetTempPath();
+var dbFileName = "chirp.db";
+var dbPath = Path.Combine(tempFolder, dbFileName);
+builder.Configuration["ConnectionStrings:ChirpDbConnectionSQlite"] = $"Data Source={dbPath}";
+
+var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQlite");
 
 
 // Add services to the container.
