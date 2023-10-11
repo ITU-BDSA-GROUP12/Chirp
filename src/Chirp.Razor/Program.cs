@@ -7,7 +7,7 @@ var connString = builder.Configuration.GetConnectionString("ChirpDBContextSQLite
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddDbContext<ChirpDBContext>(
     options => options.UseSqlite(connString));
 

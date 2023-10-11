@@ -9,6 +9,10 @@ public interface ICheepRepository
 public class CheepRepository : ICheepRepository{
 
     readonly ChirpDBContext _context;
+    public CheepRepository(ChirpDBContext context)
+    {
+        _context = context;
+    }
 
     public async Task<List<CheepDto>> GetCheeps(int page){
 
