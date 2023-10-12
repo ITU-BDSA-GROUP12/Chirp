@@ -26,7 +26,7 @@ public class CheepRepository : ICheepRepository{
                             Message = Cheep.Text,
                             Timestamp = Cheep.TimeStamp.ToString()
                         }
-                    ).ToListAsync();
+                    ).Skip(page*32).Take(32).ToListAsync();
     }
 
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author){
@@ -40,6 +40,6 @@ public class CheepRepository : ICheepRepository{
                             Message = Cheep.Text,
                             Timestamp = Cheep.TimeStamp.ToString()
                          }
-                    ).ToListAsync();
+                    ).Where(CheepDto => CheepDto.Author == author ).Skip(page*32).Take(32).ToListAsync();
     }
 }
