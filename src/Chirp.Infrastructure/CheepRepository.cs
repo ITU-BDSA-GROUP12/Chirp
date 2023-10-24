@@ -24,7 +24,7 @@ public class CheepRepository : ICheepRepository{
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author){
 
         return await
-            (from Cheep in _context.Cheeps
+           (from Cheep in _context.Cheeps
             where Cheep.Author.Name == author
             orderby Cheep.TimeStamp descending
             select new CheepDto
@@ -33,5 +33,20 @@ public class CheepRepository : ICheepRepository{
                 Message = Cheep.Text,
                 Timestamp = Cheep.TimeStamp.ToString()
             }).Skip(page*32).Take(32).ToListAsync();
+    }
+
+    public async Task CreateCheep(string message, AuthorDto user){
+        Random rnd = new Random();
+        
+        var newCheep = new Cheep() { 
+            CheepId = rnd.Next(1000, 2000), 
+            AuthorId = user.AuthorId, 
+            Author = user,
+            Text = message, 
+            TimeStamp = DateTime.Parse("2023-08-01 13:08:28") };
+
+        _context.Cheeps.Add(newCheep);
+
+        await _context.SaveChangesAsync();
     }
 }
