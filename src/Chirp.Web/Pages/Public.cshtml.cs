@@ -17,7 +17,7 @@ public class PublicModel : PageModel
     {
         string? pagevalue = Request.Query["page"];
         if(pagevalue == null){
-            Cheeps = await _repository.GetCheeps(1);
+            Cheeps = await _repository.GetCheeps(0);
         }else {
             Cheeps = await _repository.GetCheeps(Int32.Parse(pagevalue));
         }
