@@ -16,6 +16,15 @@ Co-authored-by: Mads: <mhve@itu.dk>
 Co-authored-by: Allan: <asia@itu.dk>
 
 ***************************************************
+Tags / Versions / Releases
+
+check current tags "git tag" 
+
+create new tag "git tag v8.8.8"
+
+git push origin v8.8.8
+
+***************************************************
 Issues & Management
 
 **Issues must follow the following structure:**
