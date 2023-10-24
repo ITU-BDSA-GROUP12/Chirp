@@ -1,39 +1,61 @@
 namespace Chirp.Web.Tests;
 
+public class IntegrationTest {
 
+//Integration tests for cheepRepository
+    [Fact]
+    public async void return32CheepsFromGetCheepsTest() {
 
-public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
-{
-    private readonly WebApplicationFactory<Program> _fixture;
-    private readonly HttpClient _client;
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
 
-    public IntegrationTest(WebApplicationFactory<Program> fixture)
-    {
-        _fixture = fixture;
-        _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+ 
+        await context.Database.EnsureCreatedAsync();
+        DbInitializer.SeedDatabase(context); //Seed the database.
+        var repository = new CheepRepository(context);
+
+        // Act
+        List<CheepDto> result = await repository.GetCheeps(0);
+
+        // Assert
+        Assert.Equal(32,result.Count);
+
+       
     }
 
     [Fact]
-    public async void CanSeePublicTimeline()
-    {
-        var response = await _client.GetAsync("/");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+    public async void returnAllCheepsIfLessThan32Cheeps() {
 
-        Assert.Contains("Chirp!", content);
-        Assert.Contains("Public Timeline", content);
-    }
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
 
-    [Theory]
-    [InlineData("Helge")]
-    [InlineData("Rasmus")]
-    public async void CanSeePrivateTimeline(string author)
-    {
-        var response = await _client.GetAsync($"/{author}");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
 
-        Assert.Contains("Chirp!", content);
-        Assert.Contains($"{author}'s Timeline", content);
+        using var context = new ChirpDBContext(options);   //Creates a context, and passes in the options.
+        await context.Database.EnsureCreatedAsync();
+        var a1 = new Author() { AuthorId = 1, Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
+        var c1 = new Cheep() { CheepId = 1, AuthorId = a1.AuthorId, Author = a1, Text = "Hello, BDSA students!", TimeStamp = DateTime.Parse("2023-08-01 12:16:48") };
+        a1.Cheeps = new List<Cheep>() { c1 };
+        context.Authors.AddRange(new List<Author>() { a1 });
+        context.Cheeps.AddRange(new List<Cheep>() { c1 });
+        context.SaveChanges();
+        var repository = new CheepRepository(context);
+
+        // Act
+        List<CheepDto> result = await repository.GetCheeps(0);
+
+        // Assert
+        Assert.Equal(1,result.Count);
+
+        context.Database.EnsureDeleted();
     }
 }
