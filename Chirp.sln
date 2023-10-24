@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D7476A1D-B47
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Core", "src\Chirp.Core\Chirp.Core.csproj", "{01C8558C-0368-4186-AB91-BC7138D95F2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Infrastructure", "src\Chirp.Infrastructure\Chirp.Infrastructure.csproj", "{CBA6CACE-9139-4DBA-814D-FB0C15B51C44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C8558C-0368-4186-AB91-BC7138D95F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C8558C-0368-4186-AB91-BC7138D95F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C8558C-0368-4186-AB91-BC7138D95F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C8558C-0368-4186-AB91-BC7138D95F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA6CACE-9139-4DBA-814D-FB0C15B51C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA6CACE-9139-4DBA-814D-FB0C15B51C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA6CACE-9139-4DBA-814D-FB0C15B51C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA6CACE-9139-4DBA-814D-FB0C15B51C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -28,5 +40,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6D0101CB-BEBA-4705-A3C7-1CB4DB87EA20} = {D7476A1D-B475-472A-946A-D21E55091A9E}
+		{01C8558C-0368-4186-AB91-BC7138D95F2A} = {D7476A1D-B475-472A-946A-D21E55091A9E}
+		{CBA6CACE-9139-4DBA-814D-FB0C15B51C44} = {D7476A1D-B475-472A-946A-D21E55091A9E}
 	EndGlobalSection
 EndGlobal
