@@ -9,30 +9,29 @@ public class CheepRepository : ICheepRepository{
 
     public async Task<List<CheepDto>> GetCheeps(int page){
 
-        return await _context.Cheeps.Join(_context.Authors,
-                    Cheep => Cheep.AuthorId,
-                    Author => Author.AuthorId,
-                    (Cheep, Author) =>
-                        new CheepDto
-                        {
-                            Author = Author.Name,
-                            Message = Cheep.Text,
-                            Timestamp = Cheep.TimeStamp.ToString()
-                        }
-                    ).Skip(page*32).Take(32).ToListAsync();
+                    //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
+        return await 
+            (from Cheep in _context.Cheeps
+            orderby Cheep.TimeStamp descending
+            select new CheepDto //in LINQ the select clause is responsible for making new objects
+            {
+                Author = Cheep.Author.Name,
+                Message = Cheep.Text,
+                Timestamp = Cheep.TimeStamp.ToString()
+            }).Skip(page*32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
     }
 
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author){
 
-        return await _context.Cheeps.Join( _context.Authors,
-                    Cheep => Cheep.AuthorId,
-                    Author => Author.AuthorId,
-                    (Cheep, Author) => 
-                        new CheepDto{
-                            Author = Author.Name,
-                            Message = Cheep.Text,
-                            Timestamp = Cheep.TimeStamp.ToString()
-                         }
-                    ).Where(CheepDto => CheepDto.Author == author ).Skip(page*32).Take(32).ToListAsync();
+        return await
+            (from Cheep in _context.Cheeps
+            where Cheep.Author.Name == author
+            orderby Cheep.TimeStamp descending
+            select new CheepDto
+            {
+                Author = Cheep.Author.Name,
+                Message = Cheep.Text,
+                Timestamp = Cheep.TimeStamp.ToString()
+            }).Skip(page*32).Take(32).ToListAsync();
     }
 }
