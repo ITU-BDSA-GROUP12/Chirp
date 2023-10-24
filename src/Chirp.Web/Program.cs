@@ -1,3 +1,4 @@
+using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
