@@ -6,7 +6,7 @@ namespace Chirp.Web.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _repository;
-    public List<CheepDto> Cheeps { get; set; }
+    public List<CheepDto>? Cheeps { get; set; }
 
     public UserTimelineModel(ICheepRepository repository)
     {
