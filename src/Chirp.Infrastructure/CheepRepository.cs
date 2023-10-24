@@ -13,7 +13,7 @@ public class CheepRepository : ICheepRepository{
         return await 
             (from Cheep in _context.Cheeps
             orderby Cheep.TimeStamp descending
-            select new CheepDto //in LINQ the select clause is resposiable for making new objects
+            select new CheepDto //in LINQ the select clause is responsible for making new objects
             {
                 Author = Cheep.Author.Name,
                 Message = Cheep.Text,
