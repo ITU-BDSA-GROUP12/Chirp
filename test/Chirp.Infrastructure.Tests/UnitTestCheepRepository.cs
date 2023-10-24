@@ -10,11 +10,11 @@ public class UnitTestCheepRepository
         //Arrange
         var text = "Hej dette er en test cheep";
         var user = new AuthorDto
-                {
-                    AuthorId = 1,
-                    Name = "Testperson",
-                    Email = "Test@mail.haps"
-                };
+        {
+            AuthorId = Guid.NewGuid(),
+            Name = "Testperson",
+            Email = "Test@mail.haps"
+        };
 
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
         connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
@@ -36,4 +36,4 @@ public class UnitTestCheepRepository
         // Assert
         Assert.Equal(text, LatestCheep.Text);
     }
-} 
+}

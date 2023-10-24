@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231024133914_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231024180416_GuidNotInt")]
+    partial class GuidNotInt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,9 +22,9 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<Guid>("AuthorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -41,12 +41,12 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
-                    b.Property<int>("CheepId")
+                    b.Property<Guid>("CheepId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .IsRequired()
