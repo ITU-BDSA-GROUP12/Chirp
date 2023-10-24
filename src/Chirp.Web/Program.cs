@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 var tempFolder = Path.GetTempPath();
-var dbFileName = "chirp2.db";
+var dbFileName = "chirp.db";
 var dbPath = Path.Combine(tempFolder, dbFileName);
 builder.Configuration["ConnectionStrings:ChirpDbConnectionSQlite"] = $"Data Source={dbPath}";
 

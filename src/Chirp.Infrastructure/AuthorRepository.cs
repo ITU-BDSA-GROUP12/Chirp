@@ -33,10 +33,9 @@ public class AuthorRepository : IAuthorRepository
 
     public async void CreateAuthor(string name, string email)
     {
-        int author_id = _context.Authors.Select(a => a.AuthorId).Max() + 1;
         _context.Authors.Add(new Author
         {
-            AuthorId = author_id,
+            AuthorId = Guid.NewGuid(),
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>()
