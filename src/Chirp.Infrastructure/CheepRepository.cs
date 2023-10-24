@@ -37,13 +37,21 @@ public class CheepRepository : ICheepRepository{
 
     public async Task CreateCheep(string message, AuthorDto user){
         Random rnd = new Random();
-        
+        Author? author = _context.Authors.FirstOrDefault(a => a.AuthorId == user.AuthorId);
+        if (author == null){
+            author = new Author {
+                AuthorId = user.AuthorId,
+                Name = user.Name,
+                Email = user.Email,
+                Cheeps = new List<Cheep>()
+            };
+        } 
         var newCheep = new Cheep() { 
             CheepId = rnd.Next(1000, 2000), 
             AuthorId = user.AuthorId, 
-            Author = user,
+            Author = author,
             Text = message, 
-            TimeStamp = DateTime.Parse("2023-08-01 13:08:28") };
+            TimeStamp = DateTime.Now };
 
         _context.Cheeps.Add(newCheep);
 
