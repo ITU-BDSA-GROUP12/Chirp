@@ -9,9 +9,13 @@ public class AuthorRepository : IAuthorRepository
         _context = context;
     }
 
-    public async Task<AuthorDto> GetAuthorByName(string name)
+    public async Task<AuthorDto?> GetAuthorByName(string name)
     {
-        Author author = _context.Authors.FirstOrDefault(a => a.Name == name);
+        Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.Name == name);
+        if (author == null)
+        {
+            return null;
+        }
         return new AuthorDto
         {
             Name = author.Name,
@@ -20,9 +24,13 @@ public class AuthorRepository : IAuthorRepository
         };
     }
 
-    public async Task<AuthorDto> GetAuthorByEmail(string email)
+    public async Task<AuthorDto?> GetAuthorByEmail(string email)
     {
-        Author author = _context.Authors.FirstOrDefault(a => a.Email == email);
+        Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        if (author == null)
+        {
+            return null;
+        }
         return new AuthorDto
         {
             Name = author.Name,
@@ -31,7 +39,7 @@ public class AuthorRepository : IAuthorRepository
         };
     }
 
-    public async void CreateAuthor(string name, string email)
+    public async Task CreateAuthor(string name, string email)
     {
         _context.Authors.Add(new Author
         {
@@ -40,5 +48,6 @@ public class AuthorRepository : IAuthorRepository
             Email = email,
             Cheeps = new List<Cheep>()
         });
+        await _context.SaveChangesAsync();
     }
 }

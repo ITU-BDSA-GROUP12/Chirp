@@ -57,7 +57,7 @@ public class IntegrationTest
         List<CheepDto> result = await repository.GetCheeps(0);
 
         // Assert
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
 
         context.Database.EnsureDeleted();
     }
