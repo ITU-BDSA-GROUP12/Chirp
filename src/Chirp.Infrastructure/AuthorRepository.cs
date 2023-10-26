@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-
 namespace Chirp.Infrastructure;
 
 public class AuthorRepository : IAuthorRepository
