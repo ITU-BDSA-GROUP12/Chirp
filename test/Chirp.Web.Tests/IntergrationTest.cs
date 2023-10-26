@@ -2,12 +2,12 @@ namespace Chirp.Web.Tests;
 
 
 
-public class end2endTest : IClassFixture<WebApplicationFactory<Program>>
+public class IntergrationTest : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly HttpClient _client;
 
-    public end2endTest(WebApplicationFactory<Program> fixture)
+    public IntergrationTest(WebApplicationFactory<Program> fixture)
     {
         _fixture = fixture;
         _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
