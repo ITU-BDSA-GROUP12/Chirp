@@ -20,7 +20,7 @@ public class CheepRepository : ICheepRepository
                  Author = Cheep.Author.Name,
                  Message = Cheep.Text,
                  Timestamp = Cheep.TimeStamp.ToString()
-             }).Skip(page * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
+             }).Skip((page-1) * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
     }
 
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
@@ -35,7 +35,7 @@ public class CheepRepository : ICheepRepository
                 Author = Cheep.Author.Name,
                 Message = Cheep.Text,
                 Timestamp = Cheep.TimeStamp.ToString()
-            }).Skip(page * 32).Take(32).ToListAsync();
+            }).Skip((page-1) * 32).Take(32).ToListAsync();
     }
 
     public async Task CreateCheep(string message, AuthorDto user)
