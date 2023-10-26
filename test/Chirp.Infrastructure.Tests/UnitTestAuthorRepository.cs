@@ -1,6 +1,6 @@
 namespace Chirp.Infrastructure.Tests;
 
-public class UnitTest1
+public class UnitTestAuthorRepository
 {
 
     [Theory]
