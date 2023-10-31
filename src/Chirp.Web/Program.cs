@@ -1,6 +1,11 @@
 using Chirp.Infrastructure;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +19,19 @@ var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQl
 
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddMvcOptions(options =>
+  {
+   var policy = new AuthorizationPolicyBuilder() //https://learn.microsoft.com/en-us/entra/identity-platform/scenario-web-app-sign-user-app-configuration?tabs=aspnetcore
+                 .RequireAuthenticatedUser()
+                 .Build();
+   options.Filters.Add(new AuthorizeFilter(policy));
+  }).AddMicrosoftIdentityUI();
+
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
 builder.Services.AddDbContext<ChirpDBContext>(
     options => options.UseSqlite(connString));
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(builder.Configuration, "AzureAd");
 
 
 
@@ -44,8 +58,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 
