@@ -1,6 +1,9 @@
-using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +15,15 @@ builder.Configuration["ConnectionStrings:ChirpDbConnectionSQlite"] = $"Data Sour
 
 var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQlite");
 
-
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
+
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
 builder.Services.AddDbContext<ChirpDBContext>(
     options => options.UseSqlite(connString));
-
-
 
 var app = builder.Build();
 
@@ -45,7 +49,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthorization();
+
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 
