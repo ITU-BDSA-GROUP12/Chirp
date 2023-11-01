@@ -1,39 +1,16 @@
-using Chirp.Infrastructure;
-using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json");
-var tempFolder = Path.GetTempPath();
-var dbFileName = "chirp.db";
-var dbPath = Path.Combine(tempFolder, dbFileName);
-builder.Configuration["ConnectionStrings:ChirpDbConnectionSQlite"] = $"Data Source={dbPath}";
-
-var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQlite");
-
-
 // Add services to the container.
-builder.Services.AddRazorPages().AddMvcOptions(options =>
-  {
-   var policy = new AuthorizationPolicyBuilder() //https://learn.microsoft.com/en-us/entra/identity-platform/scenario-web-app-sign-user-app-configuration?tabs=aspnetcore
-                 .RequireAuthenticatedUser()
-                 .Build();
-   options.Filters.Add(new AuthorizeFilter(policy));
-  }).AddMicrosoftIdentityUI();
-
-builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
-builder.Services.AddDbContext<ChirpDBContext>(
-    options => options.UseSqlite(connString));
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(builder.Configuration, "AzureAd");
-
-
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
 
 var app = builder.Build();
 
@@ -45,25 +22,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-using (var scope = app.Services.CreateScope()) // https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/intro?view=aspnetcore-7.0&tabs=visual-studio
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<ChirpDBContext>();
-    context.Database.EnsureCreated();
-    DbInitializer.SeedDatabase(context);
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { } //To enable the testing
