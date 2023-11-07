@@ -40,7 +40,7 @@ jobs:
       run: dotnet tool install --global dotnet-ef
       
     - name: Build EF migrations Bundle
-      run : dotnet ef migrations bundle --project src/Chirp.Infrastructure/Chirp.Infrastructure.csproj --startup-project src/Chirp.Web/Chirp.Web.csproj --configuration ${{env.DOTNET_ROOT}} --no-build --self-contained 
+      run : dotnet ef migrations bundle --project src/Chirp.Infrastructure/ --startup-project src/Chirp.Web/ --configuration ${{env.DOTNET_CONFIGURATION}} --no-build --self-contained 
 
     - name: Upload migration bundle
       uses: actions/upload-artifact@v2
