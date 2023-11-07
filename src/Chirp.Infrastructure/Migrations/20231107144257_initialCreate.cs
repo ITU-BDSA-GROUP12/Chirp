@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class GuidNotInt : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,39 +15,40 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    AuthorId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_Authors", x => x.Email);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Cheeps",
                 columns: table => new
                 {
-                    CheepId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Text = table.Column<string>(type: "TEXT", maxLength: 280, nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CheepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(280)", maxLength: 280, nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cheeps", x => x.CheepId);
                     table.ForeignKey(
-                        name: "FK_Cheeps_Authors_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_Cheeps_Authors_AuthorEmail",
+                        column: x => x.AuthorEmail,
                         principalTable: "Authors",
-                        principalColumn: "AuthorId",
+                        principalColumn: "Email",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cheeps_AuthorId",
+                name: "IX_Cheeps_AuthorEmail",
                 table: "Cheeps",
-                column: "AuthorId");
+                column: "AuthorEmail");
         }
 
         /// <inheritdoc />
