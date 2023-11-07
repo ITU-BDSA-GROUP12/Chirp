@@ -67,16 +67,9 @@ jobs:
         with:
           name: efbundle
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-
       - name: Apply EF bundle
         run: |
-          CONNECTION_STRING=$(az webapp config connection-string list -g bdsagroup12chirprazor_group-8012 -n bdsagroup12chirprazor --query [].value --output tsv)
+          CONNECTION_STRING=$(Server=tcp:bdsagroup12-chirpdb.database.windows.net,1433;Initial Catalog=AzureDB;Persist Security Info=False;User ID=god;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;)
           chmod +x efbundle
           ./efbundle --connection "$CONNECTION_STRING"
 
