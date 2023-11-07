@@ -69,7 +69,7 @@ jobs:
 
       - name: Apply EF bundle
         run: |
-          CONNECTION_STRIN<G="Server=tcp:bdsagroup12-chirpdb.database.windows.net,1433;Initial Catalog=AzureDB;Persist Security Info=False;User ID=god;Password=BDSAUnique12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+          CONNECTION_STRING="Server=tcp:bdsagroup12-chirpdb.database.windows.net,1433;Initial Catalog=AzureDB;Persist Security Info=False;User ID=god;Password=BDSAUnique12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
           chmod +x efbundle
           ./efbundle --connection "$CONNECTION_STRING"
 
