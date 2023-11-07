@@ -17,7 +17,7 @@ public class UserTimelineModel : PageModel
     {
         string? pagevalue = Request.Query["page"];
         if(pagevalue == null){
-            Cheeps = await _repository.GetCheepsFromAuthor(0,author);
+            Cheeps = await _repository.GetCheepsFromAuthor(1,author);
         }else {
             Cheeps = await _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
         }

@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
-var tempFolder = Path.GetTempPath();
+builder.Configuration.AddUserSecrets<Program>();
+
+/*var tempFolder = Path.GetTempPath();
 var dbFileName = "chirp.db";
 var dbPath = Path.Combine(tempFolder, dbFileName);
 builder.Configuration["ConnectionStrings:ChirpDbConnectionSQlite"] = $"Data Source={dbPath}";
 
-var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQlite");
+var connString = builder.Configuration.GetConnectionString("ChirpDbConnectionSQlite");*/
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
@@ -23,7 +25,7 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
 builder.Services.AddDbContext<ChirpDBContext>(
-    options => options.UseSqlite(connString));
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
