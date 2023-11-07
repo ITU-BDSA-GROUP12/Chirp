@@ -89,9 +89,9 @@ jobs:
 
       - name: Apply EF bundle
         run: |
-        CONNECTION_STRING=$(az webapp config connection-string list -g bdsagroup12chirprazor_group-8012 -n bdsagroup12chirprazor --query [].value --output tsv)
-        chmod +x efbundle
-        ./efbundle --connection "$CONNECTION_STRING"
+          CONNECTION_STRING=$(az webapp config connection-string list -g bdsagroup12chirprazor_group-8012 -n bdsagroup12chirprazor --query [].value --output tsv)
+          chmod +x efbundle
+          ./efbundle --connection "$CONNECTION_STRING"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
