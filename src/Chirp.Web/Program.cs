@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
+builder.Services.AddScoped<CheepValidator>();
+// builder.Services.AddScoped<AbstractValidator<Author>, AuthorValidator>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
 builder.Services.AddDbContext<ChirpDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

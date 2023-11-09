@@ -4,9 +4,11 @@ public class AuthorRepository : IAuthorRepository
 {
 
     readonly ChirpDBContext _context;
-    public AuthorRepository(ChirpDBContext context)
+    private AuthorValidator _validator;
+    public AuthorRepository(ChirpDBContext context, AuthorValidator validator)
     {
         _context = context;
+        _validator = validator;
     }
 
     public async Task<AuthorDto?> GetAuthorByName(string name)
@@ -41,13 +43,19 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task CreateAuthor(string name, string email)
     {
-        _context.Authors.Add(new Author
+        Author newAuthor = new Author
         {
             AuthorId = Guid.NewGuid(),
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>()
-        });
+        };
+        FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException("Attempted to store invalid Author in database.");
+        }
+        _context.Authors.Add(newAuthor);
         await _context.SaveChangesAsync();
     }
 }

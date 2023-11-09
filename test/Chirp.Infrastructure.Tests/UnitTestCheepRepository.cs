@@ -19,7 +19,9 @@ public class UnitTestCheepRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new CheepRepository(context);
+
+        CheepValidator cheep_validator = new CheepValidator();
+        var repository = new CheepRepository(context, cheep_validator);
 
         // Act
         List<CheepDto> result = await repository.GetCheeps(0);
@@ -50,7 +52,8 @@ public class UnitTestCheepRepository
         context.Authors.AddRange(new List<Author>() { a1 });
         context.Cheeps.AddRange(new List<Cheep>() { c1 });
         context.SaveChanges();
-        var repository = new CheepRepository(context);
+        CheepValidator cheep_validator = new CheepValidator();
+        var repository = new CheepRepository(context, cheep_validator);
 
         // Act
         List<CheepDto> result = await repository.GetCheeps(0);
@@ -77,7 +80,8 @@ public class UnitTestCheepRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new CheepRepository(context);
+        CheepValidator cheep_validator = new CheepValidator();
+        var repository = new CheepRepository(context, cheep_validator);
 
         List<CheepDto> ExpectedListOfCheeps = new()
         {
@@ -120,14 +124,16 @@ public class UnitTestCheepRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new CheepRepository(context);
+        CheepValidator cheep_validator = new CheepValidator();
+        var repository = new CheepRepository(context, cheep_validator);
 
         // Act
         await repository.CreateCheep(text, user);
         Cheep? LatestCheep = context.Cheeps.OrderByDescending(c => c.TimeStamp).FirstOrDefault(); // pulls out the latest created cheep
 
         // Assert
-        if (LatestCheep == null) {
+        if (LatestCheep == null)
+        {
             Assert.True(false);
         }
         Assert.Equal(LatestCheep.Text, text);
