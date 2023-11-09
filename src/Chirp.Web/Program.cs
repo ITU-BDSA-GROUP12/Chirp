@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+//Test trigger
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddUserSecrets<Program>();
