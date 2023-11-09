@@ -3,7 +3,7 @@ public class CheepRepository : ICheepRepository
 {
 
     readonly ChirpDBContext _context;
-    private CheepValidator _validator;
+    readonly CheepValidator _validator;
     public CheepRepository(ChirpDBContext context, CheepValidator validator)
     {
         _context = context;
