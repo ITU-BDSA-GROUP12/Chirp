@@ -24,17 +24,29 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<Guid>("AuthorId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Email");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AuthorId");
+
+                    b.HasIndex("AuthorId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("AuthorId"), false);
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"), false);
 
                     b.ToTable("Authors");
                 });
@@ -44,10 +56,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.Property<Guid>("CheepId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AuthorEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
@@ -62,7 +70,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasKey("CheepId");
 
-                    b.HasIndex("AuthorEmail");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Cheeps");
                 });
@@ -71,7 +79,7 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
                         .WithMany("Cheeps")
-                        .HasForeignKey("AuthorEmail")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

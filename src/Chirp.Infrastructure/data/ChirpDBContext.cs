@@ -13,7 +13,17 @@ namespace Chirp.Infrastructure
         {
             modelBuilder.Entity<Cheep>()
                 .Property(c => c.Text)
-                .HasMaxLength(280);
+                .HasMaxLength(160);
+
+            modelBuilder.Entity<Author>()
+                .HasIndex(e => e.Name)
+                .IsUnique()
+                .IsClustered(true);
+
+            modelBuilder.Entity<Author>()
+                .HasIndex(e => e.AuthorId)
+                .IsUnique()
+                .IsClustered(false);
         }
     }
 }

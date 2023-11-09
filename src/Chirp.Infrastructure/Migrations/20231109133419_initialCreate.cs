@@ -15,13 +15,13 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.Email);
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,7 +30,6 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     CheepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AuthorEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(280)", maxLength: 280, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -38,17 +37,31 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Cheeps", x => x.CheepId);
                     table.ForeignKey(
-                        name: "FK_Cheeps_Authors_AuthorEmail",
-                        column: x => x.AuthorEmail,
+                        name: "FK_Cheeps_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Authors",
-                        principalColumn: "Email",
+                        principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cheeps_AuthorEmail",
+                name: "IX_Authors_AuthorId",
+                table: "Authors",
+                column: "AuthorId",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Authors_Name",
+                table: "Authors",
+                column: "Name",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
-                column: "AuthorEmail");
+                column: "AuthorId");
         }
 
         /// <inheritdoc />
