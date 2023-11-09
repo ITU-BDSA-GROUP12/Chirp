@@ -21,7 +21,8 @@ public class UnitTestAuthorRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new AuthorRepository(context);
+        AuthorValidator author_validator = new AuthorValidator();
+        var repository = new AuthorRepository(context, author_validator);
 
         // Act
         AuthorDto author = await repository.GetAuthorByName(name);
@@ -48,7 +49,8 @@ public class UnitTestAuthorRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new AuthorRepository(context);
+        AuthorValidator author_validator = new AuthorValidator();
+        var repository = new AuthorRepository(context, author_validator);
 
         // Act
         AuthorDto author = await repository.GetAuthorByEmail(email);
@@ -75,7 +77,8 @@ public class UnitTestAuthorRepository
 
         await context.Database.EnsureCreatedAsync();
         DbInitializer.SeedDatabase(context); //Seed the database.
-        var repository = new AuthorRepository(context);
+        AuthorValidator author_validator = new AuthorValidator();
+        var repository = new AuthorRepository(context, author_validator);
 
         // Act
         repository.CreateAuthor(name, email);
