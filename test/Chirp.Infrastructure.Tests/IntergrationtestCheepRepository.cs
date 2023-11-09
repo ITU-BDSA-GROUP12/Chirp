@@ -8,6 +8,8 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 {
     private readonly MsSqlContainer _container;
 
+    readonly CheepValidator _validator;
+
     public IntergrationtestCheepRepository()
     {
         _container = new MsSqlBuilder()
@@ -50,7 +52,7 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         //Arrange
         var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
         using var context = new ChirpDBContext(optionsBuilder.Options);
-        var repository = new CheepRepository(context);
+        var repository = new CheepRepository(context, _validator);
 
         //Act
         var cheeps = await repository.GetCheeps(1);
