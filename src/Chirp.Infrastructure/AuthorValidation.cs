@@ -1,4 +1,3 @@
-using FluentValidation;
 namespace Chirp.Infrastructure;
 
 public class AuthorValidator : AbstractValidator<Author>
