@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -17,9 +18,9 @@ public class AuthorAuthorizeModel : PageModel
             AuthorDto? author = await _repository.GetAuthorByName(User.Identity.Name);
             if (author == null)
             {
-               await _repository.CreateAuthor(User.Identity.Name, "suck@cuck.com");
+               await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue(ClaimTypes.Email));
             }
         }
-        return Page();
+        return Redirect(Url.Content("~/"));
     }
 }

@@ -17,6 +17,11 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
+// builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
+// {
+//     options.Conventions.AddPageRoute("/", "");
+// });
+
 builder.Services.AddScoped<CheepValidator>();
 builder.Services.AddScoped<AuthorValidator>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
