@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Chirp.Infrastructure;
 public class Author
 {   
-    [Key]
     public Guid AuthorId { get; set; }
     public required string Name { get; set; }
     public required string Email { get; set; }
