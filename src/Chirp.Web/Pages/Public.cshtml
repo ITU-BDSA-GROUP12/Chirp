@@ -8,6 +8,10 @@
 <div>
     <h2> Public Timeline </h2>
 
+    
+    <partial name="_CheepElement" model="@new CheepElementModel()"></partial>
+
+
     @if (Model.Cheeps != null && Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
