@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
@@ -27,8 +28,20 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
+    [BindProperty]
+    public string Text { get; set; }
+
     public async Task<IActionResult> OnPost()
     {
-        return Redirect(Url.Content("~/"));
+        AuthorDto author = new()
+        {
+            Name = User.Identity.Name,
+            Email = User.FindFirstValue(ClaimTypes.Email)// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+        };
+        _repository.CreateCheep(Text, author);
+        string username = User.Identity.Name;
+        string redirectUrl = $"~/{username}";
+
+        return Redirect(Url.Content(redirectUrl));
     }
 }

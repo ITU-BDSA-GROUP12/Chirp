@@ -45,6 +45,7 @@ public class CheepRepository : ICheepRepository
         Author? author = _context.Authors.FirstOrDefault(a => a.Email == user.Email);
         author ??= new Author
         {
+            AuthorId = Guid.NewGuid(),
             Name = user.Name,
             Email = user.Email,
             Cheeps = new List<Cheep>()
