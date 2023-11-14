@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231109133419_initialCreate")]
+    [Migration("20231114154059_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -33,23 +33,25 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AuthorId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AuthorId"), false);
 
                     b.HasIndex("AuthorId")
                         .IsUnique();
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("AuthorId"), false);
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Email")
                         .IsUnique();
 
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"), false);
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Email"));
 
                     b.ToTable("Authors");
                 });
@@ -65,8 +67,8 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(280)
-                        .HasColumnType("nvarchar(280)");
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");

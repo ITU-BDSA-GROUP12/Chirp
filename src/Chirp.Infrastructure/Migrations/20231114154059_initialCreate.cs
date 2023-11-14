@@ -16,12 +16,13 @@ namespace Chirp.Infrastructure.Migrations
                 columns: table => new
                 {
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,7 +31,7 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     CheepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(280)", maxLength: 280, nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -52,11 +53,11 @@ namespace Chirp.Infrastructure.Migrations
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_Name",
+                name: "IX_Authors_Email",
                 table: "Authors",
-                column: "Name",
+                column: "Email",
                 unique: true)
-                .Annotation("SqlServer:Clustered", false);
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
