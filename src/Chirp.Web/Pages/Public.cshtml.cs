@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Resources;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepRepository _repository;
+    public ICheepRepository _repository;
     public List<CheepDto>? Cheeps { get; set; }
 
     public PublicModel(ICheepRepository repository)
@@ -25,5 +26,10 @@ public class PublicModel : PageModel
             Cheeps = await _repository.GetCheeps(Int32.Parse(pagevalue));
         }
         return Page();
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        return Redirect(Url.Content("~/"));
     }
 }

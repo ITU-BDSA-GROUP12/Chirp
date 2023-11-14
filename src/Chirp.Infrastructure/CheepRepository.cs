@@ -42,10 +42,9 @@ public class CheepRepository : ICheepRepository
     public async Task CreateCheep(string message, AuthorDto user)
     {
         Random rnd = new();
-        Author? author = _context.Authors.FirstOrDefault(a => a.AuthorId == user.AuthorId);
+        Author? author = _context.Authors.FirstOrDefault(a => a.Email == user.Email);
         author ??= new Author
         {
-            AuthorId = user.AuthorId,
             Name = user.Name,
             Email = user.Email,
             Cheeps = new List<Cheep>()
@@ -53,7 +52,6 @@ public class CheepRepository : ICheepRepository
         var newCheep = new Cheep()
         {
             CheepId = Guid.NewGuid(),
-            AuthorId = user.AuthorId,
             Author = author,
             Text = message,
             TimeStamp = DateTime.Now

@@ -9,7 +9,8 @@
 <div>
     <h2> @routeName's Timeline </h2>
 
-    <partial name="_CheepElement" model="@(new CheepElementModel())"></partial>
+    @inject ICheepRepository CheepRepository
+    <partial name="_CheepElement" model="(new CheepElementModel(CheepRepository))"></partial>
 
     @if (Model.Cheeps != null && Model.Cheeps.Any())
     {

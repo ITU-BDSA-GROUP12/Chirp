@@ -5,7 +5,7 @@ namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepRepository _repository;
+    public ICheepRepository _repository;
     public List<CheepDto>? Cheeps { get; set; }
 
     public UserTimelineModel(ICheepRepository repository)
@@ -25,5 +25,10 @@ public class UserTimelineModel : PageModel
             Cheeps = await _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
         }
         return Page();
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        return Redirect(Url.Content("~/"));
     }
 }

@@ -21,8 +21,7 @@ public class AuthorRepository : IAuthorRepository
         return new AuthorDto
         {
             Name = author.Name,
-            Email = author.Email,
-            AuthorId = author.AuthorId
+            Email = author.Email
         };
     }
 
@@ -36,8 +35,7 @@ public class AuthorRepository : IAuthorRepository
         return new AuthorDto
         {
             Name = author.Name,
-            Email = author.Email,
-            AuthorId = author.AuthorId
+            Email = author.Email
         };
     }
 

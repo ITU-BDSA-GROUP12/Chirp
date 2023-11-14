@@ -8,8 +8,8 @@
 <div>
     <h2> Public Timeline </h2>
 
-
-    <partial name="_CheepElement"></partial>
+    @inject ICheepRepository CheepRepository
+    <partial name="_CheepElement" model="(new CheepElementModel(CheepRepository))"></partial>
 
 
     @if (Model.Cheeps != null && Model.Cheeps.Any())
