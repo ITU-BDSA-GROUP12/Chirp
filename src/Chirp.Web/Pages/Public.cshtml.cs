@@ -16,9 +16,12 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
         string? pagevalue = Request.Query["page"];
-        if(pagevalue == null){
+        if (pagevalue == null)
+        {
             Cheeps = await _repository.GetCheeps(1);
-        }else {
+        }
+        else
+        {
             Cheeps = await _repository.GetCheeps(Int32.Parse(pagevalue));
         }
         return Page();

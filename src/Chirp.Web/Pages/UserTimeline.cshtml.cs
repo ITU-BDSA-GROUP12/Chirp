@@ -16,9 +16,12 @@ public class UserTimelineModel : PageModel
     public async Task<IActionResult> OnGet(string author)
     {
         string? pagevalue = Request.Query["page"];
-        if(pagevalue == null){
-            Cheeps = await _repository.GetCheepsFromAuthor(1,author);
-        }else {
+        if (pagevalue == null)
+        {
+            Cheeps = await _repository.GetCheepsFromAuthor(1, author);
+        }
+        else
+        {
             Cheeps = await _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
         }
         return Page();
