@@ -15,10 +15,10 @@ public class AuthorAuthorizeModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
-            AuthorDto? author = await _repository.GetAuthorByName(User.Identity.Name);
+            AuthorDto? author = await _repository.GetAuthorByName(User.FindFirstValue("emails"));
             if (author == null)
             {
-               await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue(ClaimTypes.Email));
+               await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue("emails"));
             }
         }
         return Redirect(Url.Content("~/"));
