@@ -4,7 +4,7 @@ public class AuthorRepository : IAuthorRepository
 {
 
     readonly ChirpDBContext _context;
-    private AuthorValidator _validator;
+    readonly AuthorValidator _validator;
     public AuthorRepository(ChirpDBContext context, AuthorValidator validator)
     {
         _context = context;
@@ -43,7 +43,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task CreateAuthor(string name, string email)
     {
-        Author newAuthor = new Author
+        Author newAuthor = new()
         {
             AuthorId = Guid.NewGuid(),
             Name = name,

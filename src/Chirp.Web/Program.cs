@@ -17,9 +17,15 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
+// builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
+// {
+//     options.Conventions.AddPageRoute("/", "");
+// });
+
 builder.Services.AddScoped<CheepValidator>();
-// builder.Services.AddScoped<AbstractValidator<Author>, AuthorValidator>();
+builder.Services.AddScoped<AuthorValidator>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>(); // Scoped to fit with DBContext
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddDbContext<ChirpDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

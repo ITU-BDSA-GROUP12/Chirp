@@ -34,7 +34,7 @@
                 <div>
                     <a href="/">public timeline</a> |
                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">register</a> | 
-                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
+                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn" asp-route-redirectUri="/AuthorAuthorize">login</a>
                 </div>
             }
         </div>
