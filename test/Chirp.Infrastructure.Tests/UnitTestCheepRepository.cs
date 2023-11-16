@@ -108,9 +108,8 @@ public class UnitTestCheepRepository
         var text = "Hej dette er en test cheep";
         var user = new AuthorDto
         {
-            AuthorId = Guid.NewGuid(),
             Name = "Testperson",
-            Email = "Test@mail.haps"
+            Email = "Test@mail.haps",
         };
 
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
@@ -126,6 +125,15 @@ public class UnitTestCheepRepository
         DbInitializer.SeedDatabase(context); //Seed the database.
         CheepValidator cheep_validator = new CheepValidator();
         var repository = new CheepRepository(context, cheep_validator);
+        //Make sure the test author is in our db
+        context.Authors.Add(new Author()
+        {
+            AuthorId = Guid.NewGuid(),
+            Name = "Testperson",
+            Email = "Test@mail.haps",
+            Cheeps = new List<Cheep>()
+        });
+        await context.SaveChangesAsync();
 
         // Act
         await repository.CreateCheep(text, user);
