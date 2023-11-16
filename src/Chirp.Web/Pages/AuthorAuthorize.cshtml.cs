@@ -15,7 +15,7 @@ public class AuthorAuthorizeModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
-            AuthorDto? author = await _repository.GetAuthorByName(User.FindFirstValue("emails"));
+            AuthorDto? author = await _repository.GetAuthorByEmail(User.FindFirstValue("emails"));
             if (author == null)
             {
                await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue("emails"));
