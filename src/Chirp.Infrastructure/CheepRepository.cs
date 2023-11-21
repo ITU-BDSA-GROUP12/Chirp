@@ -21,7 +21,7 @@ public class CheepRepository : ICheepRepository
              {
                  Author = Cheep.Author.Name,
                  Message = Cheep.Text,
-                 Timestamp = Cheep.TimeStamp.ToString()
+                 Timestamp = $"{Cheep.TimeStamp.Year}-{Cheep.TimeStamp.Month}-{Cheep.TimeStamp.Day} {Cheep.TimeStamp.Hour}:{Cheep.TimeStamp.Minute}:{Cheep.TimeStamp.Second}"
              }).Skip((page - 1) * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
     }
 
@@ -35,14 +35,14 @@ public class CheepRepository : ICheepRepository
             {
                 Author = Cheep.Author.Name,
                 Message = Cheep.Text,
-                Timestamp = Cheep.TimeStamp.ToString()
+                Timestamp = $"{Cheep.TimeStamp.Year}-{Cheep.TimeStamp.Month}-{Cheep.TimeStamp.Day} {Cheep.TimeStamp.Hour}:{Cheep.TimeStamp.Minute}:{Cheep.TimeStamp.Second}"
             }).Skip((page - 1) * 32).Take(32).ToListAsync();
     }
 
     public async Task CreateCheep(string message, AuthorDto user)
     {
         Author? author = _context.Authors.FirstOrDefault(a => a.Email == user.Email);
-        
+
         var newCheep = new Cheep()
         {
             CheepId = Guid.NewGuid(),
