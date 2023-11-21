@@ -31,16 +31,16 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public string Text { get; set; }
 
-    public async Task<IActionResult> OnPost()
+  public async Task<IActionResult> OnPost()
     {
         AuthorDto author = new()
         {
             Name = User.Identity.Name,
-            Email = User.FindFirstValue(ClaimTypes.Email)// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+            Email = User.FindFirstValue("emails")// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
         };
         await _repository.CreateCheep(Text, author);
-        string username = User.Identity.Name;
-        string redirectUrl = $"~/{username}";
+         
+        string redirectUrl = "~/";
 
         return Redirect(Url.Content(redirectUrl));
     }

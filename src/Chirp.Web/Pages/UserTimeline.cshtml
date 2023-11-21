@@ -10,6 +10,8 @@
     <h2> @routeName's Timeline </h2>
 
     @inject ICheepRepository CheepRepository
+    @if (User.Identity.IsAuthenticated)
+    {
     <div class="cheepbox">
         <h3>What's on your mind @(User.Identity.Name)?</h3>
         <form method="post">
@@ -17,7 +19,8 @@
             <input type="submit" value="Share🚜">
         </form>
     </div>
-
+    }
+    
     @if (Model.Cheeps != null && Model.Cheeps.Any())
     {
         <ul id=" messagelist" class="cheeps">
