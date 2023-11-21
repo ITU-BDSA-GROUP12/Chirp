@@ -32,6 +32,14 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
                     </p>
+                    
+                    @if (User.Identity.IsAuthenticated && cheep.Author != User.Identity.Name)
+                    {
+                    <form method="post">
+                         <button asp-page-handler="Follow">Follow</button>
+                    </form>
+                    }
+
                 </li>
             }
         </ul>
