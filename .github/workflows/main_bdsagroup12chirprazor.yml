@@ -9,69 +9,43 @@ on:
       - main
   workflow_dispatch:
 
-
 jobs:
-  buildAndTest: 
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
 
-    - name: dotnet publish
-      run: dotnet publish src/Chirp.Web -c Release -o ${{env.DOTNET_ROOT}}/myapp
-      
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: .net-app
-        path: ${{env.DOTNET_ROOT}}/myapp
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
 
-    - name: Install EF tool
-      run: dotnet tool install --global dotnet-ef --version 8.0.0
-      
-    - name: Build EF migrations Bundle
-      run : dotnet ef migrations bundle --project src/Chirp.Infrastructure/ --startup-project src/Chirp.Web/ --configuration ${{env.DOTNET_CONFIGURATION}} --no-build --self-contained 
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
-    - name: Upload migration bundle
-      uses: actions/upload-artifact@v2
-      with:
-        name: efbundle
-        path: efbundle
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
-    needs: 
-      - buildAndTest
+    runs-on: windows-latest
+    needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: .net-app
-
-      - name: Download migration bundle
-        uses: actions/download-artifact@v2
-        with:
-          name: efbundle
-
-      - name: Apply EF bundle
-        run: |
-          CONNECTION_STRING="Server=tcp:bdsagroup12-chirpdb.database.windows.net,1433;Initial Catalog=AzureDB;Persist Security Info=False;User ID=god;Password=BDSAUnique12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-          chmod +x efbundle
-          ./efbundle --connection "$CONNECTION_STRING"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -79,5 +53,5 @@ jobs:
         with:
           app-name: 'bdsagroup12chirprazor'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B009A2A46EF7406AB82761FC9B0F4948 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_34CC940710894BA4840A033588161CCC }}
           package: .
