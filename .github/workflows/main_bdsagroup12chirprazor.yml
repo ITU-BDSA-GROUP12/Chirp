@@ -37,7 +37,7 @@ jobs:
         path: ${{env.DOTNET_ROOT}}/myapp
 
     - name: Install EF tool
-      run: dotnet tool install --global dotnet-ef --version 7.0.0
+      run: dotnet tool install --global dotnet-ef --version 8.0.0
       
     - name: Build EF migrations Bundle
       run : dotnet ef migrations bundle --project src/Chirp.Infrastructure/ --startup-project src/Chirp.Web/ --configuration ${{env.DOTNET_CONFIGURATION}} --no-build --self-contained 
