@@ -42,7 +42,10 @@ public class CheepRepository : ICheepRepository
     public async Task CreateCheep(string message, AuthorDto user)
     {
         Author? author = _context.Authors.FirstOrDefault(a => a.Email == user.Email);
-
+        if (author == null)
+        {
+            throw new ValidationException($"User with name {user.Name} and email {user.Email} is not in the database.");
+        }
         var newCheep = new Cheep()
         {
             CheepId = Guid.NewGuid(),
@@ -52,7 +55,9 @@ public class CheepRepository : ICheepRepository
             TimeStamp = DateTime.Now
         };
 
+
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newCheep);
+
         if (!validationResult.IsValid)
         {
             throw new ValidationException("Attemptted to store invalid Cheep in database.");
