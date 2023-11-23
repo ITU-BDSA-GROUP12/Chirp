@@ -1,5 +1,6 @@
 ﻿@page "/"
 @model Chirp.Web.Pages.PublicModel
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -34,11 +35,22 @@
                     </p>
                     
                     @if (User.Identity.IsAuthenticated && cheep.Author != User.Identity.Name)
-                    {
-                    <form method="post">
-                         <button asp-page-handler="Follow">Follow</button>
-                    </form>
-                    }
+                        {
+                            @if (Model.FollowedAuthors.Contains(cheep.Author))
+                            {
+                                <form method="post">
+                                    <input type="hidden" name="followName" value="@cheep.Author">
+                                    <button asp-page-handler="Unfollow">Unfollow</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post">
+                                    <input type="hidden" name="followName" value="@cheep.Author">
+                                    <button asp-page-handler="Follow">Follow</button>
+                                </form>
+                            }
+                        }
 
                 </li>
             }

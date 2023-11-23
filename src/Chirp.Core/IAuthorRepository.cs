@@ -1,3 +1,4 @@
+
 namespace Chirp.Core;
 
 public interface IAuthorRepository
@@ -7,4 +8,6 @@ public interface IAuthorRepository
     public Task CreateAuthor(string name, string email);
     public Task FollowAnAuthor(string followingEmail, string followedEmail);
     public Task UnFollowAnAuthor(string followingEmail, string unFollowingEmail);
+
+    public Task<List<string>?> GetFollowedAuthors(string? authorEmail);
 }
