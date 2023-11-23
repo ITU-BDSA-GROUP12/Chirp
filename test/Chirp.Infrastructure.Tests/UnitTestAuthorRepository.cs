@@ -81,7 +81,7 @@ public class UnitTestAuthorRepository
         var repository = new AuthorRepository(context, author_validator);
 
         // Act
-        repository.CreateAuthor(name, email);
+        await repository.CreateAuthor(name, email);
         AuthorDto newly_created_author = await repository.GetAuthorDTOByEmail(email);
 
         // Assert

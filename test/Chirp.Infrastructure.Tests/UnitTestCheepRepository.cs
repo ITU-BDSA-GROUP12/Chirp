@@ -1,3 +1,6 @@
+using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
+using FluentValidation;
+
 namespace Chirp.Infrastructure.Tests;
 
 public class UnitTestCheepRepository
@@ -146,5 +149,82 @@ public class UnitTestCheepRepository
             Assert.True(false);
         }
         Assert.Equal(LatestCheep.Text, text);
+    }
+
+    [Fact]
+    public async void TestThatACheepRepositoryCanNotStoreInvalidCheep()
+    {
+        // arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        CheepRepository cheepRepository = new CheepRepository(context, new CheepValidator());
+        AuthorRepository authorRepository = new AuthorRepository(context, new AuthorValidator());
+        string valid_email = "valid email";
+        string valid_name = "valid name";
+
+        // act
+        await authorRepository.CreateAuthor(valid_name, valid_email);
+        AuthorDto valid_author = await authorRepository.GetAuthorDTOByEmail(valid_email);
+        AuthorDto author_with_no_name = new AuthorDto
+        {
+            Name = "",
+            Email = valid_email
+        };
+        AuthorDto author_with_no_email = new AuthorDto
+        {
+            Name = valid_name,
+            Email = ""
+        };
+
+        string too_short_message = "";
+        char[] too_long_char_array = new char[161];
+        for (int i = 0; i < 161; i++)
+        {
+            too_long_char_array[i] = 'A';
+        }
+        string too_long_message = new string(too_long_char_array);
+        string valid_message = "valid message";
+
+        // assert
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(too_short_message, valid_author));
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(too_long_message, valid_author));
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(valid_message, author_with_no_name));
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(valid_message, author_with_no_email));
+    }
+
+    public async void TestThatAnAuthorRepositoryCanNotStoreInvalidAuthor()
+    {
+        // Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+
+        AuthorRepository author_repository = new AuthorRepository(context, new AuthorValidator());
+
+        // Act
+        string valid_name = "valid name";
+        string valid_email = "valid email";
+        string invalid_name = "";
+        string invalid_email = "";
+
+
+        // Assert
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => author_repository.CreateAuthor(valid_name, invalid_email));
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => author_repository.CreateAuthor(invalid_name, valid_email));
     }
 }
