@@ -17,7 +17,7 @@ namespace Chirp.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -26,6 +26,9 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     b.Property<Guid>("AuthorId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AuthorId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -44,6 +47,8 @@ namespace Chirp.Infrastructure.Migrations
                         .IsUnique();
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("AuthorId"), false);
+
+                    b.HasIndex("AuthorId1");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -77,6 +82,13 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
+                {
+                    b.HasOne("Chirp.Infrastructure.Author", null)
+                        .WithMany("FollowedAuthors")
+                        .HasForeignKey("AuthorId1");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
@@ -91,6 +103,8 @@ namespace Chirp.Infrastructure.Migrations
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
                     b.Navigation("Cheeps");
+
+                    b.Navigation("FollowedAuthors");
                 });
 #pragma warning restore 612, 618
         }

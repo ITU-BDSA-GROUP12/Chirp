@@ -6,7 +6,7 @@ public class UnitTestAuthorRepository
     [Theory]
     [InlineData("Helge")]
     [InlineData("Rasmus")]
-    public async void TestAuthorRepositoryGetAuthorByName(string name)
+    public async void TestAuthorRepositoryGetAuthorDTOByName(string name)
     {
 
         //Arrange
@@ -25,7 +25,7 @@ public class UnitTestAuthorRepository
         var repository = new AuthorRepository(context, author_validator);
 
         // Act
-        AuthorDto author = await repository.GetAuthorByName(name);
+        AuthorDto author = await repository.GetAuthorDTOByName(name);
 
         // Assert
         Assert.Equal(author.Name, name);
@@ -34,7 +34,7 @@ public class UnitTestAuthorRepository
     [Theory]
     [InlineData("ropf@itu.dk")]
     [InlineData("rnie@itu.dk")]
-    public async void TestAuthorRepositoryGetAuthorByEmail(string email)
+    public async void TestAuthorRepositoryGetAuthorDTOByEmail(string email)
     {
 
         //Arrange
@@ -53,7 +53,7 @@ public class UnitTestAuthorRepository
         var repository = new AuthorRepository(context, author_validator);
 
         // Act
-        AuthorDto author = await repository.GetAuthorByEmail(email);
+        AuthorDto author = await repository.GetAuthorDTOByEmail(email);
 
         // Assert
         Assert.Equal(author.Email, email);
@@ -82,7 +82,7 @@ public class UnitTestAuthorRepository
 
         // Act
         await repository.CreateAuthor(name, email);
-        AuthorDto newly_created_author = await repository.GetAuthorByEmail(email);
+        AuthorDto newly_created_author = await repository.GetAuthorDTOByEmail(email);
 
         // Assert
         Assert.Equal(newly_created_author.Email, email);
