@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  buildAndTest:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +22,16 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build src/Chirp.Web --configuration Release
+      - name: Restore Dependencies
+        run: dotnet restore
 
-      - name: dotnet publish
+      - name: Build 
+        run: dotnet build --no-restore
+      
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Dotnet Publish
         run: dotnet publish src/Chirp.Web -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
@@ -34,9 +40,21 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Install EF Tools
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Build EF Migrations Bundle
+        run: dotnet ef migrations bundle --project src/Chirp.Infrastructure/ --startup-project src/Chirp.Web/ --configuration ${{env.DOTNET_CONFIGURATION}} --no-build --self-contained
+
+      - name: Upload Migrations Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: efbundle
+          path: efbundle
+
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: buildAndTest
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -46,7 +64,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
-      
+
+      - name: Download Migration Bundle
+        uses: actions/download-artifact@v3
+        with:
+          name: efbundle
+
+      - name: Apply EF Bundle
+        run: | 
+          CONNECTION_STRING="Server=tcp:bdsagroup12-chirpdb.database.windows.net,1433;Initial Catalog=bdsagroup12-chirpdb;Persist Security Info=False;User ID=serveradmin;Password=BDSAUnique12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+          chmod +x efbundle
+          ./efbundle --connection "$CONNECTION_STRING"
+          
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
