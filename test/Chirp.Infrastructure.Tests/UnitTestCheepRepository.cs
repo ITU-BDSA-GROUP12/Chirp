@@ -171,7 +171,7 @@ public class UnitTestCheepRepository
 
         // act
         await authorRepository.CreateAuthor(valid_name, valid_email);
-        AuthorDto valid_author = await authorRepository.GetAuthorByEmail(valid_email);
+        AuthorDto valid_author = await authorRepository.GetAuthorDTOByEmail(valid_email);
         AuthorDto author_with_no_name = new AuthorDto
         {
             Name = "",
