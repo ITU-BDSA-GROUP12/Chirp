@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231121114916_InitialMigration")]
+    [Migration("20231127171053_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -31,12 +31,13 @@ namespace Chirp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AuthorId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FollowedAuthors")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -50,8 +51,6 @@ namespace Chirp.Infrastructure.Migrations
                         .IsUnique();
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("AuthorId"), false);
-
-                    b.HasIndex("AuthorId1");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -85,13 +84,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
-            modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
-                {
-                    b.HasOne("Chirp.Infrastructure.Author", null)
-                        .WithMany("FollowedAuthors")
-                        .HasForeignKey("AuthorId1");
-                });
-
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
@@ -106,8 +98,6 @@ namespace Chirp.Infrastructure.Migrations
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
                     b.Navigation("Cheeps");
-
-                    b.Navigation("FollowedAuthors");
                 });
 #pragma warning restore 612, 618
         }

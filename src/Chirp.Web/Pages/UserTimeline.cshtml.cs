@@ -6,24 +6,38 @@ namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    public ICheepRepository _repository;
+    public ICheepRepository _cheepRepository;
+    public IAuthorRepository _authorRepository;
     public List<CheepDto>? Cheeps { get; set; }
 
-    public UserTimelineModel(ICheepRepository repository)
+    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        _repository = repository;
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
     }
 
     public async Task<IActionResult> OnGet(string author)
     {
         string? pagevalue = Request.Query["page"];
-        if (pagevalue == null)
-        {
-            Cheeps = await _repository.GetCheepsFromAuthor(1, author);
-        }
-        else
-        {
-            Cheeps = await _repository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
+        if(author == User.Identity.Name){
+            List<Guid> FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
+            if (pagevalue == null)
+            {
+                Cheeps = await _cheepRepository.GetCheepsUserTimeline(1, author, FollowedAuthors);
+            }
+            else
+            {
+                Cheeps = await _cheepRepository.GetCheepsUserTimeline(Int32.Parse(pagevalue), author, FollowedAuthors);
+            }
+        } else{
+            if (pagevalue == null)
+            {
+                Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, author);
+            }
+            else
+            {
+                Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
+            }
         }
         return Page();
     }
@@ -38,7 +52,7 @@ public class UserTimelineModel : PageModel
             Name = User.Identity.Name,
             Email = User.FindFirstValue("emails")// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
         };
-        await _repository.CreateCheep(Text, author);
+        await _cheepRepository.CreateCheep(Text, author);
          
         string redirectUrl = "~/";
 

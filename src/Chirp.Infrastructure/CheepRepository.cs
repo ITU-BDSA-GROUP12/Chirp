@@ -19,9 +19,10 @@ public class CheepRepository : ICheepRepository
              orderby Cheep.TimeStamp descending
              select new CheepDto //in LINQ the select clause is responsible for making new objects
              {
-                 Author = Cheep.Author.Name,
-                 Message = Cheep.Text,
-                 Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                AuthorId = Cheep.AuthorId,
+                Author = Cheep.Author.Name,
+                Message = Cheep.Text,
+                Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
              }).Skip((page - 1) * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
     }
 
@@ -33,10 +34,30 @@ public class CheepRepository : ICheepRepository
             orderby Cheep.TimeStamp descending
             select new CheepDto
             {
+                AuthorId = Cheep.AuthorId,
                 Author = Cheep.Author.Name,
                 Message = Cheep.Text,
                 Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
             }).Skip((page - 1) * 32).Take(32).ToListAsync();
+    }
+
+    public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
+    {
+        List<CheepDto> cheepList = await (from cheep in _context.Cheeps
+                            where authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName
+                            orderby cheep.TimeStamp descending
+                            select new CheepDto
+                            {
+                                AuthorId = cheep.AuthorId,
+                                Author = cheep.Author.Name,
+                                Message = cheep.Text,
+                                Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                            })
+                            .Skip((page - 1) * 32)
+                            .Take(32)
+                            .ToListAsync();
+
+        return cheepList;
     }
 
     public async Task CreateCheep(string message, AuthorDto user)

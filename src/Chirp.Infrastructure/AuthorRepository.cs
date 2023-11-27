@@ -24,7 +24,6 @@ public class AuthorRepository : IAuthorRepository
             Email = author.Email
         };
     }
-
     public async Task<AuthorDto?> GetAuthorDTOByEmail(string email)
     {
         Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.Email == email);
@@ -47,7 +46,7 @@ public class AuthorRepository : IAuthorRepository
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>(),
-            FollowedAuthors = new List<Author>()
+            FollowedAuthors = new List<Guid>()
         };
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
         if (!validationResult.IsValid)
@@ -70,12 +69,12 @@ public class AuthorRepository : IAuthorRepository
     }
 
     // Ensure that FollowedAuthors collection is initialized
-    followingAuthor.FollowedAuthors ??= new List<Author>();
+    followingAuthor.FollowedAuthors ??= new List<Guid>();
 
     // Check if the followedAuthor is not already in the FollowedAuthors collection
-    if (!followingAuthor.FollowedAuthors.Contains(followedAuthor))
+    if (!followingAuthor.FollowedAuthors.Contains(followedAuthor.AuthorId))
     {
-        followingAuthor.FollowedAuthors.Add(followedAuthor);
+        followingAuthor.FollowedAuthors.Add(followedAuthor.AuthorId);
         await _context.SaveChangesAsync();
     }
     else
@@ -96,12 +95,12 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
     }
 
     // Ensure that FollowedAuthors collection is initialized
-    followingAuthor.FollowedAuthors ??= new List<Author>();
+    followingAuthor.FollowedAuthors ??= new List<Guid>();
 
     // Check if the unFollowingAuthor is in the FollowedAuthors collection
-    if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor))
+    if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor.AuthorId))
     {
-        followingAuthor.FollowedAuthors.Remove(unFollowingAuthor);
+        followingAuthor.FollowedAuthors.Remove(unFollowingAuthor.AuthorId);
         await _context.SaveChangesAsync();
     }
     else
@@ -110,7 +109,7 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
     }
 }
 
-    public async Task<List<string>?> GetFollowedAuthors(string? authorEmail)
+    public async Task<List<Guid>?> GetFollowedAuthors(string? authorEmail)
     {
         if (authorEmail == null)
         {
@@ -118,18 +117,23 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         }
 
         var author = await _context.Authors
-            .Include(a => a.FollowedAuthors) // Eager loading FollowedAuthors
-            .FirstOrDefaultAsync(a => a.Email == authorEmail);
+            .Where(a => a.Email == authorEmail)
+            .FirstOrDefaultAsync();
 
         if (author == null)
         {
             return null;
         }
 
-        List<string> followedAuthors = new List<string>();
-        foreach (var followedAuthor in author.FollowedAuthors)
+        List<Guid> followedAuthors = new();
+        foreach (var followedAuthorId in author.FollowedAuthors)
         {
-            followedAuthors.Add(followedAuthor.Name);
+            // Fetch the corresponding Author entity for each Guid in FollowedAuthors
+            var followedAuthor = await _context.Authors.FindAsync(followedAuthorId);
+            if (followedAuthor != null)
+            {
+                followedAuthors.Add(followedAuthor.AuthorId);
+            }
         }
 
         return followedAuthors;
