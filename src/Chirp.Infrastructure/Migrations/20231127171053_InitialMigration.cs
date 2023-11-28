@@ -18,17 +18,12 @@ namespace Chirp.Infrastructure.Migrations
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AuthorId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    FollowedAuthors = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Authors", x => x.AuthorId)
                         .Annotation("SqlServer:Clustered", false);
-                    table.ForeignKey(
-                        name: "FK_Authors_Authors_AuthorId1",
-                        column: x => x.AuthorId1,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId");
                 });
 
             migrationBuilder.CreateTable(
@@ -57,11 +52,6 @@ namespace Chirp.Infrastructure.Migrations
                 column: "AuthorId",
                 unique: true)
                 .Annotation("SqlServer:Clustered", false);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_AuthorId1",
-                table: "Authors",
-                column: "AuthorId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Authors_Email",

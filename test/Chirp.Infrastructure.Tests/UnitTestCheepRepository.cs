@@ -49,7 +49,7 @@ public class UnitTestCheepRepository
 
         using var context = new ChirpDBContext(options);   //Creates a context, and passes in the options.
         await context.Database.EnsureCreatedAsync();
-        var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() };
+        var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
         var c1 = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = a1.AuthorId, Author = a1, Text = "Hello, BDSA students!", TimeStamp = DateTime.Parse("2023-08-01 12:16:48") };
         a1.Cheeps = new List<Cheep>() { c1 };
         context.Authors.AddRange(new List<Author>() { a1 });
@@ -85,11 +85,14 @@ public class UnitTestCheepRepository
         DbInitializer.SeedDatabase(context); //Seed the database.
         CheepValidator cheep_validator = new CheepValidator();
         var repository = new CheepRepository(context, cheep_validator);
+        //To extract the Author Id we have to extract the Author from the context:
+        var Author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
 
         List<CheepDto> ExpectedListOfCheeps = new()
         {
             new CheepDto
             {
+                AuthorId = Author.AuthorId,
                 Author = "Helge",
                 Message = "Hello, BDSA students!",
                 Timestamp = "2023-08-01 12:16:48"
@@ -135,7 +138,7 @@ public class UnitTestCheepRepository
             Name = "Testperson",
             Email = "Test@mail.haps",
             Cheeps = new List<Cheep>(),
-            FollowedAuthors = new List<Author>()
+            FollowedAuthors = new List<Guid>()
         });
         await context.SaveChangesAsync();
 

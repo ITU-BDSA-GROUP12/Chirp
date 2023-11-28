@@ -36,7 +36,7 @@
                     
                     @if (User.Identity.IsAuthenticated && cheep.Author != User.Identity.Name)
                         {
-                            @if (Model.FollowedAuthors.Contains(cheep.Author))
+                            @if (Model.FollowedAuthors.Contains(cheep.AuthorId))
                             {
                                 <form method="post">
                                     <input type="hidden" name="followName" value="@cheep.Author">

@@ -13,7 +13,7 @@
         public IAuthorRepository _AuthorRepository;
         public List<CheepDto>? Cheeps { get; set; }
 
-        public List<string>? FollowedAuthors { get; set; }
+        public List<Guid>? FollowedAuthors { get; set; }
 
         public PublicModel(ICheepRepository repository, IAuthorRepository authorRepository)
         {
@@ -35,7 +35,7 @@
 
         if (User.Identity.IsAuthenticated)
         {
-            FollowedAuthors ??= [];
+            FollowedAuthors ??= new List<Guid>();
 
             FollowedAuthors = await _AuthorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         }

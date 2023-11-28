@@ -76,7 +76,6 @@ public class UnitTestAuthorRepository
         using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
 
         await context.Database.EnsureCreatedAsync();
-        DbInitializer.SeedDatabase(context); //Seed the database.
         AuthorValidator author_validator = new AuthorValidator();
         var repository = new AuthorRepository(context, author_validator);
 
