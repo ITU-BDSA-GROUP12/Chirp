@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Identity.Client;
 
 namespace Chirp.Infrastructure.Tests;
 
@@ -180,7 +182,7 @@ public class UnitTestCheepRepository
         AuthorDto author_with_no_name = new AuthorDto
         {
             Name = "",
-            Email = valid_email
+            Email = "valid_email"
         };
         AuthorDto author_with_no_email = new AuthorDto
         {
@@ -204,9 +206,10 @@ public class UnitTestCheepRepository
         await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(valid_message, author_with_no_email));
     }
 
-    public async void TestThatAnAuthorRepositoryCanNotStoreInvalidAuthor()
+    [Fact]
+    public async void TestGetCheepsNotReturnCheepsFromDeletedUsers()
     {
-        // Arrange
+        //Arrange
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
         connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
 
@@ -217,18 +220,116 @@ public class UnitTestCheepRepository
         using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
 
         await context.Database.EnsureCreatedAsync();
+        CheepValidator cheep_validator = new CheepValidator();
+        var cheepRepository = new CheepRepository(context, cheep_validator);
+        AuthorValidator author_validator = new AuthorValidator();
+        var authorRepository = new AuthorRepository(context, author_validator);
 
-        AuthorRepository author_repository = new AuthorRepository(context, new AuthorValidator());
+        var authorName = "testName";
+        var authorEmail = "test@email.com";
+
+        await authorRepository.CreateAuthor(authorName, authorEmail);
 
         // Act
-        string valid_name = "valid name";
-        string valid_email = "valid email";
-        string invalid_name = "";
-        string invalid_email = "";
+        var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
+        await cheepRepository.CreateCheep("TestCheep for getCheepDeleteTest", authorDTO);
+        var result = await cheepRepository.GetCheeps(0);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
 
+        await authorRepository.DeleteAuthor(authorEmail);
+
+        result = await cheepRepository.GetCheeps(0);
+
+        // Asser
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO.Name);
+    }
+
+    [Fact]
+    public async void TestGetCheepsFromAuthorNotReturnCheepsFromDeletedUsers()
+    {
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        CheepValidator cheep_validator = new CheepValidator();
+        var cheepRepository = new CheepRepository(context, cheep_validator);
+        AuthorValidator author_validator = new AuthorValidator();
+        var authorRepository = new AuthorRepository(context, author_validator);
+
+        var authorName = "testName";
+        var authorEmail = "test@email.com";
+
+        await authorRepository.CreateAuthor(authorName, authorEmail);
+
+        // Act
+        var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
+        await cheepRepository.CreateCheep("TestCheep for getCheepFromAuthorDeleteTest", authorDTO);
+        var result = await cheepRepository.GetCheepsFromAuthor(0, authorName);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
+
+        await authorRepository.DeleteAuthor(authorEmail);
+
+        result = await cheepRepository.GetCheepsFromAuthor(0, authorName);
+
+        // Asser
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO.Name);
+    }
+
+    [Fact]
+    public async void TestGetCheepsUserTimelineNotReturnCheepsFromDeletedUsers()
+    {
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        CheepValidator cheep_validator = new CheepValidator();
+        var cheepRepository = new CheepRepository(context, cheep_validator);
+        AuthorValidator author_validator = new AuthorValidator();
+        var authorRepository = new AuthorRepository(context, author_validator);
+
+        var authorName = "testName";
+        var authorEmail = "test@email.com";
+
+        var authorName2 = "testName2";
+        var authorEmail2 = "test2@email.com";
+
+        await authorRepository.CreateAuthor(authorName, authorEmail);
+        await authorRepository.CreateAuthor(authorName2, authorEmail2);
+
+        // Act
+        var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
+        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline1DeleteTest", authorDTO);
+
+        var authorDTO2 = await authorRepository.GetAuthorDTOByEmail("test2@email.com");
+        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline2DeleteTest", authorDTO2);
+
+        await authorRepository.FollowAnAuthor(authorEmail, authorName2);
+
+        var author1 = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
+
+        var result = await cheepRepository.GetCheepsUserTimeline(0, authorName, author1.FollowedAuthors);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO2.Name);
+
+        await authorRepository.DeleteAuthor(authorEmail2);
+
+        result = await cheepRepository.GetCheepsUserTimeline(0, authorName, author1.FollowedAuthors);
 
         // Assert
-        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => author_repository.CreateAuthor(valid_name, invalid_email));
-        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => author_repository.CreateAuthor(invalid_name, valid_email));
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO2.Name);
     }
+
 }
