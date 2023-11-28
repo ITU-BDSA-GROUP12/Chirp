@@ -10,6 +10,8 @@ public class UserTimelineModel : PageModel
     public IAuthorRepository _authorRepository;
     public List<CheepDto>? Cheeps { get; set; }
 
+    public List<Guid>? FollowedAuthors { get; set; }
+
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
@@ -39,6 +41,9 @@ public class UserTimelineModel : PageModel
                 Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
             }
         }
+        FollowedAuthors ??= new List<Guid>();
+
+        FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         return Page();
     }
 
@@ -58,4 +63,22 @@ public class UserTimelineModel : PageModel
 
         return Redirect(Url.Content(redirectUrl));
     }
+      public async Task<IActionResult> OnPostFollow(string followName)
+        {
+            await _authorRepository.FollowAnAuthor(User.FindFirstValue("emails"), followName);
+
+            string redirectUrl = "~/";
+
+            return Redirect(Url.Content(redirectUrl));
+        }
+
+        public async Task<IActionResult> OnPostUnFollow(string followName)
+        {
+            await _authorRepository.UnFollowAnAuthor(User.FindFirstValue("emails"), followName);
+
+            string redirectUrl = "~/";
+
+            return Redirect(Url.Content(redirectUrl));
+        }
+
 }
