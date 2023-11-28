@@ -9,6 +9,7 @@ public class UserTimelineModel : PageModel
     public ICheepRepository _cheepRepository;
     public IAuthorRepository _authorRepository;
     public List<CheepDto>? Cheeps { get; set; }
+    public int PageNumber { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
@@ -19,6 +20,8 @@ public class UserTimelineModel : PageModel
     public async Task<IActionResult> OnGet(string author)
     {
         string? pagevalue = Request.Query["page"];
+        PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
+        
         if(author == User.Identity.Name){
             List<Guid> FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
             if (pagevalue == null)

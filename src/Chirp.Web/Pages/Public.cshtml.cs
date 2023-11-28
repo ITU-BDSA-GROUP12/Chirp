@@ -15,6 +15,8 @@
 
         public List<Guid>? FollowedAuthors { get; set; }
 
+        public int PageNumber { get; set; } 
+
         public PublicModel(ICheepRepository repository, IAuthorRepository authorRepository)
         {
             _CheepRepository = repository;
@@ -24,6 +26,10 @@
         public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
         {
             string? pagevalue = Request.Query["page"];
+            
+            
+            PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
+
             if (pagevalue == null)
             {
                 Cheeps = await _CheepRepository.GetCheeps(1);
