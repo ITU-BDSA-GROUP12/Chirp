@@ -49,7 +49,7 @@ public class UnitTestCheepRepository
 
         using var context = new ChirpDBContext(options);   //Creates a context, and passes in the options.
         await context.Database.EnsureCreatedAsync();
-        var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
+        var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
         var c1 = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = a1.AuthorId, Author = a1, Text = "Hello, BDSA students!", TimeStamp = DateTime.Parse("2023-08-01 12:16:48") };
         a1.Cheeps = new List<Cheep>() { c1 };
         context.Authors.AddRange(new List<Author>() { a1 });
@@ -137,6 +137,7 @@ public class UnitTestCheepRepository
             AuthorId = Guid.NewGuid(),
             Name = "Testperson",
             Email = "Test@mail.haps",
+            IsDeleted = false,
             Cheeps = new List<Cheep>(),
             FollowedAuthors = new List<Guid>()
         });

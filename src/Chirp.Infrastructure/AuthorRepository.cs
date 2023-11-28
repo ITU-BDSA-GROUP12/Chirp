@@ -43,6 +43,7 @@ public class AuthorRepository : IAuthorRepository
         Author newAuthor = new()
         {
             AuthorId = Guid.NewGuid(),
+            IsDeleted = false,
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>(),
@@ -137,6 +138,19 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         }
 
         return followedAuthors;
+    }
+
+    public async Task DeleteAuthor(string? authorEmail) 
+    { 
+        var author = await _context.Authors
+            .Where(a => a.Email == authorEmail)
+            .FirstOrDefaultAsync();
+
+        if (author is null) {
+            throw new Exception("This should not happen. Author cannot be found for deletion.");
+        }
+        author.IsDeleted = true;
+        await _context.SaveChangesAsync();
     }
 
 }

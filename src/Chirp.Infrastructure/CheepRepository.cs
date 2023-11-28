@@ -16,6 +16,7 @@ public class CheepRepository : ICheepRepository
         //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
         return await
             (from Cheep in _context.Cheeps
+             where Cheep.Author.IsDeleted == false
              orderby Cheep.TimeStamp descending
              select new CheepDto //in LINQ the select clause is responsible for making new objects
              {
@@ -30,7 +31,7 @@ public class CheepRepository : ICheepRepository
     {
         return await
            (from Cheep in _context.Cheeps
-            where Cheep.Author.Name == author
+            where Cheep.Author.Name == author && Cheep.Author.IsDeleted == false
             orderby Cheep.TimeStamp descending
             select new CheepDto
             {
@@ -44,7 +45,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
         List<CheepDto> cheepList = await (from cheep in _context.Cheeps
-                            where authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName
+                            where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) && cheep.Author.IsDeleted == false
                             orderby cheep.TimeStamp descending
                             select new CheepDto
                             {
