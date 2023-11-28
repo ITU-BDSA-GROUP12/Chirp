@@ -52,4 +52,13 @@ public class AboutMePageModel : PageModel
         
         return Page();
     }
+
+    public async Task<IActionResult> OnPostDelete(string email)
+        {
+            await _authorRepository.DeleteAuthor(email);
+
+            string redirectUrl = "~/";
+
+            return Redirect(Url.Content(redirectUrl));
+        }
 }
