@@ -115,12 +115,12 @@ public class UnitTestAuthorRepository
         await repository.CreateAuthor(followed_name, followed_email);
         await repository.CreateAuthor(follower_name, follower_email);
 
-        Author follower = await context.Authors.FirstOrDefaultAsync(a => a.Email == follower_email);
-        Author followed = await context.Authors.FirstOrDefaultAsync(a => a.Email == followed_email);
+        Author? follower = await context.Authors.FirstOrDefaultAsync(a => a.Email == follower_email);
+        Author? followed = await context.Authors.FirstOrDefaultAsync(a => a.Name == followed_name);
 
 
 
-        repository.FollowAnAuthor(follower_email, followed_email);
+        repository.FollowAnAuthor(follower_email, followed_name);
 
 
         // Assert
@@ -158,12 +158,12 @@ public class UnitTestAuthorRepository
         await repository.CreateAuthor(follower_name, follower_email);
 
         Author? follower = await context.Authors.FirstOrDefaultAsync(a => a.Email == follower_email);
-        Author? followed = await context.Authors.FirstOrDefaultAsync(a => a.Email == followed_email);
+        Author? followed = await context.Authors.FirstOrDefaultAsync(a => a.Name == followed_name);
 
 
 
-        await repository.FollowAnAuthor(follower_email, followed_email);
-        await repository.UnFollowAnAuthor(follower_email, followed_email);
+        await repository.FollowAnAuthor(follower_email, followed_name);
+        await repository.UnFollowAnAuthor(follower_email, followed_name);
 
 
         // Asser
