@@ -230,9 +230,11 @@ public class UnitTestCheepRepository
 
         await authorRepository.CreateAuthor(authorName, authorEmail);
 
-        // Act
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
         await cheepRepository.CreateCheep("TestCheep for getCheepDeleteTest", authorDTO);
+
+        // Act
+        
         var result = await cheepRepository.GetCheeps(0);
         Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
 
@@ -268,9 +270,11 @@ public class UnitTestCheepRepository
 
         await authorRepository.CreateAuthor(authorName, authorEmail);
 
-        // Act
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
         await cheepRepository.CreateCheep("TestCheep for getCheepFromAuthorDeleteTest", authorDTO);
+
+        // Act
+       
         var result = await cheepRepository.GetCheepsFromAuthor(0, authorName);
         Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
 
@@ -310,7 +314,6 @@ public class UnitTestCheepRepository
         await authorRepository.CreateAuthor(authorName, authorEmail);
         await authorRepository.CreateAuthor(authorName2, authorEmail2);
 
-        // Act
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
         await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline1DeleteTest", authorDTO);
 
@@ -320,6 +323,9 @@ public class UnitTestCheepRepository
         await authorRepository.FollowAnAuthor(authorEmail, authorName2);
 
         var author1 = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
+
+        // Act
+        
 
         var result = await cheepRepository.GetCheepsUserTimeline(0, authorName, author1.FollowedAuthors);
         Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO2.Name);
