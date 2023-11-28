@@ -125,7 +125,7 @@ public class UnitTestAuthorRepository
 
         // Assert
 
-        Assert.True(follower.FollowedAuthors.Contains(followed));
+        Assert.True(follower.FollowedAuthors.Contains(followed.AuthorId));
 
     }
 
@@ -157,18 +157,18 @@ public class UnitTestAuthorRepository
         await repository.CreateAuthor(followed_name, followed_email);
         await repository.CreateAuthor(follower_name, follower_email);
 
-        Author follower = await context.Authors.FirstOrDefaultAsync(a => a.Email == follower_email);
-        Author followed = await context.Authors.FirstOrDefaultAsync(a => a.Email == followed_email);
+        Author? follower = await context.Authors.FirstOrDefaultAsync(a => a.Email == follower_email);
+        Author? followed = await context.Authors.FirstOrDefaultAsync(a => a.Email == followed_email);
 
 
 
-        repository.FollowAnAuthor(follower_email, followed_email);
-        repository.UnFollowAnAuthor(follower_email, followed_email);
+        await repository.FollowAnAuthor(follower_email, followed_email);
+        await repository.UnFollowAnAuthor(follower_email, followed_email);
 
 
-        // Assert
+        // Asser
 
-        Assert.False(follower.FollowedAuthors.Contains(followed));
+        Assert.DoesNotContain(followed.AuthorId, follower.FollowedAuthors);
 
     }
 }
