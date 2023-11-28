@@ -45,7 +45,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
         List<CheepDto> cheepList = await (from cheep in _context.Cheeps
-                            where authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName
+                            where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) && cheep.Author.IsDeleted == false
                             orderby cheep.TimeStamp descending
                             select new CheepDto
                             {
