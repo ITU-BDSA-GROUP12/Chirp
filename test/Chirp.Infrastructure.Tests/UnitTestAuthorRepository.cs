@@ -171,4 +171,31 @@ public class UnitTestAuthorRepository
         Assert.DoesNotContain(followed.AuthorId, follower.FollowedAuthors);
 
     }
+
+        [Fact]
+    public async void TestThatDeleteAuthorSetsIsDeletedToTrueOnFirstRun()
+    {
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        DbInitializer.SeedDatabase(context); //Seed the database.
+        AuthorValidator author_validator = new AuthorValidator();
+        var repository = new AuthorRepository(context, author_validator);
+
+        // Act
+        await repository.DeleteAuthor("ropf@itu.dk");
+        Author author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
+        // Asser
+
+        Assert.True(author.IsDeleted);
+
+    }
 }
