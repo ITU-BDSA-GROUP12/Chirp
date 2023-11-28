@@ -11,8 +11,50 @@
     
     @if (User.Identity.IsAuthenticated) {
         <h2> About you and your data </h2>
-        <p> {author} </p>
-        <p> {email} </p>
+        <p> @Model.author </p>
+        <p> @Model.email </p>
+
+        <h2> Your chirps </h2>
+        @if (Model.Cheeps != null && Model.Cheeps.Any())
+        {
+            <ul id=" messagelist" class="cheeps">
+                @foreach (var cheep in Model.Cheeps)
+                {
+                    <li>
+                        <p>
+                            <strong>
+                                <a href="/@cheep.Author">@cheep.Author</a>
+                            </strong>
+                            @cheep.Message
+                            <small>&mdash; @cheep.Timestamp</small>
+                        </p>
+                    </li>
+                }
+            </ul>
+        } else
+        {
+            <p> You have not chirped yet </p>
+        }
+        <h2> Your followers </h2>
+        @if (Model.Followers != null && Model.Followers.Any())
+        {
+            <ul id="followerlist" class="followers">
+                @foreach (var follower in Model.Followers)
+                {
+                    <li>
+                        <p>
+                            <strong>
+                                <a href="/@follower">@follower</a>
+                            </strong>
+                        </p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p> You have no followers </p>
+        }
     }
     else
     {
