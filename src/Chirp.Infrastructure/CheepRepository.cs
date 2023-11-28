@@ -16,6 +16,7 @@ public class CheepRepository : ICheepRepository
         //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
         return await
             (from Cheep in _context.Cheeps
+             where Cheep.Author.IsDeleted == false
              orderby Cheep.TimeStamp descending
              select new CheepDto //in LINQ the select clause is responsible for making new objects
              {
@@ -30,7 +31,7 @@ public class CheepRepository : ICheepRepository
     {
         return await
            (from Cheep in _context.Cheeps
-            where Cheep.Author.Name == author
+            where Cheep.Author.Name == author && Cheep.Author.IsDeleted == false
             orderby Cheep.TimeStamp descending
             select new CheepDto
             {
