@@ -141,7 +141,7 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
     }
 
     public async Task DeleteAuthor(string? authorEmail) 
-    { 
+    {
         var author = await _context.Authors
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();

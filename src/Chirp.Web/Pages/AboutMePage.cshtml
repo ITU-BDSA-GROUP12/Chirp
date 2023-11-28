@@ -14,7 +14,15 @@
         <p> @Model.author </p>
         <p> @Model.email </p>
 
-        <h2> Your chirps </h2>
+       
+
+        <form method="post">
+            <input type="hidden" name="email" value="@Model.email">
+            <button asp-page-handler="Delete">Forget Me!</button>
+        </form>
+        <br>
+
+        <h2> Your Cheeps </h2>
         @if (Model.Cheeps != null && Model.Cheeps.Any())
         {
             <ul id=" messagelist" class="cheeps">
@@ -33,7 +41,7 @@
             </ul>
         } else
         {
-            <p> You have not chirped yet </p>
+            <p> You haven't cheeped yet! </p>
         }
         <h2> Your followers </h2>
         @if (Model.Followers != null && Model.Followers.Any())
