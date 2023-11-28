@@ -9,7 +9,8 @@ public class AboutMePageModel : PageModel
     public ICheepRepository _cheepRepository;
     public IAuthorRepository _authorRepository;
     public List<CheepDto>? Cheeps { get; set; }
-    public List<Guid>? Followers { get; set; }
+    public List<Guid>? FollowersID { get; set; }
+    public List<string>? FollowersName { get; set; }
     public string? author { get; set; }
     public string? email { get; set; } 
 
@@ -35,7 +36,19 @@ public class AboutMePageModel : PageModel
                 Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
             }
         
-        Followers = await _authorRepository.GetFollowedAuthors(email);
+        FollowersID = await _authorRepository.GetFollowedAuthors(email);
+        
+        FollowersName = new List<string>();
+        foreach (Guid id in FollowersID)
+        {
+    
+            string user = await _authorRepository.GetAuthorNameByID(id);
+            if (user != null)
+            {
+                FollowersName.Add(user);   
+            }
+        }
+
         
         return Page();
     }

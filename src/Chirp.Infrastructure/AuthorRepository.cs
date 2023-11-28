@@ -24,6 +24,17 @@ public class AuthorRepository : IAuthorRepository
             Email = author.Email
         };
     }
+
+    public async Task<string> GetAuthorNameByID(Guid id)
+    {
+        Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.AuthorId == id);
+        if (author == null)
+        {
+            return null;
+        }
+        
+        return author.Name;
+    }
     public async Task<AuthorDto?> GetAuthorDTOByEmail(string email)
     {
         Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.Email == email);
