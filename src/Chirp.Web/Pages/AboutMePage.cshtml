@@ -36,10 +36,10 @@
             <p> You have not chirped yet </p>
         }
         <h2> Your followers </h2>
-        @if (Model.Followers != null && Model.Followers.Any())
+        @if (Model.FollowersName != null && Model.FollowersName.Any())
         {
             <ul id="followerlist" class="followers">
-                @foreach (var follower in Model.Followers)
+                @foreach (var follower in Model.FollowersName)
                 {
                     <li>
                         <p>
