@@ -1,0 +1,21 @@
+@page
+@model Chirp.Web.Pages.AboutMePageModel
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+
+<div>
+   
+    
+    @if (User.Identity.IsAuthenticated) {
+        <h2> About you and your data </h2>
+        <p> {author} </p>
+        <p> {email} </p>
+    }
+    else
+    {
+        <p> You are not logged in </p>
+    }
+</div>
