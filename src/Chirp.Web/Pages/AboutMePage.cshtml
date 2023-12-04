@@ -11,13 +11,13 @@
     
     @if (User.Identity.IsAuthenticated) {
         <h2> About you and your data </h2>
-        <p> @Model.author </p>
-        <p> @Model.email </p>
+        <p> @Model.Author </p>
+        <p> @Model.Email </p>
 
        
 
         <form method="post">
-            <input type="hidden" name="email" value="@Model.email">
+            <input type="hidden" name="UserEmail" value="@Model.Email">
             <button asp-page-handler="Delete">Forget Me!</button>
         </form>
         <br>
