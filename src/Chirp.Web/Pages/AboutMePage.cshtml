@@ -17,8 +17,9 @@
        
 
         <form method="post">
-            <input type="hidden" name="UserEmail" value="@Model.Email">
-            <button asp-page-handler="Delete">Forget Me!</button>
+            <input type="hidden" name="UserEmail" value="@Model.Author">
+            <button asp-page-handler="Delete" asp-area="MicrosoftIdentity" asp-controller="Account"
+                asp-action="SignOut">Forget Me!</button>
         </form>
         <br>
 

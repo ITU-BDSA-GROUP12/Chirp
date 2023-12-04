@@ -14,6 +14,7 @@ public class AboutMePageModel : PageModel
 {
     public ICheepRepository _cheepRepository;
     public IAuthorRepository _authorRepository;
+    private readonly IConfiguration _config;
     public List<CheepDto>? Cheeps { get; set; }
     public List<Guid>? FollowersID { get; set; }
     public List<string>? FollowersName { get; set; }
@@ -22,10 +23,11 @@ public class AboutMePageModel : PageModel
 
 
 
-    public AboutMePageModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public AboutMePageModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IConfiguration config)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _config = config;
     }
 
     public async Task<IActionResult> OnGet()
@@ -67,7 +69,7 @@ public class AboutMePageModel : PageModel
             {
                 var clientId = "e122fcdf-99a1-4b19-b7a4-adf859e617ca";
                 var tenantId = "ab2f43aa-cecc-43ed-a142-34012b9a7a3b";
-                var clientSecret = "Client_Secret";
+                var clientSecret = _config["ClientSecret"];
 
                 var scopes = new[] { "https://graph.microsoft.com/.default"};
 
@@ -82,10 +84,10 @@ public class AboutMePageModel : PageModel
                 var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
 
                 // Get User ID by Email
-                string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
+                // string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
 
                 // Delete User by ID
-                await DeleteUserAsync(graphClient, UserEmail);
+                await DeleteUserAsync(graphClient, "12fcf7a5-a79e-4557-b3ae-c8917df5d77a");
 
                 Console.WriteLine($"User with email {UserEmail} deleted successfully.");
             }
