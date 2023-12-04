@@ -84,20 +84,22 @@ public class AboutMePageModel : PageModel
                 var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
 
                 // Get User ID by Email
-                // string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
+                string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
 
                 // Delete User by ID
-                await DeleteUserAsync(graphClient, "12fcf7a5-a79e-4557-b3ae-c8917df5d77a");
+                await DeleteUserAsync(graphClient, userId);
 
                 Console.WriteLine($"User with email {UserEmail} deleted successfully.");
+
+                string redirectUrl = "/MicrosoftIdentity/Account/SignOut";
+                return Redirect(Url.Content(redirectUrl));
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error deleting user with email: {UserEmail}, {ex.Message}");
+                string redirectUrl = "~/AboutMePage";
+                return Redirect(Url.Content(redirectUrl));
             }
-
-            string redirectUrl = "~/";
-            return Redirect(Url.Content(redirectUrl));
         }
 
     private async Task<string> GetUserIdByEmailAsync(GraphServiceClient graphClient, string UserEmail)
