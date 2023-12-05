@@ -65,14 +65,14 @@ public class AboutMePageModel : PageModel
         return Page();
     }
 
-     public async Task<IActionResult> OnPostDelete()
+     public async Task<IActionResult> OnPostDelete(string UserOID)
         {
         Console.WriteLine("test");
             try
             {
                 var clientId = "e122fcdf-99a1-4b19-b7a4-adf859e617ca";
                 var tenantId = "ab2f43aa-cecc-43ed-a142-34012b9a7a3b";
-                var clientSecret = _config["ClientSecret"];
+                var clientSecret = _config["ConnectionStrings:DeleteSecret"];
 
                 var scopes = new[] { "https://graph.microsoft.com/.default"};
 
@@ -90,7 +90,7 @@ public class AboutMePageModel : PageModel
                 // string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
 
                 // Delete User by ID
-                await DeleteUserAsync(graphClient, OID);
+                await DeleteUserAsync(graphClient, UserOID);
 
                 Console.WriteLine($"User with username: {Author} deleted successfully.");
 
