@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Chirp.Infrastructure;
 
 public class AuthorRepository : IAuthorRepository
@@ -32,7 +34,7 @@ public class AuthorRepository : IAuthorRepository
         {
             return null;
         }
-        
+
         return author.Name;
     }
     public async Task<AuthorDto?> GetAuthorDTOByEmail(string email)
@@ -69,57 +71,57 @@ public class AuthorRepository : IAuthorRepository
         await _context.SaveChangesAsync();
     }
 
-   public async Task FollowAnAuthor(string followingEmail, string followedName)
-{
-    var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
-    var followedAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == followedName);
-
-    // Check if either followingAuthor or followedAuthor is null
-    if (followingAuthor == null || followedAuthor == null)
+    public async Task FollowAnAuthor(string followingEmail, string followedName)
     {
-        throw new Exception("One or both authors not found");
+        var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
+        var followedAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == followedName);
+
+        // Check if either followingAuthor or followedAuthor is null
+        if (followingAuthor == null || followedAuthor == null)
+        {
+            throw new Exception("One or both authors not found");
+        }
+
+        // Ensure that FollowedAuthors collection is initialized
+        followingAuthor.FollowedAuthors ??= new List<Guid>();
+
+        // Check if the followedAuthor is not already in the FollowedAuthors collection
+        if (!followingAuthor.FollowedAuthors.Contains(followedAuthor.AuthorId))
+        {
+            followingAuthor.FollowedAuthors.Add(followedAuthor.AuthorId);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("User already follows this author");
+        }
     }
 
-    // Ensure that FollowedAuthors collection is initialized
-    followingAuthor.FollowedAuthors ??= new List<Guid>();
-
-    // Check if the followedAuthor is not already in the FollowedAuthors collection
-    if (!followingAuthor.FollowedAuthors.Contains(followedAuthor.AuthorId))
+    public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName)
     {
-        followingAuthor.FollowedAuthors.Add(followedAuthor.AuthorId);
-        await _context.SaveChangesAsync();
-    }
-    else
-    {
-        throw new Exception("User already follows this author");
-    }
-}
+        var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
+        var unFollowingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == unFollowingName);
 
-public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName)
-{
-    var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
-    var unFollowingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == unFollowingName);
+        // Check if either followingAuthor or unFollowingAuthor is null
+        if (followingAuthor == null || unFollowingAuthor == null)
+        {
+            throw new Exception("One or both authors not found");
+        }
 
-    // Check if either followingAuthor or unFollowingAuthor is null
-    if (followingAuthor == null || unFollowingAuthor == null)
-    {
-        throw new Exception("One or both authors not found");
-    }
+        // Ensure that FollowedAuthors collection is initialized
+        followingAuthor.FollowedAuthors ??= new List<Guid>();
 
-    // Ensure that FollowedAuthors collection is initialized
-    followingAuthor.FollowedAuthors ??= new List<Guid>();
-
-    // Check if the unFollowingAuthor is in the FollowedAuthors collection
-    if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor.AuthorId))
-    {
-        followingAuthor.FollowedAuthors.Remove(unFollowingAuthor.AuthorId);
-        await _context.SaveChangesAsync();
+        // Check if the unFollowingAuthor is in the FollowedAuthors collection
+        if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor.AuthorId))
+        {
+            followingAuthor.FollowedAuthors.Remove(unFollowingAuthor.AuthorId);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("User is trying to unfollow an author they are not following");
+        }
     }
-    else
-    {
-        throw new Exception("User is trying to unfollow an author they are not following");
-    }
-}
 
     public async Task<List<Guid>?> GetFollowedAuthors(string? authorEmail)
     {
@@ -151,17 +153,66 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         return followedAuthors;
     }
 
-    public async Task DeleteAuthor(string? authorEmail) 
+    public async Task DeleteAuthor(string? authorEmail)
     {
         var author = await _context.Authors
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
-        if (author is null) {
+        if (author is null)
+        {
             throw new Exception("This should not happen. Author cannot be found for deletion.");
         }
         _context.Remove(author);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Guid>?> GetFollowersFollower(string? authorEmail)
+    {
+        var author = await _context.Authors
+            .Where(a => a.Email == authorEmail)
+            .FirstOrDefaultAsync();
+
+        if (author == null)
+        {
+            return null;
+        }
+
+        //Map of followers to the number of people that follow them
+        Dictionary<Guid, int> followersMap = new();
+
+        //Iterate through each follower and the people they follow of the author
+        foreach (var followerId in author.FollowedAuthors)
+        {
+            // Fetch the corresponding Author entity for each Guid in Followers
+            Author followerAuthor = await _context.Authors.FindAsync(followerId);
+            foreach (var followerfollowId in followerAuthor.FollowedAuthors)
+            {
+                if (followerfollowId != null)
+                {
+                    if (followersMap.ContainsKey(followerfollowId))
+                    {
+                        followersMap[followerfollowId] = followersMap[followerfollowId] + 1;
+                    }
+                    else
+                    {
+                        followersMap.Add(followerfollowId, 1);
+                    }
+                }
+            }
+        }
+
+
+        //Only adds followers that are followed by more than one person, and if the author is not already following them
+        List<Guid> followers = new();
+        foreach (var follower in followersMap.OrderByDescending(key => key.Value))
+        {
+            if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key))
+            {
+                followers.Add(follower.Key);
+            }
+        }
+        return followers;
     }
 
 }

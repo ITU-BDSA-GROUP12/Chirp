@@ -24,6 +24,7 @@ public class AboutMePageModel : PageModel
 
 
 
+
     public AboutMePageModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IConfiguration config)
     {
         _cheepRepository = cheepRepository;
@@ -34,7 +35,6 @@ public class AboutMePageModel : PageModel
     public async Task<IActionResult> OnGet()
     {
         string? pagevalue = Request.Query["page"];
-
 
         OID = User.FindFirstValue(ClaimTypes.NameIdentifier);
         Author = User.Identity?.Name;
@@ -49,6 +49,7 @@ public class AboutMePageModel : PageModel
         }
 
         FollowersID = await _authorRepository.GetFollowedAuthors(Email);
+
 
         FollowersName = new List<string>();
         foreach (Guid id in FollowersID)
