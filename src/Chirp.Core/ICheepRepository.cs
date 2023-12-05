@@ -8,4 +8,6 @@ public interface ICheepRepository
     public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
     public Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds);
     public Task CreateCheep(string message, AuthorDto user);
+    public Task<CheepDto> GetFirstCheepFromAuthor(Guid authorId);
+
 }

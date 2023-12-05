@@ -89,4 +89,21 @@ public class CheepRepository : ICheepRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<CheepDto> GetFirstCheepFromAuthor(Guid authorId)
+    {
+        Cheep? cheep = await _context.Cheeps.FirstOrDefaultAsync(c => c.AuthorId == authorId);
+       
+        if (cheep == null)
+        {
+            return null;
+        }
+        return new CheepDto
+        {
+            AuthorId = cheep.AuthorId,
+            Author = cheep.Author.Name,
+            Message = cheep.Text,
+            Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+        };
+    }
 }
