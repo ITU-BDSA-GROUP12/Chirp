@@ -23,8 +23,9 @@ public class UserTimelineModel : PageModel
     {
         string? pagevalue = Request.Query["page"];
         PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
-        
-        if(author == User.Identity.Name){
+
+        if (author == User.Identity.Name)
+        {
             List<Guid> FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
             if (pagevalue == null)
             {
@@ -34,7 +35,9 @@ public class UserTimelineModel : PageModel
             {
                 Cheeps = await _cheepRepository.GetCheepsUserTimeline(Int32.Parse(pagevalue), author, FollowedAuthors);
             }
-        } else{
+        }
+        else
+        {
             if (pagevalue == null)
             {
                 Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, author);
@@ -53,35 +56,43 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public string Text { get; set; }
 
-  public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPost()
     {
+        if (User.Identity == null) throw new Exception("User attempted to send cheep without being logged in");
+        string? userName = User.Identity.Name;
+        string? userEmail = User.FindFirstValue("emails");
+        if (userName == null) throw new Exception("User has no username");
+        if (userEmail == null) throw new Exception("User has not registrered an email");
+
         AuthorDto author = new()
         {
-            Name = User.Identity.Name,
-            Email = User.FindFirstValue("emails")// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+            Name = userName,
+            Email = userEmail// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
         };
         await _cheepRepository.CreateCheep(Text, author);
-         
+
         string redirectUrl = "~/";
 
         return Redirect(Url.Content(redirectUrl));
     }
-      public async Task<IActionResult> OnPostFollow(string followName)
-        {
-            await _authorRepository.FollowAnAuthor(User.FindFirstValue("emails"), followName);
+    public async Task<IActionResult> OnPostFollow(string followName)
+    {
+        string emailOfUserThatWantsToFollow = User.FindFirstValue("emails") ?? "";
+        await _authorRepository.FollowAnAuthor(emailOfUserThatWantsToFollow, followName);
 
-            string redirectUrl = "~/";
+        string redirectUrl = "~/";
 
-            return Redirect(Url.Content(redirectUrl));
-        }
+        return Redirect(Url.Content(redirectUrl));
+    }
 
-        public async Task<IActionResult> OnPostUnFollow(string followName)
-        {
-            await _authorRepository.UnFollowAnAuthor(User.FindFirstValue("emails"), followName);
+    public async Task<IActionResult> OnPostUnFollow(string followName)
+    {
+        string emailOfUserThatWantsToUnfollow = User.FindFirstValue("emails") ?? "";
+        await _authorRepository.UnFollowAnAuthor(emailOfUserThatWantsToUnfollow, followName);
 
-            string redirectUrl = "~/";
+        string redirectUrl = "~/";
 
-            return Redirect(Url.Content(redirectUrl));
-        }
+        return Redirect(Url.Content(redirectUrl));
+    }
 
 }
