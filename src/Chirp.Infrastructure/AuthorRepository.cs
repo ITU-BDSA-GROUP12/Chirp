@@ -164,4 +164,41 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         await _context.SaveChangesAsync();
     }
 
+    public async Task<List<Guid>?> GetFollowersFollower(Guid authorID)
+    {
+        var author = await _context.Authors
+            .Where(a => a.AuthorId == authorID)
+            .FirstOrDefaultAsync();
+
+        if (author == null)
+        {
+            return null;
+        }
+
+        //Map of followers to the number of people that follow them
+        Dictionary<Guid, int> followersMap = new();
+
+        //Iterate through each follower and the people they follow of the author
+        foreach (var followerId in author.FollowedAuthors)
+        {
+            // Fetch the corresponding Author entity for each Guid in Followers
+            var follower = await _context.Authors.FindAsync(followerId);
+            if (follower != null) 
+            {
+                followersMap.Add(follower.AuthorId, followersMap.GetValueOrDefault(follower.AuthorId, 0) + 1);
+            }
+        }
+        
+
+        //Only adds followers that are followed by more than one person, and if the author is not already following them
+        List<Guid> followers = new();
+        foreach (var follower in followersMap.OrderByDescending(key => key.Value))
+        {
+            if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key)) {
+                followers.Add(follower.Key);
+            }
+        }
+        return followers;
+    }
+
 }
