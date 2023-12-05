@@ -164,10 +164,10 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Guid>?> GetFollowersFollower(Guid authorID)
+    public async Task<List<Guid>?> GetFollowersFollower(string? authorEmail)
     {
         var author = await _context.Authors
-            .Where(a => a.AuthorId == authorID)
+            .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
         if (author == null)
