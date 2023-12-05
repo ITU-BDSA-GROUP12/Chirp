@@ -85,15 +85,11 @@ public class AboutMePageModel : PageModel
 
                 var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
 
-                // // Get User ID by Email
-                // string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
-
                 // Delete User by ID
                 await DeleteUserAsync(graphClient, UserOID);
                 await _authorRepository.DeleteAuthor(UserEmail);
 
                 Console.WriteLine($"User with username: {Author} deleted successfully.");
-
                 string redirectUrl = "/MicrosoftIdentity/Account/SignOut";
                 return Redirect(Url.Content(redirectUrl));
             }
