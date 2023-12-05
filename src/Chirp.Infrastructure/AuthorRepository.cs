@@ -190,10 +190,11 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
 
                 if (followerfollowId != null) 
                 {
-                    
-                    followersMap.Add(followerfollowId, followersMap.GetValueOrDefault(followerfollowId, 0) + 1);
-                    Console.WriteLine(followerfollowId + " " + followersMap.GetValueOrDefault(followerfollowId, 0));
+                    followersMap[followerfollowId] = followersMap[followerfollowId] + 1;
+                        Console.WriteLine(followerfollowId + " " + followersMap.GetValueOrDefault(followerfollowId, 0));
                 }
+                
+        
               }
             
 
