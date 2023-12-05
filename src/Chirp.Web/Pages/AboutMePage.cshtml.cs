@@ -20,6 +20,7 @@ public class AboutMePageModel : PageModel
     public List<string>? FollowersName { get; set; }
     public string? Author { get; set; }
     public string? Email { get; set; }
+    public string? OID { get; set; }
 
 
 
@@ -34,9 +35,10 @@ public class AboutMePageModel : PageModel
     {
         string? pagevalue = Request.Query["page"];
 
-        Author = User.Identity.Name;
+
+        OID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Author = User.Identity?.Name;
         Email = User.FindFirstValue("emails");
-        Console.WriteLine(Email);
         if (pagevalue == null)
         {
             Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, Author);
@@ -63,8 +65,9 @@ public class AboutMePageModel : PageModel
         return Page();
     }
 
-     public async Task<IActionResult> OnPostDelete(string UserEmail)
+     public async Task<IActionResult> OnPostDelete()
         {
+        Console.WriteLine("test");
             try
             {
                 var clientId = "e122fcdf-99a1-4b19-b7a4-adf859e617ca";
@@ -83,34 +86,34 @@ public class AboutMePageModel : PageModel
 
                 var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
 
-                // Get User ID by Email
-                string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
+                // // Get User ID by Email
+                // string userId = await GetUserIdByEmailAsync(graphClient, UserEmail);
 
                 // Delete User by ID
-                await DeleteUserAsync(graphClient, userId);
+                await DeleteUserAsync(graphClient, OID);
 
-                Console.WriteLine($"User with email {UserEmail} deleted successfully.");
+                Console.WriteLine($"User with username: {Author} deleted successfully.");
 
                 string redirectUrl = "/MicrosoftIdentity/Account/SignOut";
                 return Redirect(Url.Content(redirectUrl));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting user with email: {UserEmail}, {ex.Message}");
+                Console.WriteLine($"Error deleting user username: {Author}, {ex.Message}");
                 string redirectUrl = "~/AboutMePage";
                 return Redirect(Url.Content(redirectUrl));
             }
         }
 
-    private async Task<string> GetUserIdByEmailAsync(GraphServiceClient graphClient, string UserEmail)
-    {
-         var user = await graphClient
-            .Users[UserEmail]
-            .GetAsync();
+    // private async Task<string> GetUserIdByEmailAsync(GraphServiceClient graphClient, string UserEmail)
+    // {
+    //      var user = await graphClient
+    //         .Users[UserEmail]
+    //         .GetAsync();
 
-        Console.WriteLine(user.Id);
-        return user?.Id;
-    }
+    //     Console.WriteLine(user.Id);
+    //     return user?.Id;
+    // }
 
     private async Task DeleteUserAsync(GraphServiceClient graphClient, string userId)
     {
