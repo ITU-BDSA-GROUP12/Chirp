@@ -173,7 +173,7 @@ public class UnitTestAuthorRepository
     }
 
         [Fact]
-    public async void TestThatDeleteAuthorSetsIsDeletedToTrueOnFirstRun()
+    public async void TestDeleteAuthor()
     {
         //Arrange
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
@@ -190,40 +190,19 @@ public class UnitTestAuthorRepository
         AuthorValidator author_validator = new AuthorValidator();
         var repository = new AuthorRepository(context, author_validator);
 
-        // Act
-        await repository.DeleteAuthor("ropf@itu.dk");
         Author author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
+        Assert.Contains(context.Authors, testauthor => testauthor == author);
+        Assert.Contains(context.Cheeps, cheep => cheep.Author == author);
+
+        // Act
+   
+        await repository.DeleteAuthor("ropf@itu.dk");
+        
 
         // Asser
-        Assert.True(author.IsDeleted);
+        Assert.DoesNotContain(context.Authors, testauthor => testauthor == author);
+        Assert.DoesNotContain(context.Cheeps, cheep => cheep.Author == author);
     }
-
-    //      [Fact]
-    // public async void TestThatDeleteAuthorSetsIsDeletedToFalseOnSecondRun()
-    // {
-    //     //Arrange
-    //     var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
-    //     connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
-
-    //     var options = new DbContextOptionsBuilder<ChirpDBContext>()
-    //         .UseSqlite(connection)
-    //         .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
-
-    //     using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
-
-    //     await context.Database.EnsureCreatedAsync();
-    //     DbInitializer.SeedDatabase(context); //Seed the database.
-    //     AuthorValidator author_validator = new AuthorValidator();
-    //     var repository = new AuthorRepository(context, author_validator);
-
-    //     // Act
-    //     await repository.DeleteAuthor("ropf@itu.dk");
-    //     await repository.DeleteAuthor("ropf@itu.dk");
-    //     Author author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
-
-    //     // Asser
-    //     Assert.False(author.IsDeleted);
-    // }
 
     [Fact]
     public async void TestThatAnAuthorRepositoryCanNotStoreInvalidAuthor()
