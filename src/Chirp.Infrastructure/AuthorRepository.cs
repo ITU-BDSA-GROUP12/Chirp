@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Chirp.Infrastructure;
 
 public class AuthorRepository : IAuthorRepository
@@ -185,7 +187,9 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
             var follower = await _context.Authors.FindAsync(followerId);
             if (follower != null) 
             {
+                
                 followersMap.Add(follower.AuthorId, followersMap.GetValueOrDefault(follower.AuthorId, 0) + 1);
+                Console.WriteLine(follower.Name + " " + followersMap.GetValueOrDefault(follower.AuthorId, 0));
             }
         }
         
