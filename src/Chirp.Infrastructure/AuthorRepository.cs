@@ -199,7 +199,6 @@ public class AuthorRepository : IAuthorRepository
                         followersMap.Add(followerfollowId, 1);
                     }
                 }
-                Console.WriteLine(followerfollowId.ToString() + " " + followersMap[followerfollowId]);
             }
         }
 
