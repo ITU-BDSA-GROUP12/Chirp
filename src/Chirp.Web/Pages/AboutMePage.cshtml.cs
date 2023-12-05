@@ -67,7 +67,6 @@ public class AboutMePageModel : PageModel
 
      public async Task<IActionResult> OnPostDelete(string UserOID, string UserEmail)
         {
-        Console.WriteLine("test");
             try
             {
                 var clientId = "e122fcdf-99a1-4b19-b7a4-adf859e617ca";
@@ -106,15 +105,6 @@ public class AboutMePageModel : PageModel
             }
         }
 
-    // private async Task<string> GetUserIdByEmailAsync(GraphServiceClient graphClient, string UserEmail)
-    // {
-    //      var user = await graphClient
-    //         .Users[UserEmail]
-    //         .GetAsync();
-
-    //     Console.WriteLine(user.Id);
-    //     return user?.Id;
-    // }
 
     private async Task DeleteUserAsync(GraphServiceClient graphClient, string userId)
     {
