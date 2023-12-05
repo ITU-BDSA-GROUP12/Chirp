@@ -184,13 +184,21 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         foreach (var followerId in author.FollowedAuthors)
         {
             // Fetch the corresponding Author entity for each Guid in Followers
-            var follower = await _context.Authors.FindAsync(followerId);
-            if (follower != null) 
-            {
+            Author followerAuthor = await _context.Authors.FindAsync(followerId);
+              foreach (var followerfollowId in followerAuthor.FollowedAuthors) {
+
+
+                if (followerfollowId != null) 
+                {
+                    
+                    followersMap.Add(followerfollowId, followersMap.GetValueOrDefault(followerfollowId, 0) + 1);
+                    Console.WriteLine(followerfollowId + " " + followersMap.GetValueOrDefault(followerfollowId, 0));
+                }
+              }
+            
+
                 
-                followersMap.Add(follower.AuthorId, followersMap.GetValueOrDefault(follower.AuthorId, 0) + 1);
-                Console.WriteLine(follower.Name + " " + followersMap.GetValueOrDefault(follower.AuthorId, 0));
-            }
+
         }
         
 
