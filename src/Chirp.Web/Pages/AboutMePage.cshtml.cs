@@ -65,7 +65,7 @@ public class AboutMePageModel : PageModel
         return Page();
     }
 
-     public async Task<IActionResult> OnPostDelete(string UserOID)
+     public async Task<IActionResult> OnPostDelete(string UserOID, string UserEmail)
         {
         Console.WriteLine("test");
             try
@@ -91,6 +91,7 @@ public class AboutMePageModel : PageModel
 
                 // Delete User by ID
                 await DeleteUserAsync(graphClient, UserOID);
+                await _authorRepository.DeleteAuthor(UserEmail);
 
                 Console.WriteLine($"User with username: {Author} deleted successfully.");
 

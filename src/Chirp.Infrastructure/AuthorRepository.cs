@@ -160,7 +160,7 @@ public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName
         if (author is null) {
             throw new Exception("This should not happen. Author cannot be found for deletion.");
         }
-        author.IsDeleted = true;
+        _context.Remove(author);
         await _context.SaveChangesAsync();
     }
 
