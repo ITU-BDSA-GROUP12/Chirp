@@ -15,6 +15,7 @@ public class AuthorAuthorizeModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
+            var authorizationCode = HttpContext.Request.Query["code"];
             AuthorDto? author = await _repository.GetAuthorDTOByEmail(User.FindFirstValue("emails"));
             if (author == null)
             {
