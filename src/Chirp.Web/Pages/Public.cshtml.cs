@@ -42,7 +42,7 @@ public class PublicModel : PageModel
 
             FollowedAuthors = await _AuthorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         }
-        HasNextPage = await _CheepRepository.HasNextPageOfCheeps(pagevalue);
+        HasNextPage = await _CheepRepository.HasNextPageOfPublicTimeline(pagevalue);
         return Page();
     }
 

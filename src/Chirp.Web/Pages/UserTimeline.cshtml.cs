@@ -11,6 +11,8 @@ public class UserTimelineModel : PageModel
     public List<CheepDto>? Cheeps { get; set; }
     public int PageNumber { get; set; }
 
+    public bool HasNextPage { get; set; }   
+
     public List<Guid>? FollowedAuthors { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
@@ -23,30 +25,20 @@ public class UserTimelineModel : PageModel
     {
         string? pagevalue = Request.Query["page"];
         PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
-        
-        if(author == User.Identity.Name){
-            List<Guid> FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
-            if (pagevalue == null)
-            {
-                Cheeps = await _cheepRepository.GetCheepsUserTimeline(1, author, FollowedAuthors);
-            }
-            else
-            {
-                Cheeps = await _cheepRepository.GetCheepsUserTimeline(Int32.Parse(pagevalue), author, FollowedAuthors);
-            }
-        } else{
-            if (pagevalue == null)
-            {
-                Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, author);
-            }
-            else
-            {
-                Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), author);
-            }
-        }
-        FollowedAuthors ??= new List<Guid>();
 
-        FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
+        FollowedAuthors ??= new List<Guid>();
+       
+        
+        //checks if its the user timeline or another user timeline
+        if(author == User.Identity.Name){
+            FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
+            Cheeps = await _cheepRepository.GetCheepsUserTimeline(PageNumber, author, FollowedAuthors);
+        } else{
+            Cheeps = await _cheepRepository.GetCheepsFromAuthor(PageNumber, author);
+        }
+
+        HasNextPage = await _cheepRepository.HasNextPageOfPrivateTimeline(PageNumber, author, FollowedAuthors);
+        
         return Page();
     }
 
