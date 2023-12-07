@@ -49,9 +49,6 @@ public class PublicModel : PageModel
     [BindProperty]
     public string Text { get; set; }
 
-    [BindProperty]
-    public string Text { get; set; }
-
     public async Task<IActionResult> OnPost()
     {
 
