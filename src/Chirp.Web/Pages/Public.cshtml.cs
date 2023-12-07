@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
-public class PublicModel : PageModel
+public class PublicModel : Components.CheepablePageModel
 {
 
     public ICheepRepository _CheepRepository;
@@ -19,10 +19,10 @@ public class PublicModel : PageModel
 
     public bool HasNextPage;
 
-    public PublicModel(ICheepRepository repository, IAuthorRepository authorRepository)
+    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository) : base(cheepRepository)
     {
-        _CheepRepository = repository;
         _AuthorRepository = authorRepository;
+        _CheepRepository = cheepRepository;
     }
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
@@ -46,23 +46,6 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    [BindProperty]
-    public string Text { get; set; }
-
-    public async Task<IActionResult> OnPost()
-    {
-
-        AuthorDto author = new()
-        {
-            Name = User.Identity.Name,
-            Email = User.FindFirstValue("emails")// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
-        };
-        await _CheepRepository.CreateCheep(Text, author);
-
-        string redirectUrl = "~/";
-
-        return Redirect(Url.Content(redirectUrl));
-    }
 
     //https://www.learnrazorpages.com/razor-pages/handler-methods
     public async Task<IActionResult> OnPostFollow(string followName)
