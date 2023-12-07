@@ -15,6 +15,8 @@ public class UserTimelineModel : PageModel
 
     public List<Guid>? FollowedAuthors { get; set; }
 
+    public string validationMessage { get; set; } = "";
+
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
@@ -46,6 +48,20 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        string redirectUrl = "~/";
+
+        validationMessage = "";
+        if (String.IsNullOrEmpty(Text)) {
+            validationMessage = "Cheep cannot be empty";
+            return OnGet(User.Identity.Name).Result;
+        }
+
+        if (Text.Length > 160)
+        {
+            validationMessage = "Cheep cannot be longer than 160 characters";
+            return OnGet(User.Identity.Name).Result;
+        }
+
         if (User.Identity == null) throw new Exception("User attempted to send cheep without being logged in");
         string? userName = User.Identity.Name;
         string? userEmail = User.FindFirstValue("emails");
@@ -58,8 +74,6 @@ public class UserTimelineModel : PageModel
             Email = userEmail// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
         };
         await _cheepRepository.CreateCheep(Text, author);
-
-        string redirectUrl = "~/";
 
         return Redirect(Url.Content(redirectUrl));
     }

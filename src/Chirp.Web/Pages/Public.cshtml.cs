@@ -19,6 +19,8 @@ public class PublicModel : PageModel
 
     public bool HasNextPage;
 
+    public string validationMessage { get; set; } = "";
+
     public PublicModel(ICheepRepository repository, IAuthorRepository authorRepository)
     {
         _CheepRepository = repository;
@@ -27,6 +29,7 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
+    
         string? pagestring = Request.Query["page"];
         int pagevalue;
         if (pagestring == null) pagevalue = 1;
@@ -51,6 +54,20 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        string redirectUrl = "~/";
+
+        validationMessage = "";
+        if (String.IsNullOrEmpty(Text)) {
+            validationMessage = "Cheep cannot be empty";
+            return OnGet().Result;
+        }
+
+        if (Text.Length > 160)
+        {
+            validationMessage = "Cheep cannot be longer than 160 characters";
+            return OnGet().Result;
+        }
+
 
         AuthorDto author = new()
         {
@@ -59,7 +76,6 @@ public class PublicModel : PageModel
         };
         await _CheepRepository.CreateCheep(Text, author);
 
-        string redirectUrl = "~/";
 
         return Redirect(Url.Content(redirectUrl));
     }
