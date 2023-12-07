@@ -20,11 +20,18 @@ public class CheepRepository : ICheepRepository
              orderby Cheep.TimeStamp descending
              select new CheepDto //in LINQ the select clause is responsible for making new objects
              {
-                AuthorId = Cheep.AuthorId,
-                Author = Cheep.Author.Name,
-                Message = Cheep.Text,
-                Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                 AuthorId = Cheep.AuthorId,
+                 Author = Cheep.Author.Name,
+                 Message = Cheep.Text,
+                 Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
              }).Skip((page - 1) * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
+    }
+    public async Task<bool> HasNextPageOfCheeps(int page)
+    {
+
+        //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
+        List<CheepDto> cheeps_on_next_page = await GetCheeps(page + 1);
+        return cheeps_on_next_page.Any();
     }
 
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
@@ -45,15 +52,15 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
         List<CheepDto> cheepList = await (from cheep in _context.Cheeps
-                            where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) && cheep.Author.IsDeleted == false
-                            orderby cheep.TimeStamp descending
-                            select new CheepDto
-                            {
-                                AuthorId = cheep.AuthorId,
-                                Author = cheep.Author.Name,
-                                Message = cheep.Text,
-                                Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
-                            })
+                                          where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) && cheep.Author.IsDeleted == false
+                                          orderby cheep.TimeStamp descending
+                                          select new CheepDto
+                                          {
+                                              AuthorId = cheep.AuthorId,
+                                              Author = cheep.Author.Name,
+                                              Message = cheep.Text,
+                                              Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                                          })
                             .Skip((page - 1) * 32)
                             .Take(32)
                             .ToListAsync();
@@ -89,4 +96,21 @@ public class CheepRepository : ICheepRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<CheepDto> GetFirstCheepFromAuthor(Guid authorId)
+    {
+        Cheep? cheep = await _context.Cheeps.FirstOrDefaultAsync(c => c.AuthorId == authorId);
+        if (cheep == null)
+        {
+            return null;
+        }
+        return new CheepDto
+        {
+            AuthorId = cheep.AuthorId,
+            Author = cheep.Author.Name,
+            Message = cheep.Text,
+            Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+        };
+    }
+
 }

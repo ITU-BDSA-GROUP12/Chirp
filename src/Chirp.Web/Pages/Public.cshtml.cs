@@ -17,6 +17,8 @@ public class PublicModel : PageModel
 
     public int PageNumber { get; set; }
 
+    public bool HasNextPage;
+
     public PublicModel(ICheepRepository repository, IAuthorRepository authorRepository)
     {
         _CheepRepository = repository;
@@ -25,19 +27,14 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
-        string? pagevalue = Request.Query["page"];
+        string? pagestring = Request.Query["page"];
+        int pagevalue;
+        if (pagestring == null) pagevalue = 1;
+        else pagevalue = Int32.Parse(pagestring);
+        PageNumber = pagevalue;
 
 
-        PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
-
-        if (pagevalue == null)
-        {
-            Cheeps = await _CheepRepository.GetCheeps(1);
-        }
-        else
-        {
-            Cheeps = await _CheepRepository.GetCheeps(Int32.Parse(pagevalue));
-        }
+        Cheeps = await _CheepRepository.GetCheeps(pagevalue);
 
         if (User.Identity.IsAuthenticated)
         {
@@ -45,10 +42,12 @@ public class PublicModel : PageModel
 
             FollowedAuthors = await _AuthorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         }
-
+        HasNextPage = await _CheepRepository.HasNextPageOfCheeps(pagevalue);
         return Page();
     }
 
+    [BindProperty]
+    public string Text { get; set; }
 
     [BindProperty]
     public string Text { get; set; }
@@ -83,6 +82,7 @@ public class PublicModel : PageModel
     {
         string emailOfUserThatWantsToUnfollow = User.FindFirstValue("emails") ?? "";
         await _AuthorRepository.UnFollowAnAuthor(emailOfUserThatWantsToUnfollow, followName);
+
 
         string redirectUrl = "~/";
 
