@@ -59,8 +59,9 @@ public class AuthorRepository : IAuthorRepository
             IsDeleted = false,
             Name = name,
             Email = email,
-            Cheeps = new List<Cheep>(),
-            FollowedAuthors = new List<Guid>()
+            Cheeps = [],
+            FollowedAuthors = [],
+            AuthorFollowers = []
         };
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
         if (!validationResult.IsValid)
@@ -83,12 +84,12 @@ public class AuthorRepository : IAuthorRepository
         }
 
         // Ensure that FollowedAuthors collection is initialized
-        followingAuthor.FollowedAuthors ??= new List<Guid>();
+        followingAuthor.FollowedAuthors ??= new List<Author>();
 
         // Check if the followedAuthor is not already in the FollowedAuthors collection
-        if (!followingAuthor.FollowedAuthors.Contains(followedAuthor.AuthorId))
+        if (!followingAuthor.FollowedAuthors.Contains(followedAuthor))
         {
-            followingAuthor.FollowedAuthors.Add(followedAuthor.AuthorId);
+            followingAuthor.FollowedAuthors.Add(followedAuthor);
             await _context.SaveChangesAsync();
         }
         else
@@ -109,12 +110,12 @@ public class AuthorRepository : IAuthorRepository
         }
 
         // Ensure that FollowedAuthors collection is initialized
-        followingAuthor.FollowedAuthors ??= new List<Guid>();
+        followingAuthor.FollowedAuthors ??= new List<Author>();
 
         // Check if the unFollowingAuthor is in the FollowedAuthors collection
-        if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor.AuthorId))
+        if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor))
         {
-            followingAuthor.FollowedAuthors.Remove(unFollowingAuthor.AuthorId);
+            followingAuthor.FollowedAuthors.Remove(unFollowingAuthor);
             await _context.SaveChangesAsync();
         }
         else
@@ -140,10 +141,9 @@ public class AuthorRepository : IAuthorRepository
         }
 
         List<Guid> followedAuthors = new();
-        foreach (var followedAuthorId in author.FollowedAuthors)
+        foreach (var followedAuthor in author.FollowedAuthors)
         {
             // Fetch the corresponding Author entity for each Guid in FollowedAuthors
-            var followedAuthor = await _context.Authors.FindAsync(followedAuthorId);
             if (followedAuthor != null)
             {
                 followedAuthors.Add(followedAuthor.AuthorId);
@@ -179,7 +179,7 @@ public class AuthorRepository : IAuthorRepository
         }
 
         //Map of followers to the number of people that follow them
-        Dictionary<Guid, int> followersMap = new();
+        Dictionary<Author, int> followersMap = new();
 
         //Iterate through each follower and the people they follow of the author
         foreach (var followerId in author.FollowedAuthors)
@@ -204,12 +204,12 @@ public class AuthorRepository : IAuthorRepository
 
 
         //Only adds followers that are followed by more than one person, and if the author is not already following them
-        List<Guid> followers = new();
+        List<Guid> followers = [];
         foreach (var follower in followersMap.OrderByDescending(key => key.Value))
         {
             if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key))
             {
-                followers.Add(follower.Key);
+                followers.Add(follower.Key.AuthorId);
             }
         }
         return followers;
