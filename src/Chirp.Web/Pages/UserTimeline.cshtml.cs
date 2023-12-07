@@ -27,10 +27,9 @@ public class UserTimelineModel : PageModel
         PageNumber = pagevalue == null ? 1 : Int32.Parse(pagevalue);
 
         FollowedAuthors ??= new List<Guid>();
-        
+        FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         //checks if its the user timeline or another user timeline
         if(author == User.Identity.Name){
-            FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
             Cheeps = await _cheepRepository.GetCheepsUserTimeline(PageNumber, author, FollowedAuthors);
         } else{
             Cheeps = await _cheepRepository.GetCheepsFromAuthor(PageNumber, author);
