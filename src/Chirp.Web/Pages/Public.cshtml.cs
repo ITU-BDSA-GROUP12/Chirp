@@ -46,7 +46,6 @@ public class PublicModel : PageModel
         return Page();
     }
 
-
     [BindProperty]
     public string Text { get; set; }
 
@@ -68,7 +67,8 @@ public class PublicModel : PageModel
     //https://www.learnrazorpages.com/razor-pages/handler-methods
     public async Task<IActionResult> OnPostFollow(string followName)
     {
-        await _AuthorRepository.FollowAnAuthor(User.FindFirstValue("emails"), followName);
+        string emailOfUserThatWantsToFollow = User.FindFirstValue("emails") ?? "";
+        await _AuthorRepository.FollowAnAuthor(emailOfUserThatWantsToFollow, followName);
 
         string redirectUrl = "~/";
 
@@ -77,7 +77,9 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostUnFollow(string followName)
     {
-        await _AuthorRepository.UnFollowAnAuthor(User.FindFirstValue("emails"), followName);
+        string emailOfUserThatWantsToUnfollow = User.FindFirstValue("emails") ?? "";
+        await _AuthorRepository.UnFollowAnAuthor(emailOfUserThatWantsToUnfollow, followName);
+
 
         string redirectUrl = "~/";
 

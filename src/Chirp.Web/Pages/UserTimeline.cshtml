@@ -10,17 +10,17 @@
     <h2> @routeName's Timeline </h2>
 
     @inject ICheepRepository CheepRepository
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-    <div class="cheepbox">
-        <h3>What's on your mind @(User.Identity.Name)?</h3>
-        <form method="post">
-            <input style="float: left" type="text" asp-for="Text">
-            <input type="submit" value="Share🚜">
-        </form>
-    </div>
+        <div class="cheepbox">
+            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <form method="post">
+                <input style="float: left" type="text" asp-for="Text">
+                <input type="submit" value="Share🚜">
+            </form>
+        </div>
     }
-    
+
     @if (Model.Cheeps != null && Model.Cheeps.Any())
     {
         <ul id=" messagelist" class="cheeps">
@@ -35,9 +35,9 @@
                         <small>&mdash; @cheep.Timestamp</small>
                     </p>
 
-                  @if (cheep.Author != User.Identity.Name)
+                    @if (User.Identity != null && User.Identity.IsAuthenticated && cheep.Author != User.Identity.Name)
                     {
-                        @if (Model.FollowedAuthors.Contains(cheep.AuthorId) )
+                        @if ((Model.FollowedAuthors ?? new List<Guid>()).Contains(cheep.AuthorId))
                         {
                             <form method="post">
                                 <input type="hidden" name="followName" value="@cheep.Author">
@@ -67,7 +67,7 @@
             
         </div>
     }
-   
+
     else
     {
         <em>There are no cheeps so far.</em>
