@@ -54,7 +54,6 @@ public class UserTimelineModel : PageModel
         if (String.IsNullOrEmpty(Text)) {
             validationMessage = "Cheep cannot be empty";
             return OnGet(User.Identity.Name).Result;
-            //lol
         }
 
         if (Text.Length > 160)
