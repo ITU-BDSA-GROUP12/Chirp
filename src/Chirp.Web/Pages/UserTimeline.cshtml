@@ -61,7 +61,10 @@
                 <a href="/@routeName/?page=@(Model.PageNumber - 1)"> Previous </a>
             }
             | <a href="/@routeName/?page=@(Model.PageNumber - 1)"> @Model.PageNumber</a> |
-            <a href="/@routeName/?page=@(Model.PageNumber + 1)"> Next </a>
+            @if(Model.HasNextPage) {
+                <a href="/@routeName/?page=@(Model.PageNumber + 1)"> Next </a>
+            }
+            
         </div>
     }
 

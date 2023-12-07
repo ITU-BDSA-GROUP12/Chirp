@@ -26,44 +26,43 @@ public class CheepRepository : ICheepRepository
                  Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
              }).Skip((page - 1) * 32).Take(32).ToListAsync(); //The toListAsync is important because CheepDTO does not have a GetAwaiter
     }
-    public async Task<bool> HasNextPageOfCheeps(int page)
+    public async Task<bool> HasNextPageOfPublicTimeline(int page)
     {
-
         //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
         List<CheepDto> cheeps_on_next_page = await GetCheeps(page + 1);
         return cheeps_on_next_page.Any();
     }
 
+    public async Task<bool> HasNextPageOfPrivateTimeline(int page, string UserName, List<Guid> authorIds)
+    {
+        //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
+        List<CheepDto> cheeps_on_next_page = await GetCheepsUserTimeline(page + 1, UserName, authorIds);
+        return cheeps_on_next_page.Any();
+    }
+
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
     {
-        return await
-           (from Cheep in _context.Cheeps
-            where Cheep.Author.Name == author && Cheep.Author.IsDeleted == false
-            orderby Cheep.TimeStamp descending
-            select new CheepDto
-            {
-                AuthorId = Cheep.AuthorId,
-                Author = Cheep.Author.Name,
-                Message = Cheep.Text,
-                Timestamp = Cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
-            }).Skip((page - 1) * 32).Take(32).ToListAsync();
+        //we resuse the GetCheepsUserTimeline method because it does the same thing if we pass an empty list of authorIds
+       List<CheepDto> cheeps = await GetCheepsUserTimeline(page, author, new List<Guid>());
+       return cheeps;
     }
 
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
-        List<CheepDto> cheepList = await (from cheep in _context.Cheeps
-                                          where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) && cheep.Author.IsDeleted == false
-                                          orderby cheep.TimeStamp descending
-                                          select new CheepDto
-                                          {
-                                              AuthorId = cheep.AuthorId,
-                                              Author = cheep.Author.Name,
-                                              Message = cheep.Text,
-                                              Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
-                                          })
-                            .Skip((page - 1) * 32)
-                            .Take(32)
-                            .ToListAsync();
+        List<CheepDto> cheepList = await (from cheep in _context.Cheeps 
+            where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) 
+            && cheep.Author.IsDeleted == false
+            orderby cheep.TimeStamp descending
+            select new CheepDto
+                {
+                    AuthorId = cheep.AuthorId,
+                    Author = cheep.Author.Name,
+                    Message = cheep.Text,
+                    Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                })
+            .Skip((page - 1) * 32)
+            .Take(32)
+            .ToListAsync();
 
         return cheepList;
     }

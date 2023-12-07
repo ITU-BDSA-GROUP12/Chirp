@@ -48,16 +48,6 @@
                     </li>
                 }
             </ul>
-            <div class ="navigation">
-                
-                @if (Model.PageNumber > 1) 
-                {
-                    <a href="/?page=@(Model.PageNumber - 1)"> Previous </a> 
-                }   
-                    | <a href="/?page=@(Model.PageNumber)"> @(Model.PageNumber) </a> |
-                    <a href="/?page=@(Model.PageNumber + 1)"> Next </a> 
-                
-            </div>
         }
         else
         {

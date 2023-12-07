@@ -23,12 +23,13 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <div>
+                    <a href="/AboutMePage">About me</a> |
                     <a href="/@(User.Identity.Name)">my timeline</a> |
+                    <a href="/Discover">Discover</a> |
                     <a href="/">public timeline</a> |
                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout
                         [@(User.Identity.Name)]</a> |
-                    <a href="/AboutMePage">About me</a> |
-                    <a href="/Discover">Discover</a> |
+                   
                 </div>
             }
             else
