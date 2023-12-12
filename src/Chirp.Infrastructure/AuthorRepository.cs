@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Infrastructure;
 
@@ -59,10 +60,13 @@ public class AuthorRepository : IAuthorRepository
             IsDeleted = false,
             Name = name,
             Email = email,
-            Cheeps = [],
-            FollowedAuthors = [],
-            AuthorFollowers = []
+            Cheeps = new List<Cheep>(),
+            FollowedAuthors = new List<Author>(),
+            AuthorFollowers = new List<Author>()
         };
+
+        Console.WriteLine("Kæmpestortest");
+
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
         if (!validationResult.IsValid)
         {
@@ -132,11 +136,14 @@ public class AuthorRepository : IAuthorRepository
         }
 
         var author = await _context.Authors
+            .Include(a => a.FollowedAuthors)   // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager?fbclid=IwAR2_3oULGneiqhQgfwLOUrUekZxhatAFzAhK6QWegG6qSv8UpxGa8mafOVE
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
+
         if (author == null)
         {
+          
             return null;
         }
 
