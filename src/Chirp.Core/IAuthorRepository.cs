@@ -11,6 +11,5 @@ public interface IAuthorRepository
     public Task UnFollowAnAuthor(string followingEmail, string unFollowingEmail);
     public Task<List<Guid>?> GetFollowedAuthors(string? authorEmail);
     public Task<string> GetAuthorNameByID(Guid id);
-
     public Task<List<Guid>?> GetFollowersFollower(string? authorEmail);
 }

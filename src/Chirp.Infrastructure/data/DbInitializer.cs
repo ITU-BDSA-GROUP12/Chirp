@@ -8,18 +8,18 @@ public static class DbInitializer
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a2 = new Author() { AuthorId = Guid.NewGuid(), Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a3 = new Author() { AuthorId = Guid.NewGuid(), Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a4 = new Author() { AuthorId = Guid.NewGuid(), Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a5 = new Author() { AuthorId = Guid.NewGuid(), Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a6 = new Author() { AuthorId = Guid.NewGuid(), Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a7 = new Author() { AuthorId = Guid.NewGuid(), Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a8 = new Author() { AuthorId = Guid.NewGuid(), Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a9 = new Author() { AuthorId = Guid.NewGuid(), Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a10 = new Author() { AuthorId = Guid.NewGuid(), Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a11 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
-            var a12 = new Author() { AuthorId = Guid.NewGuid(), Name = "Rasmus", Email = "rnie@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Guid>() };
+            var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a2 = new Author() { AuthorId = Guid.NewGuid(), Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a3 = new Author() { AuthorId = Guid.NewGuid(), Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a4 = new Author() { AuthorId = Guid.NewGuid(), Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a5 = new Author() { AuthorId = Guid.NewGuid(), Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a6 = new Author() { AuthorId = Guid.NewGuid(), Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a7 = new Author() { AuthorId = Guid.NewGuid(), Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a8 = new Author() { AuthorId = Guid.NewGuid(), Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a9 = new Author() { AuthorId = Guid.NewGuid(), Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a10 = new Author() { AuthorId = Guid.NewGuid(), Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a11 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Email = "ropf@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
+            var a12 = new Author() { AuthorId = Guid.NewGuid(), Name = "Rasmus", Email = "rnie@itu.dk", IsDeleted = false, Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>() , AuthorFollowers = new List<Author>()};
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 

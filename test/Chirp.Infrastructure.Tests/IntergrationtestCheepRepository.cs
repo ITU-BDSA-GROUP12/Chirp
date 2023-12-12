@@ -32,7 +32,8 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
             .RuleFor(c => c.Name, f => f.Person.UserName)
             .RuleFor(c => c.Email, f => f.Internet.Email())
             .RuleFor(c => c.Cheeps, new List<Cheep>())
-            .RuleFor(c => c.FollowedAuthors, new List<Guid>());
+            .RuleFor(c => c.FollowedAuthors, new List<Author>())
+            .RuleFor(c => c.AuthorFollowers, new List<Author>());
         var authors = authorFaker.Generate(10);
 
         var cheepFaker = new Faker<Cheep>()

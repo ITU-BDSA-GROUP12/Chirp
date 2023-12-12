@@ -1,4 +1,6 @@
+using System.IO.Compression;
 using System.Runtime.InteropServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Infrastructure;
 
@@ -60,8 +62,11 @@ public class AuthorRepository : IAuthorRepository
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>(),
-            FollowedAuthors = new List<Guid>()
+            FollowedAuthors = new List<Author>(),
+            AuthorFollowers = new List<Author>()
         };
+
+
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
         if (!validationResult.IsValid)
         {
@@ -83,12 +88,12 @@ public class AuthorRepository : IAuthorRepository
         }
 
         // Ensure that FollowedAuthors collection is initialized
-        followingAuthor.FollowedAuthors ??= new List<Guid>();
+        followingAuthor.FollowedAuthors ??= new List<Author>();
 
         // Check if the followedAuthor is not already in the FollowedAuthors collection
-        if (!followingAuthor.FollowedAuthors.Contains(followedAuthor.AuthorId))
+        if (!followingAuthor.FollowedAuthors.Contains(followedAuthor))
         {
-            followingAuthor.FollowedAuthors.Add(followedAuthor.AuthorId);
+            followingAuthor.FollowedAuthors.Add(followedAuthor);
             await _context.SaveChangesAsync();
         }
         else
@@ -99,8 +104,13 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName)
     {
-        var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
-        var unFollowingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == unFollowingName);
+        var followingAuthor = await _context.Authors
+            .Include(a => a.FollowedAuthors)   // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager?fbclid=IwAR2_3oULGneiqhQgfwLOUrUekZxhatAFzAhK6QWegG6qSv8UpxGa8mafOVE
+            .FirstOrDefaultAsync(a => a.Email == followingEmail);
+
+        var unFollowingAuthor = await _context.Authors
+            .Include(a => a.FollowedAuthors)
+            .FirstOrDefaultAsync(a => a.Name == unFollowingName);
 
         // Check if either followingAuthor or unFollowingAuthor is null
         if (followingAuthor == null || unFollowingAuthor == null)
@@ -108,13 +118,12 @@ public class AuthorRepository : IAuthorRepository
             throw new Exception("One or both authors not found");
         }
 
-        // Ensure that FollowedAuthors collection is initialized
-        followingAuthor.FollowedAuthors ??= new List<Guid>();
+     
 
         // Check if the unFollowingAuthor is in the FollowedAuthors collection
-        if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor.AuthorId))
+        if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor))
         {
-            followingAuthor.FollowedAuthors.Remove(unFollowingAuthor.AuthorId);
+            followingAuthor.FollowedAuthors.Remove(unFollowingAuthor);
             await _context.SaveChangesAsync();
         }
         else
@@ -131,19 +140,21 @@ public class AuthorRepository : IAuthorRepository
         }
 
         var author = await _context.Authors
+            .Include(a => a.FollowedAuthors)   // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager?fbclid=IwAR2_3oULGneiqhQgfwLOUrUekZxhatAFzAhK6QWegG6qSv8UpxGa8mafOVE
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
+
         if (author == null)
         {
+          
             return null;
         }
 
         List<Guid> followedAuthors = new();
-        foreach (var followedAuthorId in author.FollowedAuthors)
+        foreach (var followedAuthor in author.FollowedAuthors)
         {
             // Fetch the corresponding Author entity for each Guid in FollowedAuthors
-            var followedAuthor = await _context.Authors.FindAsync(followedAuthorId);
             if (followedAuthor != null)
             {
                 followedAuthors.Add(followedAuthor.AuthorId);
@@ -170,6 +181,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task<List<Guid>?> GetFollowersFollower(string? authorEmail)
     {
         var author = await _context.Authors
+            .Include(a => a.FollowedAuthors)
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
@@ -179,24 +191,22 @@ public class AuthorRepository : IAuthorRepository
         }
 
         //Map of followers to the number of people that follow them
-        Dictionary<Guid, int> followersMap = new();
+        Dictionary<Author, int> followersMap = new();
 
         //Iterate through each follower and the people they follow of the author
-        foreach (var followerId in author.FollowedAuthors)
+        foreach (var follower in author.FollowedAuthors)
         {
-            // Fetch the corresponding Author entity for each Guid in Followers
-            Author followerAuthor = await _context.Authors.FindAsync(followerId);
-            foreach (var followerfollowId in followerAuthor.FollowedAuthors)
+            foreach (var followerfollower in follower.FollowedAuthors)
             {
-                if (followerfollowId != null)
+                if (followerfollower != null)
                 {
-                    if (followersMap.ContainsKey(followerfollowId))
+                    if (followersMap.ContainsKey(followerfollower))
                     {
-                        followersMap[followerfollowId] = followersMap[followerfollowId] + 1;
+                        followersMap[followerfollower] = followersMap[followerfollower] + 1;
                     }
                     else
                     {
-                        followersMap.Add(followerfollowId, 1);
+                        followersMap.Add(followerfollower, 1);
                     }
                 }
             }
@@ -204,12 +214,12 @@ public class AuthorRepository : IAuthorRepository
 
 
         //Only adds followers that are followed by more than one person, and if the author is not already following them
-        List<Guid> followers = new();
+        List<Guid> followers = [];
         foreach (var follower in followersMap.OrderByDescending(key => key.Value))
         {
             if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key))
             {
-                followers.Add(follower.Key);
+                followers.Add(follower.Key.AuthorId);
             }
         }
         return followers;

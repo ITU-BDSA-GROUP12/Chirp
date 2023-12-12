@@ -127,7 +127,7 @@ public class UnitTestAuthorRepository
 
         // Assert
 
-        Assert.True(follower.FollowedAuthors.Contains(followed.AuthorId));
+        Assert.True(follower.FollowedAuthors.Contains(followed));
 
     }
 
@@ -170,7 +170,7 @@ public class UnitTestAuthorRepository
 
         // Asser
 
-        Assert.DoesNotContain(followed.AuthorId, follower.FollowedAuthors);
+        Assert.DoesNotContain(followed, follower.FollowedAuthors);
 
     }
 
