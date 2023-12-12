@@ -8,7 +8,7 @@ git commit -m "Refactor main to print CLI arguments.
 
 Longer description...
 
-Co-authored-by: chat.openai.com 
+Co-authored-by: chat.openai.com
 Co-authored-by: Markus: <mbrh@itu.dk>
 Co-authored-by: Lukas: <lupa@itu.dk>
 Co-authored-by: Rasmus: <rhra@itu.dk>
