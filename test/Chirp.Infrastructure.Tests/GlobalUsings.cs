@@ -6,3 +6,4 @@ global using Microsoft.Data.Sqlite;
 global using Chirp.Core;
 global using Chirp.Infrastructure;
 global using Testcontainers.MsSql;
+global using Chirp.Core;
