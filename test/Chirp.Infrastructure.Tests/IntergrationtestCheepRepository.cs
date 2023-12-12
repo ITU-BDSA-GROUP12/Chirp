@@ -106,7 +106,51 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
             result.Should().BeTrue();
         }
         
- }
+    }
+    [Fact]
+    public async void TestEnsureFirstCheepFromAuthorReturnsLatestCheepFromThatAuthor() {
+         //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        CheepValidator cheep_validator = new CheepValidator();
+        var cheepRepository = new CheepRepository(context, cheep_validator);
+        AuthorValidator author_validator = new AuthorValidator();
+        var authorRepository = new AuthorRepository(context, author_validator);
+
+        var authorName = "testName";
+        var authorEmail = "test@email.com";
+
+        await authorRepository.CreateAuthor(authorName, authorEmail);
+        Guid authorId = context.Authors.Where(a => a.Email == authorEmail).Select(a => a.AuthorId).FirstOrDefault();
+        AuthorDto authorDto = await authorRepository.GetAuthorDTOByEmail(authorEmail);
+
+
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message1", TimeStamp = DateTime.Now.AddDays(1), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message2", TimeStamp = DateTime.Now.AddDays(2), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message3", TimeStamp = DateTime.Now.AddDays(3), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message4", TimeStamp = DateTime.Now.AddDays(4), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message9", TimeStamp = DateTime.Now.AddDays(9), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message6", TimeStamp = DateTime.Now.AddDays(6), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message7", TimeStamp = DateTime.Now.AddDays(7), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message8", TimeStamp = DateTime.Now.AddDays(8), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message5", TimeStamp = DateTime.Now.AddDays(5), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
+        await cheepRepository.CreateCheep("message9", authorDto);
+        
+        //Act
+        var result = await cheepRepository.GetFirstCheepFromAuthor(authorId);
+
+        //Assert
+        result.Message.Should().Be("message9");
+
+    }
 
 
     
