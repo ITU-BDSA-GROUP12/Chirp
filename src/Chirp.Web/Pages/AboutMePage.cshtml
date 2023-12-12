@@ -44,7 +44,27 @@
         {
             <p> You haven't cheeped yet! </p>
         }
-        <h2> Your followers </h2>
+        <h2> People you follow </h2>
+        @if (Model.FollowedName != null && Model.FollowedName.Any())
+        {
+            <ul id="followerlist" class="followers">
+                @foreach (var follower in Model.FollowedName)
+                {
+                    <li>
+                        <p>
+                            <strong>
+                                <a href="/@follower">@follower</a>
+                            </strong>
+                        </p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p> You don't follow any people yet </p>
+        }
+        <h2> People who follow you </h2>
         @if (Model.FollowersName != null && Model.FollowersName.Any())
         {
             <ul id="followerlist" class="followers">
@@ -62,7 +82,7 @@
         }
         else
         {
-            <p> You have no followers </p>
+            <p> No people follow you yet </p>
         }
     }
     else
