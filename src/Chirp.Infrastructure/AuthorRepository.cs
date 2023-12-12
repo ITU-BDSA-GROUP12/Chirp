@@ -58,7 +58,6 @@ public class AuthorRepository : IAuthorRepository
         Author newAuthor = new()
         {
             AuthorId = Guid.NewGuid(),
-            IsDeleted = false,
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>(),
@@ -118,7 +117,7 @@ public class AuthorRepository : IAuthorRepository
             throw new Exception("One or both authors not found");
         }
 
-     
+
 
         // Check if the unFollowingAuthor is in the FollowedAuthors collection
         if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor))
@@ -147,7 +146,7 @@ public class AuthorRepository : IAuthorRepository
 
         if (author == null)
         {
-          
+
             return null;
         }
 
@@ -182,7 +181,7 @@ public class AuthorRepository : IAuthorRepository
     {
         var author = await _context.Authors
             .Include(a => a.FollowedAuthors)
-             .ThenInclude(fa => fa.FollowedAuthors) 
+             .ThenInclude(fa => fa.FollowedAuthors)
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
@@ -197,7 +196,7 @@ public class AuthorRepository : IAuthorRepository
         //Iterate through each follower and the people they follow of the author
         foreach (var follower in author.FollowedAuthors)
         {
-            
+
             foreach (var followerfollower in follower.FollowedAuthors)
             {
                 if (followerfollower != null)
