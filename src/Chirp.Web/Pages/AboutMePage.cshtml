@@ -104,4 +104,13 @@
         }
         // If the user clicks "Cancel" in the confirmation dialog, do nothing
     }
+
+    async function deleteData() {
+        // Assuming you have a form with the id 'deleteForm'
+        const deleteForm = document.getElementById('deleteForm');
+
+        // Trigger the deletion directly without showing the confirmation dialog
+        deleteForm.setAttribute('action', '?handler=Delete');
+        deleteForm.submit();
+    }
 </script>
