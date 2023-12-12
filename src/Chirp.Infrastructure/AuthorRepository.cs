@@ -182,6 +182,7 @@ public class AuthorRepository : IAuthorRepository
     {
         var author = await _context.Authors
             .Include(a => a.FollowedAuthors)
+             .ThenInclude(fa => fa.FollowedAuthors) 
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
@@ -196,6 +197,7 @@ public class AuthorRepository : IAuthorRepository
         //Iterate through each follower and the people they follow of the author
         foreach (var follower in author.FollowedAuthors)
         {
+            
             foreach (var followerfollower in follower.FollowedAuthors)
             {
                 if (followerfollower != null)
