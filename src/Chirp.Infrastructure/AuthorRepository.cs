@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using Microsoft.IdentityModel.Tokens;
 
@@ -65,7 +66,6 @@ public class AuthorRepository : IAuthorRepository
             AuthorFollowers = new List<Author>()
         };
 
-        Console.WriteLine("Kæmpestortest");
 
         FluentValidation.Results.ValidationResult validationResult = _validator.Validate(newAuthor);
         if (!validationResult.IsValid)
@@ -104,8 +104,13 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task UnFollowAnAuthor(string followingEmail, string unFollowingName)
     {
-        var followingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Email == followingEmail);
-        var unFollowingAuthor = await _context.Authors.FirstOrDefaultAsync(a => a.Name == unFollowingName);
+        var followingAuthor = await _context.Authors
+            .Include(a => a.FollowedAuthors)   // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager?fbclid=IwAR2_3oULGneiqhQgfwLOUrUekZxhatAFzAhK6QWegG6qSv8UpxGa8mafOVE
+            .FirstOrDefaultAsync(a => a.Email == followingEmail);
+
+        var unFollowingAuthor = await _context.Authors
+            .Include(a => a.FollowedAuthors)
+            .FirstOrDefaultAsync(a => a.Name == unFollowingName);
 
         // Check if either followingAuthor or unFollowingAuthor is null
         if (followingAuthor == null || unFollowingAuthor == null)
@@ -113,8 +118,7 @@ public class AuthorRepository : IAuthorRepository
             throw new Exception("One or both authors not found");
         }
 
-        // Ensure that FollowedAuthors collection is initialized
-        followingAuthor.FollowedAuthors ??= new List<Author>();
+     
 
         // Check if the unFollowingAuthor is in the FollowedAuthors collection
         if (followingAuthor.FollowedAuthors.Contains(unFollowingAuthor))
@@ -177,6 +181,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task<List<Guid>?> GetFollowersFollower(string? authorEmail)
     {
         var author = await _context.Authors
+            .Include(a => a.FollowedAuthors)
             .Where(a => a.Email == authorEmail)
             .FirstOrDefaultAsync();
 
@@ -189,21 +194,19 @@ public class AuthorRepository : IAuthorRepository
         Dictionary<Author, int> followersMap = new();
 
         //Iterate through each follower and the people they follow of the author
-        foreach (var followerId in author.FollowedAuthors)
+        foreach (var follower in author.FollowedAuthors)
         {
-            // Fetch the corresponding Author entity for each Guid in Followers
-            Author followerAuthor = await _context.Authors.FindAsync(followerId);
-            foreach (var followerfollowId in followerAuthor.FollowedAuthors)
+            foreach (var followerfollower in follower.FollowedAuthors)
             {
-                if (followerfollowId != null)
+                if (followerfollower != null)
                 {
-                    if (followersMap.ContainsKey(followerfollowId))
+                    if (followersMap.ContainsKey(followerfollower))
                     {
-                        followersMap[followerfollowId] = followersMap[followerfollowId] + 1;
+                        followersMap[followerfollower] = followersMap[followerfollower] + 1;
                     }
                     else
                     {
-                        followersMap.Add(followerfollowId, 1);
+                        followersMap.Add(followerfollower, 1);
                     }
                 }
             }
