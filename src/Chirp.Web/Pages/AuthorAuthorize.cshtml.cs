@@ -13,6 +13,7 @@ public class AuthorAuthorizeModel : PageModel
     }
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
+        Console.WriteLine("authorauthorize");
         if (User.Identity.IsAuthenticated)
         {
             var authorizationCode = HttpContext.Request.Query["code"];

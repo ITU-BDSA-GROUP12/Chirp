@@ -16,10 +16,12 @@
 
        
 
-        <form method="post">
+        <form method="post" id="deleteForm">
             <input type="hidden" name="UserOID" value="@Model.OID">
             <input type="hidden" name="UserEmail" value="@Model.Email">
-            <button asp-page-handler="Delete">Forget Me!</button>
+            <input type="hidden" name="Handler" id="Handler" value=""> <!-- Add a hidden input for the handler -->
+            <button type="button" onclick="confirmDelete()"
+                style="background-color: red; color: white; border-color: darkred;">Forget Me!</button>
         </form>
         <br>
 
@@ -70,3 +72,17 @@
         <p> You are not logged in </p>
     }
 </div>
+
+<script>
+    function confirmDelete() {
+        var confirmResult = confirm("Are you sure you want to delete all your data on Chirp? \n \nThis action is permanent and cannot be undone");
+
+        if (confirmResult) {
+            // If the user clicks "OK" in the confirmation dialog, set the handler and submit the form
+            document.getElementById('deleteForm').setAttribute('action', '?handler=Delete');
+            document.getElementById('deleteForm').submit();
+        } else {
+            // If the user clicks "Cancel" in the confirmation dialog, do nothing
+        }
+    }
+</script>
