@@ -96,7 +96,7 @@ public class CheepRepository : ICheepRepository
 
     public async Task<CheepDto> GetFirstCheepFromAuthor(Guid authorId)
     {
-        Cheep? cheep = await _context.Cheeps.FirstOrDefaultAsync(c => c.AuthorId == authorId);
+        Cheep? cheep = await _context.Cheeps.Where(c => c.AuthorId == authorId).OrderByDescending(c => c.TimeStamp).FirstOrDefaultAsync();
         if (cheep == null)
         {
             return null;
