@@ -163,6 +163,38 @@ public class AuthorRepository : IAuthorRepository
         return followedAuthors;
     }
 
+    public async Task<List<Guid>?> GetAuthorFollowers(string? authorEmail)
+    {
+        if (authorEmail == null)
+        {
+            return null;
+        }
+
+        var author = await _context.Authors
+            .Include(a => a.AuthorFollowers)   // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager?fbclid=IwAR2_3oULGneiqhQgfwLOUrUekZxhatAFzAhK6QWegG6qSv8UpxGa8mafOVE
+            .Where(a => a.Email == authorEmail)
+            .FirstOrDefaultAsync();
+
+
+        if (author == null)
+        {
+          
+            return null;
+        }
+
+        List<Guid> authorFollowers = new();
+        foreach (var follower in author.AuthorFollowers)
+        {
+            // Fetch the corresponding Author entity for each Guid in FollowedAuthors
+            if (follower != null)
+            {
+                authorFollowers.Add(follower.AuthorId);
+            }
+        }
+
+        return authorFollowers;
+    }
+
     public async Task DeleteAuthor(string? authorEmail)
     {
         var author = await _context.Authors
