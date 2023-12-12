@@ -11,7 +11,7 @@ public class UserTimelineModel : PageModel
     public List<CheepDto>? Cheeps { get; set; }
     public int PageNumber { get; set; }
 
-    public bool HasNextPage { get; set; }   
+    public bool HasNextPage { get; set; }
 
     public List<Guid>? FollowedAuthors { get; set; }
 
@@ -31,14 +31,17 @@ public class UserTimelineModel : PageModel
         FollowedAuthors ??= new List<Guid>();
         FollowedAuthors = await _authorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
         //checks if its the user timeline or another user timeline
-        if(author == User.Identity.Name){
+        if (author == User.Identity.Name)
+        {
             Cheeps = await _cheepRepository.GetCheepsUserTimeline(PageNumber, author, FollowedAuthors);
-        } else{
+        }
+        else
+        {
             Cheeps = await _cheepRepository.GetCheepsFromAuthor(PageNumber, author);
         }
 
         HasNextPage = await _cheepRepository.HasNextPageOfPrivateTimeline(PageNumber, author, FollowedAuthors);
-        
+
         return Page();
     }
 
@@ -50,7 +53,8 @@ public class UserTimelineModel : PageModel
         string redirectUrl = "~/";
 
         validationMessage = "";
-        if (String.IsNullOrEmpty(Text)) {
+        if (String.IsNullOrEmpty(Text))
+        {
             validationMessage = "Cheep cannot be empty";
             return OnGet(User.Identity.Name).Result;
         }

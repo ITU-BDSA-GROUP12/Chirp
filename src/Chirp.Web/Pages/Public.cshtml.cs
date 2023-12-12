@@ -29,7 +29,7 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
-    
+
         string? pagestring = Request.Query["page"];
         int pagevalue;
         if (pagestring == null) pagevalue = 1;
@@ -57,7 +57,8 @@ public class PublicModel : PageModel
         string redirectUrl = "~/";
 
         validationMessage = "";
-        if (String.IsNullOrEmpty(Text)) {
+        if (String.IsNullOrEmpty(Text))
+        {
             validationMessage = "Cheep cannot be empty";
             return OnGet().Result;
         }

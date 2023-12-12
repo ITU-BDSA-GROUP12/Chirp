@@ -16,7 +16,6 @@ public class CheepRepository : ICheepRepository
         //https://learn.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries
         return await
             (from Cheep in _context.Cheeps
-             where Cheep.Author.IsDeleted == false
              orderby Cheep.TimeStamp descending
              select new CheepDto //in LINQ the select clause is responsible for making new objects
              {
@@ -43,23 +42,22 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
     {
         //we resuse the GetCheepsUserTimeline method because it does the same thing if we pass an empty list of authorIds
-       List<CheepDto> cheeps = await GetCheepsUserTimeline(page, author, new List<Guid>());
-       return cheeps;
+        List<CheepDto> cheeps = await GetCheepsUserTimeline(page, author, new List<Guid>());
+        return cheeps;
     }
 
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
-        List<CheepDto> cheepList = await (from cheep in _context.Cheeps 
-            where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName) 
-            && cheep.Author.IsDeleted == false
-            orderby cheep.TimeStamp descending
-            select new CheepDto
-                {
-                    AuthorId = cheep.AuthorId,
-                    Author = cheep.Author.Name,
-                    Message = cheep.Text,
-                    Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
-                })
+        List<CheepDto> cheepList = await (from cheep in _context.Cheeps
+                                          where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName)
+                                          orderby cheep.TimeStamp descending
+                                          select new CheepDto
+                                          {
+                                              AuthorId = cheep.AuthorId,
+                                              Author = cheep.Author.Name,
+                                              Message = cheep.Text,
+                                              Timestamp = cheep.TimeStamp.ToString().Split(new char[] { '.', })[0]
+                                          })
             .Skip((page - 1) * 32)
             .Take(32)
             .ToListAsync();
