@@ -1,5 +1,7 @@
 
 using Azure;
+using Microsoft.VisualBasic;
+using Org.BouncyCastle.Ocsp;
 using Testcontainers.MsSql;
 
 namespace Chirp.test.Chirp.Infrastructure.Tests;
@@ -8,7 +10,10 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 {
     private readonly MsSqlContainer _container;
 
-    readonly CheepValidator _validator;
+    readonly CheepValidator _cheepValidator;
+    readonly AuthorValidator _authorValidator;
+
+    public Author authorTest { get; set; }
 
     public IntergrationtestCheepRepository()
     {
@@ -36,6 +41,8 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
             .RuleFor(c => c.AuthorFollowers, new List<Author>());
         var authors = authorFaker.Generate(10);
 
+        authorTest = authors[0];
+
         var cheepFaker = new Faker<Cheep>()
             .RuleFor(c => c.Author, f => f.PickRandom(authors))
             .RuleFor(c => c.Text, f => f.Lorem.Sentence())
@@ -54,14 +61,53 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         //Arrange
         var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
         using var context = new ChirpDBContext(optionsBuilder.Options);
-        var repository = new CheepRepository(context, _validator);
+        var cheepRepository = new CheepRepository(context, _cheepValidator);
+        var authorRepository = new AuthorRepository(context, _authorValidator);
 
         //Act
-        var cheeps = await repository.GetCheeps(1);
+        var cheeps = await cheepRepository.GetCheeps(1);
 
         //
         cheeps.Count.Should().Be(32);
     }
+    
+    [Fact]
+    public async Task TestOfIsThereNextPagePublicTimeline(){
+        //Arrange
+        var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
+        using var context = new ChirpDBContext(optionsBuilder.Options);
+        var repository = new CheepRepository(context, _cheepValidator);
+
+        //Act
+        var result = await repository.HasNextPageOfPublicTimeline(4);
+        var amountOfCheeps = await repository.GetCheeps(4);
+        //
+        result.Should().BeFalse();
+    }
+
+        [Fact]
+    public async Task TestOfIsThereNextPageOfPrivateTimeline(){
+        //Arrange
+        var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
+        using var context = new ChirpDBContext(optionsBuilder.Options);
+        var cheepRepository = new CheepRepository(context, _cheepValidator);
+        var authorRepository = new AuthorRepository(context, _authorValidator);
+
+        //Act
+        var followingAuthorTest = await authorRepository.GetFollowedAuthors(authorTest.Email) ?? new List<Guid>();
+        var result = await cheepRepository.HasNextPageOfPrivateTimeline(3,authorTest.Name, followingAuthorTest);
+        var check = await cheepRepository.GetCheepsUserTimeline(4, authorTest.Name, followingAuthorTest);
+        
+        
+        //Assert
+        if(check.Count == 0){
+            result.Should().BeFalse();
+        } else{
+            result.Should().BeTrue();
+        }
+        
+ }
+
 
     
 }
