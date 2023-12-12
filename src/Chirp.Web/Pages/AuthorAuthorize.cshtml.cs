@@ -19,7 +19,7 @@ public class AuthorAuthorizeModel : PageModel
             AuthorDto? author = await _repository.GetAuthorDTOByEmail(User.FindFirstValue("emails"));
             if (author == null)
             {
-               await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue("emails"));
+                await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue("emails"));
             }
         }
         return Redirect(Url.Content("~/"));
