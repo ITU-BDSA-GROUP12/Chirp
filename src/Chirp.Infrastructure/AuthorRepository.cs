@@ -218,7 +218,7 @@ public class AuthorRepository : IAuthorRepository
         List<Guid> followers = [];
         foreach (var follower in followersMap.OrderByDescending(key => key.Value))
         {
-            if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key))
+            if (follower.Value > 1 && !author.FollowedAuthors.Contains(follower.Key) && author.AuthorId != follower.Key.AuthorId)
             {
                 followers.Add(follower.Key.AuthorId);
             }
