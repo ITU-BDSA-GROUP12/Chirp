@@ -152,6 +152,80 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 
     }
 
+    [Fact]
+    public async void TestTheAuthorWithMostIncommenFollowersIsRecommendedFirst() {
+        //Arrange
+        var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
+        connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
+
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite(connection)
+            .Options; //Create an instance of DBConnectionOptions, and configure it to use SQLite connection.
+
+        using var context = new ChirpDBContext(options); //Creates a context, and passes in the options.
+
+        await context.Database.EnsureCreatedAsync();
+        CheepValidator cheep_validator = new CheepValidator();
+        var cheepRepository = new CheepRepository(context, cheep_validator);
+        AuthorValidator author_validator = new AuthorValidator();
+        var authorRepository = new AuthorRepository(context, author_validator);
+
+        var authorNameA = "A testName";
+        var authorNameB = "B testName";
+        var authorNameC = "C testName";
+        var authorNameD = "D testName";
+        var authorNameE = "E testName";
+        var authorNameF = "F testName";
+        var authorNameG = "G testName";
+        var authorNameH = "H testName";
+        var authorEmailA = "A testEmail";
+        var authorEmailB = "B testEmail";
+        var authorEmailC = "C testEmail";
+        var authorEmailD = "D testEmail";
+        var authorEmailE = "E testEmail";
+        var authorEmailF = "F testEmail";
+        var authorEmailG = "G testEmail";
+        var authorEmailH = "H testEmail";
+
+        await authorRepository.CreateAuthor(authorNameA, authorEmailA);
+        await authorRepository.CreateAuthor(authorNameB, authorEmailB);
+        await authorRepository.CreateAuthor(authorNameC, authorEmailC);
+        await authorRepository.CreateAuthor(authorNameD, authorEmailD);
+        await authorRepository.CreateAuthor(authorNameE, authorEmailE);
+        await authorRepository.CreateAuthor(authorNameF, authorEmailF);
+        await authorRepository.CreateAuthor(authorNameG, authorEmailG);
+        await authorRepository.CreateAuthor(authorNameH, authorEmailH);
+
+        await authorRepository.FollowAnAuthor(authorEmailA, authorNameB);
+        await authorRepository.FollowAnAuthor(authorEmailA, authorNameC);
+        await authorRepository.FollowAnAuthor(authorEmailA, authorNameD);
+
+        await authorRepository.FollowAnAuthor(authorEmailB, authorNameE);
+        await authorRepository.FollowAnAuthor(authorEmailB, authorNameF);
+        await authorRepository.FollowAnAuthor(authorEmailB, authorNameG);
+
+        await authorRepository.FollowAnAuthor(authorEmailC, authorNameE);
+        await authorRepository.FollowAnAuthor(authorEmailC, authorNameF);
+    
+
+        await authorRepository.FollowAnAuthor(authorEmailD, authorNameE);
+       
+
+        List<Guid> authorIds = new List<Guid>();  
+        authorIds = await authorRepository.GetFollowersFollower(authorEmailA);
+
+        //Act
+        var resultLength = authorIds.Count;
+        var resultFirstPlace = await authorRepository.GetAuthorNameByID(authorIds[0]);
+        var resultSecondPlace = await authorRepository.GetAuthorNameByID(authorIds[1]);
+
+
+        //Assert
+        resultLength.Should().Be(2);
+        resultFirstPlace.Should().Be(authorNameE);
+        resultSecondPlace.Should().Be(authorNameF);
+    }
+
 
     
 }
