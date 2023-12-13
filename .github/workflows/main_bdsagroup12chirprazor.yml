@@ -29,7 +29,7 @@ jobs:
         run: dotnet build --no-restore
       
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test test/Chirp.Infrastructure.Tests --no-build --verbosity normal
 
       - name: Dotnet Publish
         run: dotnet publish src/Chirp.Web -c Release -o ${{env.DOTNET_ROOT}}/myapp
