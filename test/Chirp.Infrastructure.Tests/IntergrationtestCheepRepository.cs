@@ -1,22 +1,18 @@
-
-using Azure;
-using Microsoft.VisualBasic;
-using Org.BouncyCastle.Ocsp;
-using Testcontainers.MsSql;
-
 namespace Chirp.test.Chirp.Infrastructure.Tests;
 
 public class IntergrationtestCheepRepository : IAsyncLifetime
 {
     private readonly MsSqlContainer _container;
 
-    readonly CheepValidator _cheepValidator;
-    readonly AuthorValidator _authorValidator;
+    private readonly CheepValidator _cheepValidator;
+    private readonly AuthorValidator _authorValidator;
 
-    public Author authorTest { get; set; }
+    public Author? AuthorTest { get; set; }
 
     public IntergrationtestCheepRepository()
     {
+        _cheepValidator = new CheepValidator();
+        _authorValidator = new AuthorValidator();
         _container = new MsSqlBuilder()
                         .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                         .Build();
@@ -41,7 +37,7 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
             .RuleFor(c => c.AuthorFollowers, new List<Author>());
         var authors = authorFaker.Generate(10);
 
-        authorTest = authors[0];
+        AuthorTest = authors[0];
 
         var cheepFaker = new Faker<Cheep>()
             .RuleFor(c => c.Author, f => f.PickRandom(authors))
@@ -94,9 +90,9 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         var authorRepository = new AuthorRepository(context, _authorValidator);
 
         //Act
-        var followingAuthorTest = await authorRepository.GetFollowedAuthors(authorTest.Email) ?? new List<Guid>();
-        var result = await cheepRepository.HasNextPageOfPrivateTimeline(3,authorTest.Name, followingAuthorTest);
-        var check = await cheepRepository.GetCheepsUserTimeline(4, authorTest.Name, followingAuthorTest);
+        var followingAuthorTest = await authorRepository.GetFollowedAuthors(AuthorTest!.Email) ?? new List<Guid>();
+        var result = await cheepRepository.HasNextPageOfPrivateTimeline(3,AuthorTest.Name, followingAuthorTest);
+        var check = await cheepRepository.GetCheepsUserTimeline(4, AuthorTest.Name, followingAuthorTest);
         
         
         //Assert
@@ -130,25 +126,25 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 
         await authorRepository.CreateAuthor(authorName, authorEmail);
         Guid authorId = context.Authors.Where(a => a.Email == authorEmail).Select(a => a.AuthorId).FirstOrDefault();
-        AuthorDto authorDto = await authorRepository.GetAuthorDTOByEmail(authorEmail);
+        AuthorDto? authorDto = await authorRepository.GetAuthorDTOByEmail(authorEmail);
 
 
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message1", TimeStamp = DateTime.Now.AddDays(1), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message2", TimeStamp = DateTime.Now.AddDays(2), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message3", TimeStamp = DateTime.Now.AddDays(3), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message4", TimeStamp = DateTime.Now.AddDays(4), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message9", TimeStamp = DateTime.Now.AddDays(9), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message6", TimeStamp = DateTime.Now.AddDays(6), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message7", TimeStamp = DateTime.Now.AddDays(7), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message8", TimeStamp = DateTime.Now.AddDays(8), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message5", TimeStamp = DateTime.Now.AddDays(5), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault() });
-        await cheepRepository.CreateCheep("message9", authorDto);
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message1", TimeStamp = DateTime.Now.AddDays(1), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message2", TimeStamp = DateTime.Now.AddDays(2), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message3", TimeStamp = DateTime.Now.AddDays(3), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message4", TimeStamp = DateTime.Now.AddDays(4), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message9", TimeStamp = DateTime.Now.AddDays(9), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message6", TimeStamp = DateTime.Now.AddDays(6), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message7", TimeStamp = DateTime.Now.AddDays(7), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message8", TimeStamp = DateTime.Now.AddDays(8), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message5", TimeStamp = DateTime.Now.AddDays(5), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
+        await cheepRepository.CreateCheep("message9", authorDto!);
         
         //Act
         var result = await cheepRepository.GetFirstCheepFromAuthor(authorId);
 
         //Assert
-        result.Message.Should().Be("message9");
+        result?.Message.Should().Be("message9");
 
     }
 
@@ -211,11 +207,11 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         await authorRepository.FollowAnAuthor(authorEmailD, authorNameE);
        
 
-        List<Guid> authorIds = new List<Guid>();  
+        List<Guid>? authorIds = new List<Guid>();  
         authorIds = await authorRepository.GetFollowersFollower(authorEmailA);
 
         //Act
-        var resultLength = authorIds.Count;
+        var resultLength = authorIds!.Count;
         var resultFirstPlace = await authorRepository.GetAuthorNameByID(authorIds[0]);
         var resultSecondPlace = await authorRepository.GetAuthorNameByID(authorIds[1]);
 

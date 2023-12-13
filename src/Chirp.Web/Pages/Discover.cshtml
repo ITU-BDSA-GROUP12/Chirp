@@ -8,7 +8,7 @@
 
 <div>
     <h2> Discover </h2>
-    @if(!User.Identity.IsAuthenticated)
+    @if(!User.Identity!.IsAuthenticated)
     {
         <p> <a href="/Identity/Account/Login"> Login </a> to see your feed. </p>
     }
@@ -29,7 +29,7 @@
                         
                         @if (User.Identity.IsAuthenticated && cheep.Author != User.Identity.Name)
                             {
-                                @if (Model.FollowedAuthors.Contains(cheep.AuthorId))
+                                @if (Model.FollowedAuthors!.Contains(cheep.AuthorId))
                                 {
                                     <form method="post">
                                         <input type="hidden" name="followName" value="@cheep.Author">

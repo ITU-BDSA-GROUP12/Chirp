@@ -26,41 +26,39 @@ public class DiscoverModel : PageModel
     {
         _CheepRepository = repository;
         _AuthorRepository = authorRepository;
+        recomendedCheeps = [];
+        FollowedAuthors ??= new List<Guid>();
     }
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
-        string? pagevalue = Request.Query["page"];
-        recomendedCheeps = new List<CheepDto>();
-
         recomendedAuthors = await _AuthorRepository.GetFollowersFollower(User.FindFirstValue("emails"));
-        foreach (Guid authorId in recomendedAuthors)
+        if (recomendedAuthors != null) { 
+            foreach (Guid authorId in recomendedAuthors)
         {
-            CheepDto cheepFromRecommendedAuthor = await _CheepRepository.GetFirstCheepFromAuthor(authorId);
-            if (cheepFromRecommendedAuthor != null) recomendedCheeps.Add(cheepFromRecommendedAuthor);
+            CheepDto? cheepFromRecommendedAuthor = await _CheepRepository.GetFirstCheepFromAuthor(authorId);
+            if (cheepFromRecommendedAuthor != null) recomendedCheeps!.Add(cheepFromRecommendedAuthor);
         }
+        }
+        
 
-        FollowedAuthors ??= new List<Guid>();
+        //Use followauthors to show unfollow/follow button based on whether or not you follow authors
         FollowedAuthors = await _AuthorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
 
         return Page();
     }
 
-
-    [BindProperty]
-    public string Text { get; set; }
-
     //https://www.learnrazorpages.com/razor-pages/handler-methods
     public async Task<IActionResult> OnPostFollow(string followName)
     {
-        await _AuthorRepository.FollowAnAuthor(User.FindFirstValue("emails"), followName);
+        await _AuthorRepository.FollowAnAuthor(User.FindFirstValue("emails")!, followName);
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostUnFollow(string followName)
     {
-        await _AuthorRepository.UnFollowAnAuthor(User.FindFirstValue("emails"), followName);
+        await _AuthorRepository.UnFollowAnAuthor(User.FindFirstValue("emails")!, followName);
 
         return Page();
     }

@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace Chirp.Infrastructure.Tests;
 
 public class UnitTestAuthorRepository
@@ -27,10 +25,10 @@ public class UnitTestAuthorRepository
         var repository = new AuthorRepository(context, author_validator);
 
         // Act
-        AuthorDto author = await repository.GetAuthorDTOByName(name);
+        AuthorDto? author = await repository.GetAuthorDTOByName(name);
 
         // Assert
-        Assert.Equal(author.Name, name);
+        Assert.Equal(author!.Name, name);
     }
 
     [Theory]
@@ -55,10 +53,10 @@ public class UnitTestAuthorRepository
         var repository = new AuthorRepository(context, author_validator);
 
         // Act
-        AuthorDto author = await repository.GetAuthorDTOByEmail(email);
+        AuthorDto? author = await repository.GetAuthorDTOByEmail(email);
 
         // Assert
-        Assert.Equal(author.Email, email);
+        Assert.Equal(author!.Email, email);
     }
 
     [Theory]
@@ -83,10 +81,10 @@ public class UnitTestAuthorRepository
 
         // Act
         await repository.CreateAuthor(name, email);
-        AuthorDto newly_created_author = await repository.GetAuthorDTOByEmail(email);
+        AuthorDto? newly_created_author = await repository.GetAuthorDTOByEmail(email);
 
         // Assert
-        Assert.Equal(newly_created_author.Email, email);
+        Assert.Equal(newly_created_author!.Email, email);
     }
 
     [Fact]
@@ -122,12 +120,12 @@ public class UnitTestAuthorRepository
 
 
 
-        repository.FollowAnAuthor(follower_email, followed_name);
+        await repository.FollowAnAuthor(follower_email, followed_name);
 
 
         // Assert
 
-        Assert.True(follower.FollowedAuthors.Contains(followed));
+        Assert.Contains(follower!.FollowedAuthors, author => author == followed);
 
     }
 
@@ -170,7 +168,7 @@ public class UnitTestAuthorRepository
 
         // Asser
 
-        Assert.DoesNotContain(followed, follower.FollowedAuthors);
+        Assert.DoesNotContain(followed, follower!.FollowedAuthors);
 
     }
 
@@ -229,7 +227,7 @@ public class UnitTestAuthorRepository
         Assert.NotNull(list_containing_only_D_Guid);
 
         Guid D_guid = list_containing_only_D_Guid[0];
-        string D_name = await repository.GetAuthorNameByID(D_guid);
+        string? D_name = await repository.GetAuthorNameByID(D_guid);
         Assert.Equal("D name", D_name);
     }
 
@@ -251,7 +249,7 @@ public class UnitTestAuthorRepository
         AuthorValidator author_validator = new AuthorValidator();
         var repository = new AuthorRepository(context, author_validator);
 
-        Author author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
+        Author? author = await context.Authors.FirstOrDefaultAsync(a => a.Email == "ropf@itu.dk");
         Assert.Contains(context.Authors, testauthor => testauthor == author);
         Assert.Contains(context.Cheeps, cheep => cheep.Author == author);
 

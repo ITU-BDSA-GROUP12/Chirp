@@ -39,15 +39,15 @@ public class AboutMePageModel : PageModel
         string? pagevalue = Request.Query["page"];
 
         OID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        Author = User.Identity?.Name;
+        Author = User.Identity!.Name;
         Email = User.FindFirstValue("emails");
         if (pagevalue == null)
         {
-            Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, Author);
+            Cheeps = await _cheepRepository.GetCheepsFromAuthor(1, Author!);
         }
         else
         {
-            Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), Author);
+            Cheeps = await _cheepRepository.GetCheepsFromAuthor(Int32.Parse(pagevalue), Author!);
         }
 
         FollowedID = await _authorRepository.GetFollowedAuthors(Email);
@@ -58,20 +58,20 @@ public class AboutMePageModel : PageModel
 
         FollowedName = new List<string>();
         FollowersName = new List<string>();
-        foreach (Guid id in FollowedID)
+        foreach (Guid id in FollowedID!)
         {
 
-            string user = await _authorRepository.GetAuthorNameByID(id);
+            string? user = await _authorRepository.GetAuthorNameByID(id);
             if (user != null)
             {
                 FollowedName.Add(user);
             }
         }
 
-        foreach (Guid id in FollowersID)
+        foreach (Guid id in FollowersID!)
         {
 
-            string user = await _authorRepository.GetAuthorNameByID(id);
+            string? user = await _authorRepository.GetAuthorNameByID(id);
             if (user != null)
             {
                 FollowersName.Add(user);

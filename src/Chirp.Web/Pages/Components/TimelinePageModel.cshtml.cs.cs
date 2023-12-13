@@ -4,23 +4,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages.Components;
 
-public class TimelinePageModel : PageModel
+public class TimelinePageModel(ICheepRepository repository, IAuthorRepository authorRepository) : PageModel
 {
 
-    public ICheepRepository _CheepRepository;
-    public IAuthorRepository _AuthorRepository;
+    public ICheepRepository _CheepRepository = repository;
+    public IAuthorRepository _AuthorRepository = authorRepository;
 
     public string validationMessage { get; set; } = "";
 
-
-    public TimelinePageModel(ICheepRepository repository, IAuthorRepository authorRepository)
-    {
-        _CheepRepository = repository;
-        _AuthorRepository = authorRepository;
-    }
-
     [BindProperty]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     public async Task<IActionResult> OnPost()
     {
@@ -42,8 +35,8 @@ public class TimelinePageModel : PageModel
 
         AuthorDto author = new()
         {
-            Name = User.Identity.Name,
-            Email = User.FindFirstValue("emails")// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+            Name = User.Identity!.Name!,
+            Email = User.FindFirstValue("emails")!// from https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
         };
         await _CheepRepository.CreateCheep(Text, author);
 

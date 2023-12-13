@@ -1,6 +1,16 @@
+@* This page is used as a landing page after login. The content of this page is never shown. Its the model that is important
+The model ensures that the logged in user is registered as an author in the database. 
+*@
+
 @page "/AuthorAuthorize"
 @model Chirp.Web.Pages.AuthorAuthorizeModel
 
-<div>
-    <h1>@User.Identity.Name</h1>
-</div>
+@if(User.Identity != null) {
+    <div>
+        <h1>@User.Identity.Name</h1>
+    </div>
+} else {
+    <div>
+        <h1>Authentication failed, please try again</h1>
+    </div>
+}
