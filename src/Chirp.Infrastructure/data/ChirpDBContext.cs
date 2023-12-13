@@ -14,15 +14,15 @@ namespace Chirp.Infrastructure
             modelBuilder.Entity<Cheep>()
                 .Property(c => c.Text)
                 .HasMaxLength(160);
-            
+
             modelBuilder.Entity<Author>()
                 .HasKey(e => e.AuthorId)
-                .IsClustered(false); 
-            
-             modelBuilder.Entity<Author>()
-                .HasIndex(e => e.AuthorId)
-                .IsUnique()
-                .IsClustered(false); 
+                .IsClustered(false);
+
+            modelBuilder.Entity<Author>()
+               .HasIndex(e => e.AuthorId)
+               .IsUnique()
+               .IsClustered(false);
 
             modelBuilder.Entity<Author>()
                 .HasIndex(e => e.Email)
