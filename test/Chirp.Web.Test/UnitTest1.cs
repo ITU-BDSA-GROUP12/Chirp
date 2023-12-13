@@ -44,15 +44,15 @@ public class Tests : PageTest
 
         await page.GetByRole(AriaRole.Link, new() { Name = "Public timeline" }).ClickAsync();
 
-        await page.Locator("li").Filter(new() { HasText = "allanzigge Så kører vi igen" }).GetByRole(AriaRole.Button).ClickAsync();
+        await page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck now is what we hear the worst" }).GetByRole(AriaRole.Button).ClickAsync();
 
         await page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
 
-        await Expect(page.GetByRole(AriaRole.Strong)).ToContainTextAsync("allanzigge");
+        await Expect(page.GetByRole(AriaRole.Strong)).ToContainTextAsync("Jacqualine Gilcoine");
 
         await page.GetByRole(AriaRole.Link, new() { Name = "Public timeline" }).ClickAsync();
 
-        await page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" }).ClickAsync();
+        await page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck now is what we hear the worst" }).GetByRole(AriaRole.Button, new() { Name = "Unfollow" }).ClickAsync();
 
         await page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
 
@@ -293,6 +293,20 @@ public class Tests : PageTest
         await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "People you follow" })).ToBeVisibleAsync();
 
         await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "People who follow you" })).ToBeVisibleAsync();
+
+    }
+
+    [Test]
+    public async Task TestOtherAuthorTimeline() //as long as there is no new cheeps
+    {
+        await using var browser = await Playwright.Chromium.LaunchAsync(new() { Headless = false, SlowMo = 1000 });
+        var page = await browser.NewPageAsync();
+
+        await page.GotoAsync("https://bdsagroup12chirprazor.azurewebsites.net/");
+
+        await page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
+
+        await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
 
     }
 
