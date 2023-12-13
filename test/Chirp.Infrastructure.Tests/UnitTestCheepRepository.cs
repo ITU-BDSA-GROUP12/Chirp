@@ -1,9 +1,3 @@
-using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.Identity.Client;
-using Microsoft.SqlServer.Server;
-
 namespace Chirp.Infrastructure.Tests;
 
 public class UnitTestCheepRepository
@@ -70,7 +64,7 @@ public class UnitTestCheepRepository
         List<CheepDto> result = await repository.GetCheeps(0);
 
         // Assert
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
 
         context.Database.EnsureDeleted();
     }
@@ -101,7 +95,7 @@ public class UnitTestCheepRepository
         {
             new CheepDto
             {
-                AuthorId = Author.AuthorId,
+                AuthorId = Author!.AuthorId,
                 Author = "Helge",
                 Message = "Hello, BDSA students!",
                 Timestamp = "2023-08-01 12:16:48"
@@ -253,7 +247,7 @@ public class UnitTestCheepRepository
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
 
         // create a cheep from newly created author
-        await cheepRepository.CreateCheep("TestCheep for getCheepDeleteTest", authorDTO);
+        await cheepRepository.CreateCheep("TestCheep for getCheepDeleteTest", authorDTO!);
 
         // Act
 
@@ -261,7 +255,7 @@ public class UnitTestCheepRepository
         // get cheeps written from newly created author, and verify that the newly created cheep was stored correctly
 
         var result = await cheepRepository.GetCheeps(0);
-        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO!.Name);
 
         // delete the newly created author. the cheep should no longer be retrievable.
         await authorRepository.DeleteAuthor(authorEmail);
@@ -271,7 +265,7 @@ public class UnitTestCheepRepository
         // Assert
 
         // Verify that the newly created cheep is not retrieved, when the newly deleted author is used for retrieval.
-        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO.Name);
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO!.Name);
     }
 
     [Fact]
@@ -303,19 +297,19 @@ public class UnitTestCheepRepository
         await authorRepository.CreateAuthor(authorName, authorEmail);
 
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
-        await cheepRepository.CreateCheep("TestCheep for getCheepFromAuthorDeleteTest", authorDTO);
+        await cheepRepository.CreateCheep("TestCheep for getCheepFromAuthorDeleteTest", authorDTO!);
 
         // Act
 
         var result = await cheepRepository.GetCheepsFromAuthor(0, authorName);
-        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO.Name);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO!.Name);
 
         await authorRepository.DeleteAuthor(authorEmail);
 
         result = await cheepRepository.GetCheepsFromAuthor(0, authorName);
 
         // Asser
-        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO.Name);
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO!.Name);
     }
 
     [Fact]
@@ -347,10 +341,10 @@ public class UnitTestCheepRepository
         await authorRepository.CreateAuthor(authorName2, authorEmail2);
 
         var authorDTO = await authorRepository.GetAuthorDTOByEmail("test@email.com");
-        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline1DeleteTest", authorDTO);
+        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline1DeleteTest", authorDTO!);
 
         var authorDTO2 = await authorRepository.GetAuthorDTOByEmail("test2@email.com");
-        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline2DeleteTest", authorDTO2);
+        await cheepRepository.CreateCheep("TestCheep for getCheepUserTimeline2DeleteTest", authorDTO2!);
 
         await authorRepository.FollowAnAuthor(authorEmail, authorName2);
 
@@ -358,7 +352,7 @@ public class UnitTestCheepRepository
 
         List<Guid> followedAuthorsId = new();
 
-        foreach (var followedAuthor in author1.FollowedAuthors)
+        foreach (var followedAuthor in author1!.FollowedAuthors)
         {
             followedAuthorsId.Add(followedAuthor.AuthorId);
         }
@@ -366,14 +360,14 @@ public class UnitTestCheepRepository
         // Act
 
         var result = await cheepRepository.GetCheepsUserTimeline(0, authorName, followedAuthorsId);
-        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO2.Name);
+        Assert.Contains(result, cheepDto => cheepDto.Author == authorDTO2!.Name);
 
         await authorRepository.DeleteAuthor(authorEmail2);
 
         result = await cheepRepository.GetCheepsUserTimeline(0, authorName, followedAuthorsId);
 
         // Assert
-        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO2.Name);
+        Assert.DoesNotContain(result, cheepDto => cheepDto.Author == authorDTO2!.Name);
     }
 
     [Fact]

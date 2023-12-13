@@ -9,7 +9,7 @@
 <div>
    
     
-    @if (User.Identity.IsAuthenticated) {
+    @if (User.Identity!.IsAuthenticated) {
         <h2> About you and your data </h2>
         <p> @Model.Author </p>
         <p> @Model.Email </p>

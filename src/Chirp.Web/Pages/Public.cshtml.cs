@@ -39,7 +39,7 @@ public class PublicModel : Components.TimelinePageModel
 
         Cheeps = await _CheepRepository.GetCheeps(pagevalue);
 
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity!.IsAuthenticated)
         {
             FollowedAuthors ??= new List<Guid>();
 

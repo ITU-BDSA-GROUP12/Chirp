@@ -13,15 +13,20 @@ public class AuthorAuthorizeModel : PageModel
     }
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity != null)
         {
-            var authorizationCode = HttpContext.Request.Query["code"];
-            AuthorDto? author = await _repository.GetAuthorDTOByEmail(User.FindFirstValue("emails"));
-            if (author == null)
+            if (User.Identity.IsAuthenticated)
             {
-                await _repository.CreateAuthor(User.Identity.Name, User.FindFirstValue("emails"));
+                AuthorDto? author = await _repository.GetAuthorDTOByEmail(User.FindFirstValue("emails")!);
+                if (author == null)
+                {
+                    await _repository.CreateAuthor(User.Identity.Name!, User.FindFirstValue("emails")!);
+                }
             }
+            return Redirect(Url.Content("~/"));
         }
-        return Redirect(Url.Content("~/"));
+        else {
+            return Page();
+        }
     }
 }

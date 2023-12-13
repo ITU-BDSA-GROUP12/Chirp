@@ -94,7 +94,7 @@ public class CheepRepository : ICheepRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<CheepDto> GetFirstCheepFromAuthor(Guid authorId)
+    public async Task<CheepDto?> GetFirstCheepFromAuthor(Guid authorId)
     {
         Cheep? cheep = await _context.Cheeps.Where(c => c.AuthorId == authorId).OrderByDescending(c => c.TimeStamp).FirstOrDefaultAsync();
         if (cheep == null)

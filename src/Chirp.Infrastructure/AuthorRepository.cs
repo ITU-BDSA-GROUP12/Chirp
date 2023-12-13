@@ -29,7 +29,7 @@ public class AuthorRepository : IAuthorRepository
         };
     }
 
-    public async Task<string> GetAuthorNameByID(Guid id)
+    public async Task<string?> GetAuthorNameByID(Guid id)
     {
         Author? author = await _context.Authors.FirstOrDefaultAsync(a => a.AuthorId == id);
         if (author == null)
