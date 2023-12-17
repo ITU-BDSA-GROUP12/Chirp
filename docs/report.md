@@ -35,7 +35,10 @@ Here comes a description of our domain model.
 ## How to make _Chirp!_ work locally
 
 ## How to run test suite locally
-
+In order to run all test suites of the Chirp application, you simply need to be located in the root directory (Chirp) and run the following command:
+```
+dotnet test
+```
 # Ethics
 
 ## License
