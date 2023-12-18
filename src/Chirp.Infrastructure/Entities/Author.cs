@@ -4,8 +4,9 @@ namespace Chirp.Infrastructure;
 /// <summary>
 /// The Author entity class represents a Chirp user. When a user is authenticated we save them as an Author.
 /// An author has basic information ID (we use GUID), name & email.
-/// An author can _Cheep_, ie. send messages. An authors cheeps are saved here in the Cheeps list.
+/// An author can _Cheep_, i.e. send messages. An author's cheeps are saved in 'Cheeps'.
 /// Furthermore, authors can follow each other, which is why we need two lists for followers and the followed users.
+/// Hvorfor fuck er ting required, nullable??
 /// </summary>
 
 public class Author
