@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure;
 /// An author has basic information ID (we use GUID), name & email.
 /// An author can _Cheep_, i.e. send messages. An author's cheeps are saved in 'Cheeps'.
 /// Furthermore, authors can follow each other, which is why we need two lists for followers and the followed users.
-/// Hvorfor fuck er ting required, nullable??
+/// Hvorfor fuck er ting required, nullable?? Warnings?
 /// </summary>
 
 public class Author
