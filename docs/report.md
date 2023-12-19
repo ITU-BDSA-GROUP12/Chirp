@@ -39,7 +39,20 @@ Here comes a description of our domain model.
 # Ethics
 
 ## License
-It became clear to us that choosing a license is important to us as developers and to provide guidelines for other developers. This is of course even more relevant if the application were to stay and generate profit.
-Who have chosen the MIT license because of its simplisity and broad permissive nature. The MIT license is also ideal since .NET use the MIT license, however in this case it is not required to use the same license. 
+It became clear to us that choosing a license is important to us as developers and to provide guidelines for other developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. 
+It is always good practice to add a license to guide other developers of what they can do with our code.
+
+This is of course even more relevant if the application were to stay and generate profit.
+
+When choosing a license you generally have to choose between permissive(copyright) and protective(copyleft)  licenses, with different protective grades. In our group we have agreed that anyone can re-use our code, and we do not have any other reason to choose a protective license. Therefore we have chosen the MIT license because of its simplisity and broad permissive nature. Our dependencies are all protected by MIT or Apache 2.0 license.
+
+*.NET 			        MIT
+*Fluent validation	    Apache 2.0
+*Entity Framework       MIT
+*ASP.NET core           MIT	
+*Microsoft graph        MIT
+*Microsoft identity	    MIT		
+*Microsoft.data.sqlite  MIT
+*Azure Identity		    MIT
 
 ## LLMs, ChatGPT, CoPilot, and others
