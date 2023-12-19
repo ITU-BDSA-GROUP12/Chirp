@@ -84,7 +84,7 @@ dotnet build
 ```
 #### Running the application
 To run the Chirp application locally you have to move to the Chirp.Web package (/src/Chip.Web).
-When standing in the Chirp.Web package, run the following command:
+When in the Chirp.Web package, run the following command:
 ```
 dotnet run
 ```
