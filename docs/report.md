@@ -29,10 +29,7 @@ The next layer in the architecture is the data layer which manifests in Chirp as
 
 The outermost layer is the entry point for our Chirp application. In the code this is the _Chirp.Web_ package, which holds a RazorPage Application. This package depends on both the _Chirp.Core_ and the _Chirp.Infrastructure_ package. It is also in this class the Program.cs file resides, which is responsible for configuring the application, including the configuration for dependency injection. Here it configures implementation from the _Chirp.Infrastructure_ layer to be used when abstractions from the _Chirp.Core_ layer is requested.
 
-For a more indepth visualization of which classes resides in which of the packages mentioned, see figure \ref{PackageDiagram}, a complete UML package diagram for Chirp.
-
-![This is the caption\label{PackageDiagram}](INSERT PACKAGE DIAGRAM HERE!!)
-
+For a more indepth visualization of which classes resides in which of the packages mentioned, see the png-file located at 'Chirp/docs/images/PackageDiagram.drawio.png', a complete UML package diagram for _Chirp!_.
 ## Architecture of deployed application
 
 ## User activities
