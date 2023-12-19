@@ -25,7 +25,8 @@ public class AuthorAuthorizeModel : PageModel
             }
             return Redirect(Url.Content("~/"));
         }
-        else {
+        else
+        {
             return Page();
         }
     }

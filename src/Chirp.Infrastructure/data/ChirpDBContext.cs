@@ -2,6 +2,7 @@ namespace Chirp.Infrastructure
 {
     public class ChirpDBContext : DbContext
     {
+        // The database context for the Chirp database.
         public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
         {
         }
@@ -11,6 +12,8 @@ namespace Chirp.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Here we set up some rules for the entries in the database, ensuring that the data created is valid.
+            // We also set up some indexes to speed up the database queries.
             modelBuilder.Entity<Cheep>()
                 .Property(c => c.Text)
                 .HasMaxLength(160);

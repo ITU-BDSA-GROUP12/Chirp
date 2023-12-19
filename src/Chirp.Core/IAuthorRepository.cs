@@ -3,6 +3,7 @@ namespace Chirp.Core;
 
 public interface IAuthorRepository
 {
+    // The interface for the AuthorRepository class, exposing the methods for manipulating the autors in the database.
     public Task<AuthorDto?> GetAuthorDTOByName(string name);
     public Task<AuthorDto?> GetAuthorDTOByEmail(string email);
     public Task CreateAuthor(string name, string email);
