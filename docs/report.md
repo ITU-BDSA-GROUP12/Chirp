@@ -69,7 +69,7 @@ dotnet user-secrets set "ConnectionStrings:DeleteSecret": "n4x8Q~ULLEGdgNVvcSoSq
 
 Now you should be ready to build, test and run the Chirp application.
 #### Building the project
-To build the entire project make sure you are standing in the root directory (Chirp) and run the following command:
+To build the entire project make sure you are in the root directory (Chirp) and run the following command:
 ```
 dotnet build
 ```
