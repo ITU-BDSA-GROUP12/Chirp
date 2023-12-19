@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace Chirp.Infrastructure;
 
 public class CheepValidator : AbstractValidator<Cheep>

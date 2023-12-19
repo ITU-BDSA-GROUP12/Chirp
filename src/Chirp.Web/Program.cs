@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +14,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
-
-// builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
-// {
-//     options.Conventions.AddPageRoute("/", "");
-// });
 
 builder.Services.AddScoped<CheepValidator>();
 builder.Services.AddScoped<AuthorValidator>();
