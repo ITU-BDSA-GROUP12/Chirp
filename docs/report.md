@@ -39,13 +39,13 @@ Here comes a description of our domain model.
 # Ethics
 
 ## License
-It became clear to us that choosing a license is important to us as developers and to provide guidelines for other developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. 
-It is always good practice to add a license to guide other developers of what they can do with our code.
+It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also it is always good practice to add a license to guide other developers to what they can do with our code.
+This is of course even more relevant if the application were to stay and generate profit, and in this case we would need to consider another license.
 
-This is of course even more relevant if the application were to stay and generate profit.
+When choosing a license we generally have to choose between permissive(copyright) and protective(copyleft) licenses, with different protective grades. We are not a community where the code needs contributers, and we do not have a desire to ensure openness. In our group we agree that anyone can re-use our code, however we do not want that anyone has permission to patent our code. Therefore we have chosen the MIT license because of its simplisity and broad permissive nature. The Apache license grants patent rights from contributers, which is what we do not want. 
 
-When choosing a license you generally have to choose between permissive(copyright) and protective(copyleft)  licenses, with different protective grades. In our group we have agreed that anyone can re-use our code, and we do not have any other reason to choose a protective license. Therefore we have chosen the MIT license because of its simplisity and broad permissive nature. Our dependencies are all protected by MIT or Apache 2.0 license.
-
+Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
+List of all our dependencies:
 *.NET 			        MIT
 *Fluent validation	    Apache 2.0
 *Entity Framework       MIT
