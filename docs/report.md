@@ -28,7 +28,7 @@ Azure SQL Server is employed to host our database by providing a connection stri
 
 We employ Microsoft Graph to delete a user from Azure AD by using a management application with Read-Write API permissions on Users in Azure AD.
 
-![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\lable{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio.png)
+![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\lable{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
 
 ## User activities
 
