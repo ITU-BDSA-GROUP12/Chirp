@@ -2,10 +2,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Graph;
-using Microsoft.Identity.Client;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
 using Azure.Identity;
 
 namespace Chirp.Web.Pages;
@@ -86,7 +82,7 @@ public class AboutMePageModel : PageModel
         {
             try
             {
-                var clientId = "e122fcdf-99a1-4b19-b7a4-adf859e617ca";
+                var clientId = "e4f0f78c-3bcf-40d3-a75e-d6742a37053b";
                 var tenantId = "ab2f43aa-cecc-43ed-a142-34012b9a7a3b";
                 var clientSecret = _config["ConnectionStrings:DeleteSecret"];
 

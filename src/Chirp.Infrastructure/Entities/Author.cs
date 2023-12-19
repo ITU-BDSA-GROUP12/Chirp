@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace Chirp.Infrastructure;
 /// <summary>
 /// The Author entity class represents a Chirp user. When a user is authenticated we save them as an Author.

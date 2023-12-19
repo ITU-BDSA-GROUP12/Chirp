@@ -1,7 +1,3 @@
-using System.IO.Compression;
-using System.Runtime.InteropServices;
-using Microsoft.IdentityModel.Tokens;
-
 namespace Chirp.Infrastructure;
 
 public class AuthorRepository : IAuthorRepository

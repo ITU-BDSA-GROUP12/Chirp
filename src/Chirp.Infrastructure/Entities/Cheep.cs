@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations; // For the required fields
 namespace Chirp.Infrastructure;
 /// <summary>
 /// The Cheep entity class represents the message an author can post.
