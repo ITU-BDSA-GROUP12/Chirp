@@ -60,7 +60,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDto>> GetCheepsUserTimeline(int page, string UserName, List<Guid> authorIds)
     {
         // Return cheeps from a given author and cheeps from authors that is followed by the user on specific page
-        // authorIds is a list of the authorIds of the authors that follow the user.
+        // authorIds consist of authorId that the user follows
         List<CheepDto> cheepList = await (from cheep in _context.Cheeps
                                           where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName)
                                           orderby cheep.TimeStamp descending
