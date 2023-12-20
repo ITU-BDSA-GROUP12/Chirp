@@ -41,7 +41,7 @@ ChirpDBContext then returns the Author record, which the AuthorRepository return
 
 The AuthorAuthenticate model now calls a CreateAuthor method on the AuthorRepository. With the Users name and email provided in the arguments it creates an Author entity and adds it to the ChripDBContext Authors DbSet. Now EF Core inserts it in the MSQL database. 
 
-The AuthorAuthendicate model concludes its GET methode by redirecting the user to the public timeline page.
+The AuthorAuthenticate model concludes its GET methode by redirecting the user to the public timeline page.
 
 ![Sequence diagram of creating a user on the Azure SQL Server if User does not exist.\lable{AuthorAuthenticazion}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-AuthorAuthenticazion.drawio%20(1).png)
 # Process
