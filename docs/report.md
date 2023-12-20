@@ -42,7 +42,7 @@ During development of the application, we have used github workflows to automate
 ### Build and test workflow
 This workflow is triggered when a branch is pushed or a pull request is created. It locates the source code and sets up a .NET Core environment. Then it downloads the missing, if any dependencies are missing, builds the application and runs the test suite. 
 This workflow is useful streamlining reviewing pull requests. See figure \ref{BuildAndTest-workflow}
-![UML Diagram of build and test workflow\lable{BuildAndTest-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/BuildAndTest-Workflow.drawio.png)
+![UML Diagram of build and test workflow\lable{BuildAndTest-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/BuildAndTest-Workflow.drawio.png?raw=true)
 
 
 ### Release workflow
