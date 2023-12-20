@@ -42,7 +42,7 @@ Examples:
 
 #### Work flow
 We have implemented the code in short incremental steps as, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description and a definition of done.
-The issues are created to match the project description provided by our professors Helge and Rasmus, or to match changes and details that we as a group or individually found relevant to implement.
+The issues are created to match the project description provided by our professors, or to match changes and details that we as a group or individually found relevant to implement.
 On creation, an issue is placed in one of three categories:
 - To-do: a place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
 - Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready or the issue is not relevant to work with at the moment
