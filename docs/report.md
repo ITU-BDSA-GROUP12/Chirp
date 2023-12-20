@@ -52,9 +52,9 @@ This streamlining helped making releases with executables on Github, whenever ou
 
 ### Deployment workflow
 This workflow consist of to jobs: 'BuildAndTest' and 'deploy'. Jobs can be run concurrently, but we need 'BuildAndTest' to run successfully, before we want to bother with deploying, hence the key word 'needs', which means we only run the 'deploy' when 'BuildAndTest' is done. 
-can manually be triggered on github or triggered by push to main. Again it sets up a .Net Core environment, restores the dependencies, builds and runs our test suite. Create and upload application  artifacts to the github actions workflow system with the name '.net-app'.  Then the new migrations are bundled together and uploaded with the name 'efbundle'.
+The workflow can be triggered manually on github or by push to main. Again it sets up a .Net Core environment, restores the dependencies, builds and runs our test suite. Create and upload application  artifacts to the github actions workflow system with the name '.net-app'.  Then the new migrations are bundled together and uploaded with the name 'efbundle'.
 Then the second part of the workflow called 'deploy', takes care of uploading the new web-app to azure and deploy the new migrations to the azure database. See figure \ref{deploy-workflow}
-![UML Diagram of the deploy workflow\lable{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png?raw=true)
+![UML Diagram of the deploy workflow\lable{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
 
 ## Build, test, release, and deployment
 
