@@ -54,7 +54,7 @@ The **my timeline** tab is similar to the public timeline, but here only the use
 ##### Discover
 Let the user of the application be A.
 The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. The users B is illustrated in the red box in figure \ref{discover}
-![The discover page illustrated\label{discover}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/the%20discover%20page.png?raw=true)
+![The discover page illustrated\label{discover}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/the%20discover%20page%20but%20better.png?raw=true)
 ##### Logout
 The **logout** tab turns the user into an unauthenticated user. This tab is only accessible to authenticated users.
 ##### About me
