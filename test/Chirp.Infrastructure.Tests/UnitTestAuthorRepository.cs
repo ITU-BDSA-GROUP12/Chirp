@@ -200,30 +200,30 @@ public class UnitTestAuthorRepository
 
         await repository.CreateAuthor(
             "A name",
-            "A email"
+            "A@email.ending"
         );
         await repository.CreateAuthor(
             "B name",
-            "B email"
+            "B@email.ending"
         );
         await repository.CreateAuthor(
             "C name",
-            "C email"
+            "C@email.ending"
         );
         await repository.CreateAuthor(
             "D name",
-            "D email"
+            "D@email.ending"
         );
 
-        Task _1 = repository.FollowAnAuthor("A email", "B name");
-        Task _2 = repository.FollowAnAuthor("A email", "C name");
-        Task _3 = repository.FollowAnAuthor("B email", "D name");
-        Task _4 = repository.FollowAnAuthor("C email", "D name");
+        Task _1 = repository.FollowAnAuthor("A@email.ending", "B name");
+        Task _2 = repository.FollowAnAuthor("A@email.ending", "C name");
+        Task _3 = repository.FollowAnAuthor("B@email.ending", "D name");
+        Task _4 = repository.FollowAnAuthor("C@email.ending", "D name");
         await _1; await _2; await _3; await _4;
 
         // Assert
 
-        List<Guid>? list_containing_only_D_Guid = await repository.GetFollowersFollower("A email");
+        List<Guid>? list_containing_only_D_Guid = await repository.GetFollowersFollower("A@email.ending");
         Assert.NotNull(list_containing_only_D_Guid);
 
         Guid D_guid = list_containing_only_D_Guid[0];
