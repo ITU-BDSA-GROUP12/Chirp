@@ -62,7 +62,7 @@ public class CheepRepository : ICheepRepository
         // If it is not the users timeline, when the authorIds list is empty the method only returns the cheep of the Author.
         // If it is the users timeline, then the authorIds contains all Ids of the Authors who the user follows. 
         // The method will then return the users cheeps and all cheeps from all the authors the user follows.
-        // authorIds consist of authorId that the user follows
+        
         List<CheepDto> cheepList = await (from cheep in _context.Cheeps
                                           where (authorIds.Contains(cheep.AuthorId) || cheep.Author.Name == UserName)
                                           orderby cheep.TimeStamp descending
