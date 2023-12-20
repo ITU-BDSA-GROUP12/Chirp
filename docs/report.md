@@ -48,7 +48,7 @@ This workflow is useful streamlining reviewing pull requests. See figure \ref{Bu
 ### Release workflow
 Whenever a new tag is pushed into main with our format, the release workflow is triggered. Again the .NET Core environment is set up, and then we add the artifact to our release with softprops/action-gh-release.
 This helped streamlining making releases with executables on github, whenever our main was given new tags. We manually had to check if Main built and passed the tests before given new tags, but could have been included. See figure \ref{Release-workflow}
-![UML Diagram of the release workflow\lable{Release-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png)
+![UML Diagram of the release workflow\lable{Release-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png?raw=true)
 
 ### Deployment workflow
 This workflow consist of to jobs: 'BuildAndTest' and 'deploy'. Jobs can be run concurrently, but we need 'BuildAndTest' to run successfully, before we want to bother with deploying, hence the key word 'needs', which only runs the 'deploy' when 'BuildAndTest' is done. 
