@@ -21,7 +21,7 @@ Here comes a description of our domain model.
 ## Architecture — In the small
 Our Chirp application is written following the clean (or onion) architecture. This clean architecture of Chirp can be seen visualized in figure \ref{OnionDiagram}. The idea with building chirp with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
 
-When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chip.Core_ package. Besides building Chirp with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
+When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building Chirp with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
 
 ![This is the caption\label{OnionDiagram}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/OnionDiagram.png)
 
