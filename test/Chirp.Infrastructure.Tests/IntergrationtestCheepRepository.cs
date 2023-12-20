@@ -18,7 +18,7 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
                         .Build();
     }
     public async Task DisposeAsync() => await _container.DisposeAsync();
-    
+
 
     public async Task InitializeAsync()
     {
@@ -53,7 +53,8 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
     [Fact]
     [Trait("Category", "Intergration")]
 
-    public async Task ReadFirst32Cheeps(){
+    public async Task ReadFirst32Cheeps()
+    {
         //Arrange
         var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
         using var context = new ChirpDBContext(optionsBuilder.Options);
@@ -66,9 +67,10 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         //
         cheeps.Count.Should().Be(32);
     }
-    
+
     [Fact]
-    public async Task TestOfIsThereNextPagePublicTimeline(){
+    public async Task TestOfIsThereNextPagePublicTimeline()
+    {
         //Arrange
         var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
         using var context = new ChirpDBContext(optionsBuilder.Options);
@@ -81,8 +83,9 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         result.Should().BeFalse();
     }
 
-        [Fact]
-    public async Task TestOfIsThereNextPageOfPrivateTimeline(){
+    [Fact]
+    public async Task TestOfIsThereNextPageOfPrivateTimeline()
+    {
         //Arrange
         var optionsBuilder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_container.GetConnectionString());
         using var context = new ChirpDBContext(optionsBuilder.Options);
@@ -91,21 +94,25 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 
         //Act
         var followingAuthorTest = await authorRepository.GetFollowedAuthors(AuthorTest!.Email) ?? new List<Guid>();
-        var result = await cheepRepository.HasNextPageOfPrivateTimeline(3,AuthorTest.Name, followingAuthorTest);
+        var result = await cheepRepository.HasNextPageOfPrivateTimeline(3, AuthorTest.Name, followingAuthorTest);
         var check = await cheepRepository.GetCheepsUserTimeline(4, AuthorTest.Name, followingAuthorTest);
-        
-        
+
+
         //Assert
-        if(check.Count == 0){
+        if (check.Count == 0)
+        {
             result.Should().BeFalse();
-        } else{
+        }
+        else
+        {
             result.Should().BeTrue();
         }
-        
+
     }
     [Fact]
-    public async void TestEnsureFirstCheepFromAuthorReturnsLatestCheepFromThatAuthor() {
-         //Arrange
+    public async void TestEnsureFirstCheepFromAuthorReturnsLatestCheepFromThatAuthor()
+    {
+        //Arrange
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
         connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
 
@@ -139,7 +146,7 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message8", TimeStamp = DateTime.Now.AddDays(8), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
         context.Cheeps.Add(new Cheep { CheepId = Guid.NewGuid(), Text = "message5", TimeStamp = DateTime.Now.AddDays(5), AuthorId = authorId, Author = context.Authors.Where(a => a.AuthorId == authorId).FirstOrDefault()! });
         await cheepRepository.CreateCheep("message9", authorDto!);
-        
+
         //Act
         var result = await cheepRepository.GetFirstCheepFromAuthor(authorId);
 
@@ -149,7 +156,8 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
     }
 
     [Fact]
-    public async void TestTheAuthorWithMostIncommenFollowersIsRecommendedFirst() {
+    public async void TestTheAuthorWithMostIncommenFollowersIsRecommendedFirst()
+    {
         //Arrange
         var connection = new SqliteConnection("DataSource=:memory:"); //Configuring connenction using in-memory connectionString
         connection.Open(); // Open the connection. (So EF Core doesnt close it automatically)
@@ -174,14 +182,14 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
         var authorNameF = "F testName";
         var authorNameG = "G testName";
         var authorNameH = "H testName";
-        var authorEmailA = "A testEmail";
-        var authorEmailB = "B testEmail";
-        var authorEmailC = "C testEmail";
-        var authorEmailD = "D testEmail";
-        var authorEmailE = "E testEmail";
-        var authorEmailF = "F testEmail";
-        var authorEmailG = "G testEmail";
-        var authorEmailH = "H testEmail";
+        var authorEmailA = "A@email.ending";
+        var authorEmailB = "B@email.ending";
+        var authorEmailC = "C@email.ending";
+        var authorEmailD = "D@email.ending";
+        var authorEmailE = "E@email.ending";
+        var authorEmailF = "F@email.ending";
+        var authorEmailG = "G@email.ending";
+        var authorEmailH = "H@email.ending";
 
         await authorRepository.CreateAuthor(authorNameA, authorEmailA);
         await authorRepository.CreateAuthor(authorNameB, authorEmailB);
@@ -202,12 +210,12 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
 
         await authorRepository.FollowAnAuthor(authorEmailC, authorNameE);
         await authorRepository.FollowAnAuthor(authorEmailC, authorNameF);
-    
+
 
         await authorRepository.FollowAnAuthor(authorEmailD, authorNameE);
-       
 
-        List<Guid>? authorIds = new List<Guid>();  
+
+        List<Guid>? authorIds = new List<Guid>();
         authorIds = await authorRepository.GetFollowersFollower(authorEmailA);
 
         //Act
@@ -223,5 +231,5 @@ public class IntergrationtestCheepRepository : IAsyncLifetime
     }
 
 
-    
+
 }
