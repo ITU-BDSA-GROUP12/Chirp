@@ -105,7 +105,7 @@ public class CheepRepository : ICheepRepository
 
         if (!validationResult.IsValid)
         {
-            // If the cheep is not valid, an exception is thrown so now invalid data will reach the database.
+            // If the cheep is not valid, an exception is thrown so now invalid data will not reach the database.
             throw new ValidationException("Attemptted to store invalid Cheep in database.");
         }
 
