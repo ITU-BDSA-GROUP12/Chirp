@@ -10,7 +10,6 @@ public class DiscoverModel : PageModel
 {
     // Holds the functionality and variables required to render the Discover page.
 
-    // 
     public ICheepRepository _CheepRepository;
     public IAuthorRepository _AuthorRepository;
     public List<CheepDto>? Cheeps { get; set; }
