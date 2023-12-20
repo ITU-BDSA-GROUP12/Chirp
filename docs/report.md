@@ -68,7 +68,7 @@ The about me tab is only accessible for authenticated users, and is only private
 ##### The cheep box
 The **cheep box** is a text entry field accompanied with a **Share 🚜** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page.
 #### Sending a cheep
-Below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
+See figure \ref{sending cheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 ![Sending a cheep user flow diagram\label{sending cheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png)
     
 ## Sequence of functionality/calls trough _Chirp!_
