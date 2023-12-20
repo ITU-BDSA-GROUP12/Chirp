@@ -52,7 +52,7 @@ When a team member takes responsibility for an issue, he creates a branch linked
 Often we have worked on larger/more fundemental changes in groups of 2-3 or as the whole team (mob programming).
 We have (with varying consistency) written the code for an issue in smaller commits of working code.
 When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue asignee, or if the change is ready to merge with the main branch.
-Upon merge, the issue is deleted.
+Upon merge, the issue is closed and moved to Done in our project board.
 See figure \ref{The life of an issue}, a user flow diagram showing the process of an issue:
 ![The life of an issue](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.drawio.png)
 ## How to make _Chirp!_ work locally
