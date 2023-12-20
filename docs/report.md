@@ -48,7 +48,7 @@ On creation, an issue is placed in one of three categories:
 - Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready or the issue is not relevant to work with at the moment
 - Ready: Issues ready for a team member to assign themselves and being implementation.
 
-A team member then creates a GitHub branch with the name of the issue and starts on implementing the change described.
+When a team member takes responsibility for an issue, he creates a branch linked to the issue with the name of the issue and starts on implementing the change described.
 Often we have worked on larger/more fundemental changes in groups of 2-3 or as the whole team (mob programming).
 We have (with varying consistency) written the code for an issue in smaller commits of working code.
 When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue asignee, or if the change is ready to merge with the main branch.
