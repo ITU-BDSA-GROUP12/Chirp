@@ -118,7 +118,6 @@ public class CheepRepository : ICheepRepository
     {
         // Return a CheepDto of the first cheep from the given author.
 
-        // The first cheep of the given author.
         Cheep? cheep = await _context.Cheeps.Where(c => c.AuthorId == authorId).OrderByDescending(c => c.TimeStamp).FirstOrDefaultAsync();
 
         // If the given author has not cheeped yet, just return null. No exception needed.
