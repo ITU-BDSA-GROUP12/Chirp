@@ -8,7 +8,7 @@ public class CheepRepository : ICheepRepository
     // The database context for the Chirp database, used by the repository to access the database.
     readonly ChirpDBContext _context;
 
-    // Used to validate an Cheep entity before storing it in the database. Ensures that invalid data will not reach the database.
+    // Used to validate a Cheep entity before storing it in the database. Ensures that invalid data will not reach the database.
     readonly CheepValidator _validator;
 
     public CheepRepository(ChirpDBContext context, CheepValidator validator)
