@@ -60,7 +60,7 @@ The use of our application is defined by a range of tabs, a **cheep box** and tw
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
 
 #### Public Timeline
-<br/>
+
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
 
 #### Register    
@@ -116,8 +116,8 @@ The **cheep box** is a text entry field accompanied by a **Share** button to sen
 
 ### Sending a cheep
 
-See figure \ref{sending cheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
-![Sending a cheep user flow diagram\label{sending cheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
+See figure \ref{sendingCheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
+![Sending a cheep user flow diagram\label{sendingCheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
     
 ## Sequence of functionality/calls through _Chirp!_
 
