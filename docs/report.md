@@ -56,6 +56,21 @@ We employ Microsoft Graph to delete a user from Azure AD by using a management a
 # Ethics
 
 ## License
+It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also it is always good practice to add a license to guide other developers to what they can do with our code.
+This is of course even more relevant if the application were to stay and generate profit, and in this case we would need to consider another license.
+
+When choosing a license we generally have to choose between permissive(copyright) and protective(copyleft) licenses, with different protective grades. We are not a community where the code needs contributers, and we do not have a desire to ensure openness. In our group we agree that anyone can re-use our code, however we do not want that anyone has permission to patent our code. Therefore we have chosen the MIT license because of its simplicity and permissive nature. The Apache license grants patent rights from contributers, which is what we do not want. 
+
+Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
+List of all our dependencies:
+*.NET 			        MIT
+*Fluent validation	    Apache 2.0
+*Entity Framework       MIT
+*ASP.NET core           MIT	
+*Microsoft graph        MIT
+*Microsoft identity	    MIT		
+*Microsoft.data.sqlite  MIT
+*Azure Identity		    MIT
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
