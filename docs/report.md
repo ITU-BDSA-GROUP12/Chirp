@@ -10,6 +10,7 @@ author:
 numbersections: true
 
 references:
+
   - id: [Software license]
     title: Software license
     author:
@@ -33,6 +34,31 @@ references:
     URL: "https://choosealicense.com/"
     issued:
       year: 
+
+  - id: cleanref
+    title: Common web application architectures
+    author:
+      - Microsoft
+    URL: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures"
+    issued:
+      year: 2023
+
+  - id: AccountController
+    title: AccountController Class
+    author:
+      - Microsoft
+    URL: "https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest"
+    issued:
+      year: 2023
+
+  - id: OAuthApp
+    title: Authenticating to the REST API with an OAuth app
+    author:
+      - Github
+    URL: "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app"
+    issued:
+      year: 2023
+
 ---
 
 # Design and Architecture of _Chirp!_
@@ -51,8 +77,10 @@ Our domain model consists of two data entities, which depict the attributes of a
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.\label{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
+\pagebreak
+
 ## Architecture — In the small
-Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
+Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion. [@cleanref]
 
 When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building _Chirp!_ with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
 
@@ -66,6 +94,8 @@ The outermost layer is the entry point for our _Chirp!_ application. In the code
 
 For a more in depth visualization of which classes reside in which of the packages mentioned, see the figure \ref{PackageDiagram}, a complete UML package diagram for _Chirp!_.
 
+\pagebreak
+
 ## Architecture of deployed application
 
 In this section, we will delve into the overall architecture of _Chirp!_ as a deployed web application. Figure \ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of _Chirp!_ on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory Business to Consumer (Azure AD B2C).
@@ -73,6 +103,8 @@ In this section, we will delve into the overall architecture of _Chirp!_ as a de
 Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of _Chirp!_ through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an access token when a user logs in.
 
 ![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\label{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
+
+\pagebreak
 
 ## User activities
 The gist of our application lies in two main activities; writing cheeps and reading cheeps. A **cheep** is a short message of 1-160 characters, and is not messaged to a particular person. Each cheep is publicly available for everyone to see, and there is no functionality to direct the attention of particular users onto your cheep. Lastly, the user has an option to follow other users, to get easier access to cheeps written by them.
@@ -114,7 +146,7 @@ The **my timeline** tab is similar to the public timeline, but here only the use
 #### Discover
 
 Let the user of the application be A.
-The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
+The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
 The users B is illustrated in the red box in figure \ref{discover}
 
 
@@ -127,8 +159,9 @@ The **logout** tab turns the user into an unauthenticated user. This tab is only
 #### About me
 
 The **about** me page displays information about the user. It:
+
 - displays the GitHub **username** and **email** used for authentication. 
-- holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps, from the application.
+- holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps.
 - displays a list of all **cheeps written** by the user.
 - displays a list of all **users followed** by the user.
 - displays a list of all **users following** the user.
@@ -143,15 +176,17 @@ The **cheep box** is a text entry field accompanied by a **Share** button to sen
 
 ### Sending a cheep
 
-See figure \ref{sendingCheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
+See figure \ref{sendingCheep} for a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 
 ![Sending a cheep user flow diagram\label{sendingCheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
+
+\pagebreak
     
 ## Sequence of functionality/calls through _Chirp!_
 
 In this section, we will examine the sequence of calls made during a user journey, from an unauthorized user to an authorized user. Figure \ref{UserRegistration} shows a client computer requesting an HTTP call in their internet browser by calling the root URL of _Chirp!_. The request is received by our Azure-deployed Web Application, which, through the use of Microsoft Identity, checks if the HTTP request has the needed access token to be authorized. Since the user is not authorized, the HTTP response is a limited version of _Chirp!_, as shown in the previous section _User Activities_.
 
-The next step is for a user to press 'Register/Login.' This action triggers an ASP controller, 'Account,' to generate a URL pointing to the Azure Active Directory Business to Consumer Tenant's (Azure Tenant) SignUpSignIn user flow using the ID, secret, and information of our Azure Tenant provided by the connection strings from the appsettings.json. (https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest) Since we have chosen GitHub as the identity provider, our Azure Tenant sends a GET request to a GitHub OAuth App we have created in our GitHub repository. The OAuth App provides the user with a login dialog, which the user fills in. If the authentication is successful, the OAuth App provides our Azure Tenant with an access_token through the callback URL provided to the OAuth App. In the Azure Tenant, we have selected some claims for which information about the user is needed in our Web Application. (https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app)
+The next step is for a user to press 'Register/Login.' This action triggers an ASP controller, 'Account,' to generate a URL pointing to the Azure Active Directory Business to Consumer Tenant's (Azure Tenant) SignUpSignIn user flow using the ID, secret, and information of our Azure Tenant provided by the connection strings from the appsettings.json. [@AccountController] Since we have chosen GitHub as the identity provider, our Azure Tenant sends a GET request to a GitHub OAuth App we have created in our GitHub repository. The OAuth App provides the user with a login dialog, which the user fills in. If the authentication is successful, the OAuth App provides our Azure Tenant with an access_token through the callback URL provided to the OAuth App. In the Azure Tenant, we have selected some claims for which information about the user is needed in our Web Application. [@OAuthApp]
 
 When the callback URL with the access token arrives in the Azure Tenant, it checks if the access_token have the necessary claims. Since we need the user's email, and GitHub doesn't provide this, our Azure Tenant needs to provide it for us. If the user exists as a user in the Azure Tenant, then the user's email is provided there, and it can be fetched from there. Otherwise, the Azure Tenant sends a dialog to the client where the user can fill in the email input. Now the Azure Tenant can create a user with sufficient claims and send the access token to the App service through the callback URL provided in the connection strings of the App Service.
 
@@ -168,6 +203,8 @@ The AuthorAuthenticate model now calls a CreateAuthor method on the AuthorReposi
 The AuthorAuthenticate model concludes its GET method by redirecting the user to the public timeline page.
 
 ![Sequence diagram of creating a user on the Azure SQL Server if User does not exist.\label{AuthorAuthentication}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-AuthorAuthenticazion.drawio%20(1).png)
+
+\pagebreak
 
 # Process
 ## Build, test, release, and deployment
@@ -193,36 +230,45 @@ Then the second part of the workflow called 'deploy', takes care of uploading th
 
 ![UML Diagram of the deploy workflow\label{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
 
+\pagebreak
+
 ## Team work
 We managed to implement all the functionality we aspired to implement during this project. A lot of features could have been added, but we decided on some core features that we felt like we could manage within the time frame, and managed those. Had we more time, we could have discussed which other features we might implement. 
 Examples:
+
 - A character count above the cheep box, denoting how many characters can yet be used, up to 160.
 - Profile pictures, fetched from GitHub.
-- Functionality to reference other users in a cheep, and a page with the newest cheeps in which the user is tagged.
+- Functionality to reference other users in a cheep, and a page with the newest cheeps in which the user is referenced.
 - Emoticon reactions to cheeps, such as happy face or tractor.
 - Comments under cheeps.
 - A link redirecting to a user's GitHub page.
 
 #### Work flow
-We have implemented the code in short incremental steps as, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description and a definition of done.
+We have implemented the code in short incremental steps, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description, and a definition of done.
 The issues are created to match the project description provided by our professors, or to match changes and details that we as a group or individually found relevant to implement.
 On creation, an issue is placed in one of three categories:
-- To-do: a place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
+
+- To-do: A place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
 - Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready, or the issue is not relevant to work with at the moment
-- Ready: Issues ready for a team member to assign themselves and being implementation.
+- Ready: Issues ready for a team member to assign themselves and begin implementation.
 
 When a team member takes responsibility for an issue, he creates a branch linked to the issue with the name of the issue and starts on implementing the change described.
 Often we have worked on larger/more fundamental changes in groups of 2-3 or as the whole team (mob-/pair programming).
 We have (with varying consistency) written the code for an issue in smaller commits of working code.
-When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
+When the code for an issue is done, the code is pushed to the online repository on its branch. As a security measure a Github workflow tests the code being pushed, and gives a warning on the push if the tests does not pass. 
+A pull request is made and the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
 Upon merge, the issue is closed and moved to Done in our project board.
-See figure \ref{The life of an issue}, a user flow diagram showing the process of an issue:
+See figure \ref{The life of an issue} for a user flow diagram showing the process of an issue.
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
+
 
 ### Project Board
 
 ![Our project board almost finished. \label{Project board}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/project board%20.png?raw=true)
+
+
+\pagebreak
 
 
 ## How to make _Chirp!_ work locally
@@ -295,6 +341,8 @@ Now listening on: https://localhost:7028"
 
 _Chirp!_ is now running locally on your machine, and you can access it by going to: https://localhost:7028 in your browser of choice.
 
+\pagebreak
+
 ## How to run test suite locally
 ### Prerequisites
 The test suite of _Chirp!_ includes User Interface Test made with Playwright. In order to run these you need to make sure you have the needed browsers and dependencies installed.:
@@ -318,6 +366,8 @@ After that it will run the integrationtests from the 'Chirp.Infrastructure.Tests
 As mentioned the 'Chirp.Web.Test' project holds user interface tests made using playwright. Upon review of the test class in this project it will be clear that there are more tests than the 3 being run. This is because we have five UI tests where we use a GitHub 'test account' to test logged-in features, these have been a great help during development. The problem is that in order for them to run on a new computer, the GitHub 'test account' will have to verify the new device with an email code. Therefore, we have chosen to comment these test out, in order for the reader to be able to run our test suite.
 If you wish to run the test suite including these five test, then get in contact with any member of the team, and we will then help verify you device.
 
+\pagebreak
+
 # Ethics
 ## License
 It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also, it is always good practice to add a license to guide other developers to what they can do with our code.
@@ -327,6 +377,7 @@ When choosing a license we generally have to choose between permissive(copyright
 
 Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
 List of all our dependencies:
+
 * .NET 			        MIT
 * Fluent validation	    Apache 2.0
 * Entity Framework       MIT
@@ -336,7 +387,11 @@ List of all our dependencies:
 * Microsoft.data.sqlite  MIT
 * Azure Identity		    MIT
 
+
 We have used @[Software license], @[License compatibility] and @[Choose a license] to help grasp licenses and what license to choose.
+
+\pagebreak
+
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
@@ -346,3 +401,7 @@ ChatGPT is also good at comprehending how components work together, whereas docu
 
 Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expedited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
+
+\pagebreak
+
+# References
