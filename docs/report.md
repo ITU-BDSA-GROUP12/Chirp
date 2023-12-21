@@ -26,7 +26,6 @@ Our domain model consists of two data entities, which depict the attributes of a
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.\lable{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
-
 ## Architecture — In the small
 Our Chirp application is written following the clean (or onion) architecture. This clean architecture of Chirp can be seen visualized in figure \ref{OnionDiagram}. The idea with building chirp with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
 
@@ -50,7 +49,47 @@ We employ Microsoft Graph to delete a user from Azure AD by using a management a
 ![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\lable{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
 
 ## User activities
+The gist of our application lies in two main activities; writing cheeps and reading cheeps. A **cheep** is a short message of 1-160 characters, and is not messaged to a particular person. Each cheep is publicly available for everyone to see, and there is not functionality to direct the attention of particular users onto your cheep. Lastly, the user has an option to follow other users, to get easier access to cheeps written by them.
+The use of our application is defined by a range of tabs, a **cheep box** and two different kinds of users - **authenticated** users and **unauthenticated** users. That is, users that are logged in and users that are not. The two kinds of users differ in the elements that they have access to on the site. 
+#### Unauthenticated
+![Chirp public timeline unauthenticated](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/unregistered%20chirp.png?raw=true)
 
+The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
+##### Public Timeline
+The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browsed between using the **next** and **previous** buttons on the button of the page.
+##### Register
+If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to Chirp. After signing in with GitHub, the user is registered and logged in to Chirp, and is now an authenticated user. If the user have registered before, this information might still be stored in cookies managed by the browser, and will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's Chirp username.
+Only unauthenticated users have access to the register tab.
+##### Login
+The **Login** tab does the exact same thing as the register tab - their behaviour is the same in every way.
+#### Authenticated
+![Chirp public timeline\label{Authenticated Public Timeline}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/public%20timeline.png)
+The **authenticated** user has access to the **Public Timeline**, **My Timeline**, **Discover**, **Logout**, and **About Me** tabs.
+##### The follow mechanic
+An authenticated user has, attached to each cheep on the public timeline, a **follow** button. Upon clicking this, the follow button is replaced by an **unfollow** button, and the user will be regarded as following the user that sent the particular cheep.
+##### My Timeline
+The **my timeline** tab is similar to the public timeline, but here only the user's own cheeps and cheeps written by users that the user is following are displayed. One can visit other people's private timelines, but here the user's followed users' cheeps will not be showed.
+##### Discover
+Let the user of the application be A.
+The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. The users B is illustrated in the red box in figure \ref{discover}
+![The discover page illustrated\label{discover}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/the%20discover%20page%20but%20better.png?raw=true)
+##### Logout
+The **logout** tab turns the user into an unauthenticated user. This tab is only accessible to authenticated users.
+##### About me
+The **about** me page displays information about the user. It:
+- displays the GitHub **username** and **email** used for authentication. 
+- holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps, from the application.
+- displays a list of all **cheeps written** by the user.
+- displays a list of all **users followed** by the user.
+- displays a list of all **users following** the user.
+
+The about me tab is only accessible for authenticated users, and is only privately accessible.
+##### The cheep box
+The **cheep box** is a text entry field accompanied with a **Share 🚜** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page, and only for authenticated users.
+#### Sending a cheep
+See figure \ref{sending cheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
+![Sending a cheep user flow diagram\label{sending cheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
+    
 ## Sequence of functionality/calls trough _Chirp!_
 
 # Process
