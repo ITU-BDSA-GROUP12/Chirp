@@ -8,6 +8,7 @@ public class AuthorValidator : AbstractValidator<Author>
         // Set up the rules that a valid Author entity must follow.
         RuleFor(author => author.AuthorId).NotNull();
         RuleFor(author => author.Name).NotEmpty();
-        RuleFor(author => author.Email).NotEmpty();
+        RuleFor(author => author.Email).NotNull();
+        RuleFor(author => author.Email).EmailAddress();
     }
 }

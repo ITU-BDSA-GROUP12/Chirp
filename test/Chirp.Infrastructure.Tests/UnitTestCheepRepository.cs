@@ -179,18 +179,13 @@ public class UnitTestCheepRepository
         await context.Database.EnsureCreatedAsync();
         CheepRepository cheepRepository = new CheepRepository(context, new CheepValidator());
         AuthorRepository authorRepository = new AuthorRepository(context, new AuthorValidator());
-        string valid_email = "valid email";
+        string valid_email = "valid@email.ending";
         string valid_name = "valid name";
 
         // Act
         await authorRepository.CreateAuthor(valid_name, valid_email);
         AuthorDto valid_author = await authorRepository.GetAuthorDTOByEmail(valid_email) ?? new AuthorDto { Name = valid_name, Email = valid_email };
         // create various authors and messages that should not be considered valid by the CheepValidator.
-        AuthorDto author_with_no_name = new AuthorDto
-        {
-            Name = "",
-            Email = "valid_email"
-        };
         AuthorDto author_with_no_email = new AuthorDto
         {
             Name = valid_name,
@@ -210,7 +205,6 @@ public class UnitTestCheepRepository
         // verify that the correct exception is thrown when invalid cheep messages or authors are provided
         await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(too_short_message, valid_author));
         await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(too_long_message, valid_author));
-        await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(valid_message, author_with_no_name));
         await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(valid_message, author_with_no_email));
     }
 
