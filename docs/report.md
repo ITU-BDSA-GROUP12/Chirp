@@ -9,8 +9,14 @@ author:
 - "Lukas Brandt Pallesen <lupa@itu.dk>"
 numbersections: true
 
-
 references:
+  - id: cleanref
+    title: Common web application architectures
+    author:
+      - Microsoft
+    URL: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures"
+    issued:
+      year: 2023
   - id: AccountController
     title: AccountController Class
     author:
@@ -18,8 +24,6 @@ references:
     URL: "https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest"
     issued:
       year: 2023
-
-references:
   - id: OAuthApp
     title: Authenticating to the REST API with an OAuth app
     author:
@@ -46,7 +50,7 @@ Our domain model consists of two data entities, which depict the attributes of a
 ![Illustration of the _Chirp!_ data model as UML class diagram.\label{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
 ## Architecture — In the small
-Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
+Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion. [@cleanref]
 
 When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building _Chirp!_ with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
 
@@ -331,3 +335,5 @@ ChatGPT is also good at comprehending how components work together, whereas docu
 
 Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expedited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
+
+#References
