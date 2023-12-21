@@ -28,7 +28,17 @@ Our domain model consists of two data entities, which depict the attributes of a
 
 
 ## Architecture — In the small
+Our Chirp application is written following the clean (or onion) architecture. This clean architecture of Chirp can be seen visualized in figure \ref{OnionDiagram}. The idea with building chirp with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
 
+When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building Chirp with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
+
+![This is the caption\label{OnionDiagram}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/OnionDiagram.png)
+
+The next layer in the architecture is the data layer which manifests in Chirp as the _Chirp.Infrastructure_ package. Here lies all classes related to the data handling and database management. Following dependencies going towards the center, this package depends on the _Chirp.Core_ package, as _Chirp.Infrastructure_ holds the implementation of the repository interfaces. This dependency shows how the architecture implements the Dependency Inversion principle, which states that implementations should depend on abstractions and not the other way around.
+
+The outermost layer is the entry point for our Chirp application. In the code this is the _Chirp.Web_ package, which holds a RazorPage Application. This package depends on both the _Chirp.Core_ and the _Chirp.Infrastructure_ package. It is also in this class the Program.cs file resides, which is responsible for configuring the application, including the configuration for dependency injection. Here it configures implementation from the _Chirp.Infrastructure_ layer to be used when abstractions from the _Chirp.Core_ layer is requested.
+
+For a more indepth visualization of which classes reside in which of the packages mentioned, see the png-file located at 'Chirp/docs/images/PackageDiagram.png', a complete UML package diagram for _Chirp!_.
 ## Architecture of deployed application
 
 In this section, we will delve into the overall architecture of Chirp! as a deployed web application.\ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of Chirp! on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory (AD) B2C.
