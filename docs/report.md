@@ -60,7 +60,7 @@ The use of our application is defined by a range of tabs, a **cheep box** and tw
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
 
 #### Public Timeline
-
+  
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons at the bottom of the page.
 
 #### Register    
