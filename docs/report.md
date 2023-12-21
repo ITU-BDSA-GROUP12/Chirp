@@ -37,11 +37,12 @@ Using Microsoft Identity, our web application now sets properties like name, ema
 ![Sequence diagram of register as a User on _Chirp!_.\lable{UserRegistration}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-RegisterUser.drawio.png)
 
 Therefore, as shown in figure \ref{AuthorAuthentication}, when landing on the AuthorAuthenticator page, a GET request is made to the PageModel, and a method on our AuthorRepository is called to find the Author, assosiated with the users email. Since the AuthorRepository has the ChirpDBContext injected as a dependency in its constructor, it now calls GetFirstORDefaultAsync, with the users email as argument, on the ChirpDBContext's Authors DbSet. EF Core now uses the connection string provided to the the ChirpDBContext from the Azure SQL Server, to make a TCP connection to the MSQL database and is now able to query it to find the Author record with the given email and return it back to the ChirpDBContext.
+
 ChirpDBContext then returns the Author record, which the AuthorRepository returns as an AuthorDTO. If the AuthorDTO is not null, then the user is stored as an Author in the ChirpDBContext. If, however, it is null, then the Author needs to be created in the MSQL database.
 
 The AuthorAuthenticate model now calls a CreateAuthor method on the AuthorRepository. With the Users name and email provided in the arguments it creates an Author entity and adds it to the ChripDBContext Authors DbSet. Now EF Core inserts it in the MSQL database. 
 
-The AuthorAuthendicate model concludes its GET methode by redirecting the user to the public timeline page.
+The AuthorAuthenticate model concludes its GET methode by redirecting the user to the public timeline page.
 
 ![Sequence diagram of creating a user on the Azure SQL Server if User does not exist.\lable{AuthorAuthenticazion}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-AuthorAuthenticazion.drawio%20(1).png)
 # Process
