@@ -40,8 +40,8 @@ The outermost layer is the entry point for our Chirp application. In the code th
 ![Package Diagram\label{PackageDiagram}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/PackageDiagram.png?raw=true)
 
 For a more in depth visualization of which classes reside in which of the packages mentioned, see the figure \ref{PackageDiagram}, a complete UML package diagram for _Chirp!_.
-## Architecture of deployed application
 
+## Architecture of deployed application 
 In this section, we will delve into the overall architecture of Chirp! as a deployed web application.\ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of Chirp! on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory (AD) B2C.
 
 Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of Chirp! through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an authentication token, which either creates a new user on Azure AD or logs the user into Chirp!.
@@ -53,34 +53,36 @@ We employ Microsoft Graph to delete a user from Azure AD by using a management a
 ## User activities
 The gist of our application lies in two main activities; writing cheeps and reading cheeps. A **cheep** is a short message of 1-160 characters, and is not messaged to a particular person. Each cheep is publicly available for everyone to see, and there is no functionality to direct the attention of particular users onto your cheep. Lastly, the user has an option to follow other users, to get easier access to cheeps written by them.
 The use of our application is defined by a range of tabs, a **cheep box** and two different kinds of users - **authenticated** users and **unauthenticated** users. That is, users that are logged in and users that are not. The two kinds of users differ in the elements that they have access to on the site. 
-#### Unauthenticated
+### Unauthenticated
 ![Chirp public timeline unauthenticated](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/unregistered%20chirp.png?raw=true)
 
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
-##### Public Timeline
+#### Public Timeline
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
-##### Register
+#### Register
 If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to Chirp. After signing in with GitHub, the user is registered and logged in to Chirp, and is now an authenticated user. If the user have registered before, this information might still be stored in cookies managed by the browser, and will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's Chirp username.
 Only unauthenticated users have access to the register tab.
-##### Login
+#### Login
 The **Login** tab does the exact same thing as the register tab - their behavior is the same in every way.
-#### Authenticated
+### Authenticated
+
 ![Chirp public timeline\label{Authenticated Public Timeline}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/public%20timeline.png)
+
 The **authenticated** user has access to the **Public Timeline**, **My Timeline**, **Discover**, **Logout**, and **About Me** tabs.
-##### The follow mechanic
+#### The follow mechanic
 An authenticated user has, attached to each cheep on the public timeline, a **follow** button. Upon clicking this, the follow button is replaced by an **unfollow** button, and the user will be regarded as following the user that sent the particular cheep.
-##### My Timeline
+#### My Timeline
 The **my timeline** tab is similar to the public timeline, but here only the user's own cheeps and cheeps written by users that the user is following are displayed. One can visit other people's private timelines, but here the user's followed users' cheeps will not be showed.
-##### Discover
+#### Discover
 Let the user of the application be A.
 The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
 The users B is illustrated in the red box in figure \ref{discover}
 
 
 ![The discover page illustrated\label{discover}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/the%20discover%20page%20but%20better.png?raw=true)
-##### Logout
+#### Logout
 The **logout** tab turns the user into an unauthenticated user. This tab is only accessible to authenticated users.
-##### About me
+#### About me
 The **about** me page displays information about the user. It:
 - displays the GitHub **username** and **email** used for authentication. 
 - holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps, from the application.
@@ -89,9 +91,9 @@ The **about** me page displays information about the user. It:
 - displays a list of all **users following** the user.
 
 The about me tab is only accessible for authenticated users, and is only privately accessible.
-##### The cheep box
+#### The cheep box
 The **cheep box** is a text entry field accompanied by a **Share 🚜** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page, and only for authenticated users.
-#### Sending a cheep
+### Sending a cheep
 See figure \ref{sending cheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 ![Sending a cheep user flow diagram\label{sending cheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
     
@@ -164,9 +166,11 @@ We have (with varying consistency) written the code for an issue in smaller comm
 When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
 Upon merge, the issue is closed and moved to Done in our project board.
 See figure \ref{The life of an issue}, a user flow diagram showing the process of an issue:
-![The life of an issue](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
+
+![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
+
 ## How to make _Chirp!_ work locally
-#### Prerequisites
+### Prerequisites
 In order to run Chirp locally one should follow these steps:
 
 Start by cloning the Chirp repository by running the following command in your terminal. After this step you should have the entire Chirp repository in a directory called Chirp.
@@ -201,7 +205,7 @@ dotnet user-secrets set "ConnectionStrings:DeleteSecret": "n4x8Q~ULLEGdgNVvcSoSq
 ```
 
 Now you should be ready to build, test and run the Chirp application.
-#### Building the project
+### Building the project
 To build the entire project make sure you are in the root directory (Chirp) and run the following command:
 ```
 dotnet build
@@ -215,7 +219,7 @@ cd src/Chirp.Web
 ```
 dotnet build
 ```
-#### Running the application
+### Running the application
 To run the Chirp application locally you have to move to the Chirp.Web package (/src/Chip.Web).
 When in the Chirp.Web package, run the following command:
 ```
@@ -228,7 +232,7 @@ Now listening on: https://localhost:7028"
 Chirp is now running locally on your machine, and you can access it by going to: https://localhost:7028 in your browser of choice.
 
 ## How to run test suite locally
-#### Prerequisites #####
+### Prerequisites
 The test suite of _Chirp!_ includes User Interface Test made with Playwright. In order to run these you need to make sure you have the needed browsers and dependencies installed.:
 
 First move to 'Chirp/test/Chirp.Web.Test'. Then run the following command:
@@ -236,7 +240,7 @@ First move to 'Chirp/test/Chirp.Web.Test'. Then run the following command:
 pwsh bin/Debug/net8.0/playwright.ps1 install
 ```
 If pwsh is not available, you have to install PowerShell.
-#### Running test suite #####
+### Running test suite
 The test suite of Chirp is divided in two test-projects. 'Chirp.Infrastructure.Tests' and 'Chirp.Web.Test'.
 In order to run all test suites of the Chirp application, you simply need to be located in the root directory (Chirp) and run the following command:
 ```
