@@ -17,6 +17,7 @@ references:
     URL: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures"
     issued:
       year: 2023
+
   - id: AccountController
     title: AccountController Class
     author:
@@ -24,6 +25,7 @@ references:
     URL: "https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest"
     issued:
       year: 2023
+
   - id: OAuthApp
     title: Authenticating to the REST API with an OAuth app
     author:
@@ -143,6 +145,8 @@ The **cheep box** is a text entry field accompanied by a **Share** button to sen
 See figure \ref{sendingCheep} for a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 
 ![Sending a cheep user flow diagram\label{sendingCheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
+
+\pagebreak
     
 ## Sequence of functionality/calls through _Chirp!_
 
