@@ -47,7 +47,7 @@ This workflow is useful streamlining reviewing pull requests. See figure \ref{Bu
 
 ### Release workflow
 Whenever a new tag is pushed into main with our format, the release workflow is triggered. Again the .NET Core environment is set up, and then we add the artifact to our release with softprops/action-gh-release.
-This streamlining helped making releases with executables on Github, whenever our main was given new tags. We manually had to check if Main built and passed the tests before given new tags, but could have been included. See figure \ref{Release-workflow}
+Initially this streamlining helped making releases with executables on Github, whenever our main was given new tags. However we have later switched to only release source code, as we have evolved _Chirp!_ into a web application. We manually had to check if Main built and passed the tests before given new tags, but could have been included. See figure \ref{Release-workflow}
 ![UML Diagram of the release workflow\lable{Release-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png?raw=true)
 
 ### Deployment workflow
