@@ -125,6 +125,7 @@ The **logout** tab turns the user into an unauthenticated user. This tab is only
 #### About me
 
 The **about** me page displays information about the user. It:
+
 - displays the GitHub **username** and **email** used for authentication. 
 - holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps.
 - displays a list of all **cheeps written** by the user.
@@ -192,6 +193,7 @@ Then the second part of the workflow called 'deploy', takes care of uploading th
 ## Team work
 We managed to implement all the functionality we aspired to implement during this project. A lot of features could have been added, but we decided on some core features that we felt like we could manage within the time frame, and managed those. Had we more time, we could have discussed which other features we might implement. 
 Examples:
+
 - A character count above the cheep box, denoting how many characters can yet be used, up to 160.
 - Profile pictures, fetched from GitHub.
 - Functionality to reference other users in a cheep, and a page with the newest cheeps in which the user is referenced.
@@ -203,6 +205,7 @@ Examples:
 We have implemented the code in short incremental steps, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description, and a definition of done.
 The issues are created to match the project description provided by our professors, or to match changes and details that we as a group or individually found relevant to implement.
 On creation, an issue is placed in one of three categories:
+
 - To-do: A place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
 - Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready, or the issue is not relevant to work with at the moment
 - Ready: Issues ready for a team member to assign themselves and begin implementation.
@@ -319,6 +322,7 @@ When choosing a license we generally have to choose between permissive(copyright
 
 Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
 List of all our dependencies:
+
 * .NET 			        MIT
 * Fluent validation	    Apache 2.0
 * Entity Framework       MIT
