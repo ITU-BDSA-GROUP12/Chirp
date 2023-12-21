@@ -118,18 +118,21 @@ During development of the application, we have used GitHub workflows to automate
 ### Build and test workflow
 This workflow is triggered when a branch is pushed or a pull request is created. It locates the source code and sets up a .NET Core environment. Then it downloads the missing, if any dependencies are missing, builds the application and runs the test suite. 
 This workflow is useful streamlining reviewing pull requests. See figure \ref{BuildAndTest-workflow}
+
 ![UML Diagram of build and test workflow\label{BuildAndTest-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/BuildAndTest-Workflow.drawio.png?raw=true)
 
 
 ### Release workflow
 Whenever a new tag is pushed into main with our format, the release workflow is triggered. Again the .NET Core environment is set up, and then we add the artifact to our release with softprops/action-gh-release.
 Initially this streamlining helped to make releases with executables on GitHub, whenever our main was given new tags. However, we have later switched to only release source code, as we have evolved _Chirp!_ into a web application. We manually had to check if Main built and passed the tests before given new tags, but could have been included. See figure \ref{Release-workflow}
+
 ![UML Diagram of the release workflow\label{Release-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png?raw=true)
 
 ### Deployment workflow
 This workflow consist of to jobs: 'BuildAndTest' and 'deploy'. Jobs can be run concurrently, but we need 'BuildAndTest' to run successfully, before we want to bother with deploying, hence the key word 'needs', which means we only run the 'deploy' when 'BuildAndTest' is done. 
 The workflow can be triggered manually on GitHub or by push to main. Again it sets up a .Net Core environment, restores the dependencies, builds and runs our test suite. Create and upload application artifacts to the GitHub actions workflow system with the name '.net-app'.  Then the new migrations are bundled together and uploaded with the name 'efbundle'.
 Then the second part of the workflow called 'deploy', takes care of uploading the new web-app to Azure and deploy the new migrations to the Azure database. See figure \ref{deploy-workflow}
+
 ![UML Diagram of the deploy workflow\label{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
 
 ## Team work
@@ -147,13 +150,13 @@ We have implemented the code in short incremental steps as, starting with a GitH
 The issues are created to match the project description provided by our professors, or to match changes and details that we as a group or individually found relevant to implement.
 On creation, an issue is placed in one of three categories:
 - To-do: a place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
-- Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready or the issue is not relevant to work with at the moment
+- Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready, or the issue is not relevant to work with at the moment
 - Ready: Issues ready for a team member to assign themselves and being implementation.
 
 When a team member takes responsibility for an issue, he creates a branch linked to the issue with the name of the issue and starts on implementing the change described.
-Often we have worked on larger/more fundemental changes in groups of 2-3 or as the whole team (mob-/pair programming).
+Often we have worked on larger/more fundamental changes in groups of 2-3 or as the whole team (mob-/pair programming).
 We have (with varying consistency) written the code for an issue in smaller commits of working code.
-When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue asignee, or if the change is ready to merge with the main branch.
+When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
 Upon merge, the issue is closed and moved to Done in our project board.
 See figure \ref{The life of an issue}, a user flow diagram showing the process of an issue:
 ![The life of an issue](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
