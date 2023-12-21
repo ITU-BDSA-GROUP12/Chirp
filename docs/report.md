@@ -262,7 +262,7 @@ A pull request is made and the code is reviewed by one or more team members, dif
 Upon merge, the issue is closed and moved to Done in our project board.
 See figure \ref{The life of an issue} for a user flow diagram showing the process of an issue.
 
-![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
+![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true){ height=60% }
 
 \pagebreak
 
