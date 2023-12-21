@@ -10,6 +10,31 @@ author:
 numbersections: true
 
 references:
+
+  - id: [Software license]
+    title: Software license
+    author:
+      - Wikipedia
+    URL: "https://en.wikipedia.org/wiki/Software_license"
+    issued:
+      year: 2015
+
+   - id: [License compatibility]
+    title: License compatibility
+    author:
+      - Wikipedia
+    URL: "https://en.wikipedia.org/w/index.php?title=License_compatibility"
+    issued:
+      year: 2016
+   
+     - id: [Choose a license]
+    title: Choose a license
+    author:
+      - GitHub
+    URL: "https://choosealicense.com/"
+    issued:
+      year: 
+
   - id: cleanref
     title: Common web application architectures
     author:
@@ -33,6 +58,7 @@ references:
     URL: "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app"
     issued:
       year: 2023
+
 ---
 
 # Design and Architecture of _Chirp!_
@@ -142,6 +168,8 @@ The **about** me page displays information about the user. It:
 
 The about me tab is only accessible for authenticated users, and is only privately accessible.
 
+It is worth mentioning that we are actually deletion _all_ information about users, both in our database as an author with all information and in Azure as a saved user. This _should_ mean we are fully GDPR compliant.
+
 #### The cheep box
 
 The **cheep box** is a text entry field accompanied by a **Share** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page, and only for authenticated users.
@@ -234,7 +262,14 @@ See figure \ref{The life of an issue} for a user flow diagram showing the proces
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
 
+
+### Project Board
+
+![Our project board almost finished. \label{Project board}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/project board%20.png?raw=true)
+
+
 \pagebreak
+
 
 ## How to make _Chirp!_ work locally
 ### Prerequisites
@@ -336,7 +371,7 @@ If you wish to run the test suite including these five test, then get in contact
 # Ethics
 ## License
 It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also, it is always good practice to add a license to guide other developers to what they can do with our code.
-This is of course even more relevant if the application were to stay and generate profit, and in this case we would need to consider another license.
+This is of course even more relevant if the application were to stay and generate profit, and in that case we would need to consider another license.
 
 When choosing a license we generally have to choose between permissive(copyright) and protective(copyleft) licenses, with different protective grades. We are not a community where the code needs contributors, and we do not have a desire to ensure openness. In our group we agree that anyone can re-use our code, however we do not want that anyone has permission to patent our code. Therefore, we have chosen the MIT license because of its simplicity and permissive nature. The Apache license grants patent rights from contributors, which is what we do not want. 
 
@@ -352,7 +387,11 @@ List of all our dependencies:
 * Microsoft.data.sqlite  MIT
 * Azure Identity		    MIT
 
+
+We have used @[Software license], @[License compatibility] and @[Choose a license] to help grasp licenses and what license to choose.
+
 \pagebreak
+
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
