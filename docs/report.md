@@ -218,6 +218,11 @@ See figure \ref{The life of an issue}, a user flow diagram showing the process o
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
 
+### Project Board
+
+![Our project board almost finished. \label{Project board}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/project board%20.png?raw=true)
+
+
 ## How to make _Chirp!_ work locally
 ### Prerequisites
 In order to run _Chirp!_ locally one should follow these steps:
