@@ -6,6 +6,7 @@ public static class DbInitializer
 {
     public static void SeedDatabase(ChirpDBContext chirpContext)
     {
+        // This method is called when the database is created, and will populate the database with some initial data.
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
             var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), FollowedAuthors = new List<Author>(), AuthorFollowers = new List<Author>() };

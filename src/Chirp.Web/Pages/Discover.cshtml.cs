@@ -8,6 +8,7 @@ namespace Chirp.Web.Pages;
 
 public class DiscoverModel : PageModel
 {
+    // Holds the functionality and variables required to render the Discover page.
 
     public ICheepRepository _CheepRepository;
     public IAuthorRepository _AuthorRepository;
@@ -32,15 +33,17 @@ public class DiscoverModel : PageModel
 
     public async Task<IActionResult> OnGet() //use of Task https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-7.0
     {
+        // Handles the request when the user navigates to the Discover page.
         recomendedAuthors = await _AuthorRepository.GetFollowersFollower(User.FindFirstValue("emails"));
-        if (recomendedAuthors != null) { 
-            foreach (Guid authorId in recomendedAuthors)
+        if (recomendedAuthors != null)
         {
-            CheepDto? cheepFromRecommendedAuthor = await _CheepRepository.GetFirstCheepFromAuthor(authorId);
-            if (cheepFromRecommendedAuthor != null) recomendedCheeps!.Add(cheepFromRecommendedAuthor);
+            foreach (Guid authorId in recomendedAuthors)
+            {
+                CheepDto? cheepFromRecommendedAuthor = await _CheepRepository.GetFirstCheepFromAuthor(authorId);
+                if (cheepFromRecommendedAuthor != null) recomendedCheeps!.Add(cheepFromRecommendedAuthor);
+            }
         }
-        }
-        
+
 
         //Use followauthors to show unfollow/follow button based on whether or not you follow authors
         FollowedAuthors = await _AuthorRepository.GetFollowedAuthors(User.FindFirstValue("emails"));
@@ -51,6 +54,7 @@ public class DiscoverModel : PageModel
     //https://www.learnrazorpages.com/razor-pages/handler-methods
     public async Task<IActionResult> OnPostFollow(string followName)
     {
+        // Handles the request when the user clicks the Follow button.
         await _AuthorRepository.FollowAnAuthor(User.FindFirstValue("emails")!, followName);
 
         return Page();
@@ -58,6 +62,7 @@ public class DiscoverModel : PageModel
 
     public async Task<IActionResult> OnPostUnFollow(string followName)
     {
+        // Handles the request when the user clicks the Unfollow button.
         await _AuthorRepository.UnFollowAnAuthor(User.FindFirstValue("emails")!, followName);
 
         return Page();
