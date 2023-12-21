@@ -295,14 +295,14 @@ When choosing a license we generally have to choose between permissive(copyright
 
 Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
 List of all our dependencies:
-- .NET 			        MIT
-- Fluent validation	    Apache 2.0
-- Entity Framework       MIT
-- ASP.NET core           MIT	
-- Microsoft graph        MIT
-- Microsoft identity	    MIT		
-- Microsoft.data.sqlite  MIT
-- Azure Identity		    MIT
+* .NET 			        MIT
+* Fluent validation	    Apache 2.0
+* Entity Framework       MIT
+* ASP.NET core           MIT	
+* Microsoft graph        MIT
+* Microsoft identity	    MIT		
+* Microsoft.data.sqlite  MIT
+* Azure Identity		    MIT
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
