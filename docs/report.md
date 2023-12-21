@@ -112,6 +112,25 @@ The AuthorAuthenticate model concludes its GET methode by redirecting the user t
 
 ![Sequence diagram of creating a user on the Azure SQL Server if User does not exist.\lable{AuthorAuthenticazion}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-AuthorAuthenticazion.drawio%20(1).png)
 # Process
+## Build, test, release, and deployment
+During development of the application, we have used github workflows to automate some processes. It is defined in a YAML file and set to run on a trigger event. We have used one for Build and testing the application, one for creating a release on Github and one for deploying our .NET app to Azure and the schemas for our database. Workflows consist of one or more jobs, which have a sequence of steps that has to be executed. The diagrams below illustrate the steps and jobs of each workflow.
+
+### Build and test workflow
+This workflow is triggered when a branch is pushed or a pull request is created. It locates the source code and sets up a .NET Core environment. Then it downloads the missing, if any dependencies are missing, builds the application and runs the test suite. 
+This workflow is useful streamlining reviewing pull requests. See figure \ref{BuildAndTest-workflow}
+![UML Diagram of build and test workflow\lable{BuildAndTest-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/BuildAndTest-Workflow.drawio.png?raw=true)
+
+
+### Release workflow
+Whenever a new tag is pushed into main with our format, the release workflow is triggered. Again the .NET Core environment is set up, and then we add the artifact to our release with softprops/action-gh-release.
+Initially this streamlining helped making releases with executables on Github, whenever our main was given new tags. However we have later switched to only release source code, as we have evolved _Chirp!_ into a web application. We manually had to check if Main built and passed the tests before given new tags, but could have been included. See figure \ref{Release-workflow}
+![UML Diagram of the release workflow\lable{Release-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Release-Workflow.drawio.png?raw=true)
+
+### Deployment workflow
+This workflow consist of to jobs: 'BuildAndTest' and 'deploy'. Jobs can be run concurrently, but we need 'BuildAndTest' to run successfully, before we want to bother with deploying, hence the key word 'needs', which means we only run the 'deploy' when 'BuildAndTest' is done. 
+The workflow can be triggered manually on github or by push to main. Again it sets up a .Net Core environment, restores the dependencies, builds and runs our test suite. Create and upload application  artifacts to the github actions workflow system with the name '.net-app'.  Then the new migrations are bundled together and uploaded with the name 'efbundle'.
+Then the second part of the workflow called 'deploy', takes care of uploading the new web-app to Azure and deploy the new migrations to the Azure database. See figure \ref{deploy-workflow}
+![UML Diagram of the deploy workflow\lable{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
 
 ## Build, test, release, and deployment
 
