@@ -61,6 +61,8 @@ references:
 
 ---
 
+\pagebreak
+
 # Design and Architecture of _Chirp!_
 
 ## Domain model
@@ -262,6 +264,7 @@ See figure \ref{The life of an issue} for a user flow diagram showing the proces
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
 
+\pagebreak
 
 ### Project Board
 
