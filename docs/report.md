@@ -132,8 +132,6 @@ The workflow can be triggered manually on GitHub or by push to main. Again it se
 Then the second part of the workflow called 'deploy', takes care of uploading the new web-app to Azure and deploy the new migrations to the Azure database. See figure \ref{deploy-workflow}
 ![UML Diagram of the deploy workflow\label{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
 
-## Build, test, release, and deployment
-
 ## Team work
 
 ## How to make _Chirp!_ work locally
@@ -217,15 +215,15 @@ First this should run the UI Tests located in the 'Chirp.Web.Test' project, and 
 After that it will run the integrationtests from the 'Chirp.Infrastructure.Tests' project, which should return a prompt with 26 tests passed.
 
 **Note**
-As mentioned the 'Chirp.Web.Test' project holds userinterface tests made using playwright. Upon review of the test class in this project it will be clear that there are more tests than the 3 being run. This is because we have five UI tests where we use a github 'test account' to test logged in features, theese have been a great help during development. The problem is that in order for them to run on a new computer, the github 'test account' will have to verify the new device with an email code. Therefore we have chosen to comment theese test out, in order for the reader to be able to run our test suite.
-If you wish to run the test suite including theese five test, then get in contact wiht any member of the team, and we will then help verify you device.
+As mentioned the 'Chirp.Web.Test' project holds user interface tests made using playwright. Upon review of the test class in this project it will be clear that there are more tests than the 3 being run. This is because we have five UI tests where we use a GitHub 'test account' to test logged-in features, these have been a great help during development. The problem is that in order for them to run on a new computer, the GitHub 'test account' will have to verify the new device with an email code. Therefore, we have chosen to comment these test out, in order for the reader to be able to run our test suite.
+If you wish to run the test suite including these five test, then get in contact with any member of the team, and we will then help verify you device.
 # Ethics
 
 ## License
-It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also it is always good practice to add a license to guide other developers to what they can do with our code.
+It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also, it is always good practice to add a license to guide other developers to what they can do with our code.
 This is of course even more relevant if the application were to stay and generate profit, and in this case we would need to consider another license.
 
-When choosing a license we generally have to choose between permissive(copyright) and protective(copyleft) licenses, with different protective grades. We are not a community where the code needs contributers, and we do not have a desire to ensure openness. In our group we agree that anyone can re-use our code, however we do not want that anyone has permission to patent our code. Therefore we have chosen the MIT license because of its simplicity and permissive nature. The Apache license grants patent rights from contributers, which is what we do not want. 
+When choosing a license we generally have to choose between permissive(copyright) and protective(copyleft) licenses, with different protective grades. We are not a community where the code needs contributors, and we do not have a desire to ensure openness. In our group we agree that anyone can re-use our code, however we do not want that anyone has permission to patent our code. Therefore, we have chosen the MIT license because of its simplicity and permissive nature. The Apache license grants patent rights from contributors, which is what we do not want. 
 
 Our dependencies are all licensed by MIT or Apache 2.0, and therefore compatible with MIT.
 List of all our dependencies:
@@ -240,7 +238,7 @@ List of all our dependencies:
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
-We tried asking ChatGPT when hitting an error that we could not figure out why we recieved. ChatGPT is often helpful with both finding but also explain what the error is to understand _why_ we get the error. This has been great to get a better understanding of what we need to fix to make good and functional code. Furthermore ChatGPT has proven to be a solid tool for discovering keywords and to figure out what documentation needs to be delved into.
-ChatGPT is also good at comprehending how components work together, whereas documentation for each part (being Azure, .NET or even GitHub) is really good at focusing on the specific domain. When "integrating" these domains, ChatGPT has been helpful with sharing its insights and filled the gaps between documentation. This has definitely saved us time.
-Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expidited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
+We tried asking ChatGPT when hitting an error that we could not figure out why we received. ChatGPT is often helpful with both finding but also explain what the error is to understand _why_ we get the error. This has been great to get a better understanding of what we need to fix to make good and functional code. Furthermore ChatGPT has proven to be a solid tool for discovering keywords and to figure out what documentation needs to be delved into.
+ChatGPT is also good at comprehending how components work together, whereas documentation for each part (being Azure, .NET or even GitHub) is excellent at focusing on the specific domain. When "integrating" these domains, ChatGPT has been helpful with sharing its insights and filled the gaps between documentation. This has definitely saved us time.
+Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expedited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
