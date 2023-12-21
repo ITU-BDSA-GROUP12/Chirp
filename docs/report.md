@@ -233,6 +233,9 @@ dotnet user-secrets set "ConnectionStrings:DeleteSecret":
 
 Now you should be ready to build, test and run the Chirp application.
 
+**Note**
+We are aware that during normal circumstances one should never include user-secrets in source control. Given that this is educational purposes, we have chosen to include the above-mentioned secret, in order for the reader to be able to test deletion functionality locally.
+
 ### Building the project
 To build the entire project make sure you are in the root directory (Chirp) and run the following command:
 ```
