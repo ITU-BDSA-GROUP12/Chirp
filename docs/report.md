@@ -135,6 +135,8 @@ The **about** me page displays information about the user. It:
 
 The about me tab is only accessible for authenticated users, and is only privately accessible.
 
+It is worth mentioning that we are actually deletion _all_ information about users, both in our database as an author with all information and in Azure as a saved user. This _should_ mean we are fully GDPR compliant.
+
 #### The cheep box
 
 The **cheep box** is a text entry field accompanied by a **Share** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page, and only for authenticated users.
