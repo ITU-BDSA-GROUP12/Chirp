@@ -112,7 +112,7 @@ The **my timeline** tab is similar to the public timeline, but here only the use
 #### Discover
 
 Let the user of the application be A.
-The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
+The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
 The users B is illustrated in the red box in figure \ref{discover}
 
 
@@ -126,7 +126,7 @@ The **logout** tab turns the user into an unauthenticated user. This tab is only
 
 The **about** me page displays information about the user. It:
 - displays the GitHub **username** and **email** used for authentication. 
-- holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps, from the application.
+- holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps.
 - displays a list of all **cheeps written** by the user.
 - displays a list of all **users followed** by the user.
 - displays a list of all **users following** the user.
@@ -139,7 +139,7 @@ The **cheep box** is a text entry field accompanied by a **Share** button to sen
 
 ### Sending a cheep
 
-See figure \ref{sendingCheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
+See figure \ref{sendingCheep} for a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 
 ![Sending a cheep user flow diagram\label{sendingCheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
     
@@ -194,25 +194,26 @@ We managed to implement all the functionality we aspired to implement during thi
 Examples:
 - A character count above the cheep box, denoting how many characters can yet be used, up to 160.
 - Profile pictures, fetched from GitHub.
-- Functionality to reference other users in a cheep, and a page with the newest cheeps in which the user is tagged.
+- Functionality to reference other users in a cheep, and a page with the newest cheeps in which the user is referenced.
 - Emoticon reactions to cheeps, such as happy face or tractor.
 - Comments under cheeps.
 - A link redirecting to a user's GitHub page.
 
 #### Work flow
-We have implemented the code in short incremental steps as, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description and a definition of done.
+We have implemented the code in short incremental steps, starting with a GitHub issue, describing a desired change in the code, who would benefit from this change, a more detailed description, and a definition of done.
 The issues are created to match the project description provided by our professors, or to match changes and details that we as a group or individually found relevant to implement.
 On creation, an issue is placed in one of three categories:
-- To-do: a place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
+- To-do: A place for issues that contain an overall idea for the group to think on, not something that should be implemented as code. 
 - Backlog: An issue in the code that has no immediate solution; the group must talk about it and figure out how to turn this into an issue ready for implementation OR an issue that has a concrete solution, but should not be focused on yet, as the code base is not ready, or the issue is not relevant to work with at the moment
-- Ready: Issues ready for a team member to assign themselves and being implementation.
+- Ready: Issues ready for a team member to assign themselves and begin implementation.
 
 When a team member takes responsibility for an issue, he creates a branch linked to the issue with the name of the issue and starts on implementing the change described.
 Often we have worked on larger/more fundamental changes in groups of 2-3 or as the whole team (mob-/pair programming).
 We have (with varying consistency) written the code for an issue in smaller commits of working code.
-When the code for an issue is done, the code is pushed to the online repository on its branch. A pull request is made, the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
+When the code for an issue is done, the code is pushed to the online repository on its branch. As a security measure a Github workflow tests the code being pushed, and gives a warning on the push if the tests does not pass. 
+A pull request is made and the code is reviewed by one or more team members, different from the author of the code. The reviewer may then decide if more work is needed from the issue assignee, or if the change is ready to merge with the main branch.
 Upon merge, the issue is closed and moved to Done in our project board.
-See figure \ref{The life of an issue}, a user flow diagram showing the process of an issue:
+See figure \ref{The life of an issue} for a user flow diagram showing the process of an issue.
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
 
