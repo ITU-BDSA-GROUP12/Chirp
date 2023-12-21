@@ -8,6 +8,15 @@ author:
 - "Mads Voss Hvelplund <mhve@itu.dk>"
 - "Lukas Brandt Pallesen <lupa@itu.dk>"
 numbersections: true
+
+references:
+  - id: cleanref
+    title: Common web application architectures
+    author:
+      - Microsoft
+    URL: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures"
+    issued:
+      year: 2023
 ---
 
 # Design and Architecture of _Chirp!_
@@ -27,7 +36,7 @@ Our domain model consists of two data entities, which depict the attributes of a
 ![Illustration of the _Chirp!_ data model as UML class diagram.\label{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
 ## Architecture — In the small
-Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
+Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion. [@cleanref]
 
 When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building _Chirp!_ with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
 
