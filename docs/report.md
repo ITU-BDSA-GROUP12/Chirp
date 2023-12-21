@@ -27,15 +27,15 @@ Our domain model consists of two data entities, which depict the attributes of a
 ![Illustration of the _Chirp!_ data model as UML class diagram.\label{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
 ## Architecture — In the small
-Our Chirp application is written following the clean (or onion) architecture. This clean architecture of Chirp can be seen visualized in figure \ref{OnionDiagram}. The idea with building chirp with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
+Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion.
 
-When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building Chirp with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
+When looking at figure \ref{OnionDiagram}, dependencies must be read going inwards toward the center of the illustration. In there we have the _Chirp.Core_ package. Besides building _Chirp!_ with clean architecture, we also make use of the repository pattern to allow for abstraction and organization of data handling. In the _Chirp.Core_ package we hold two repository-pattern specific classes. The Data Transfer Objects (DTO), and the repository interfaces. This follows the DDD and the repository pattern, placing an abstraction of the business logic at the very center of our application.
 
 ![Clean Architecture\label{OnionDiagram}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/OnionDiagram.png)
 
-The next layer in the architecture is the data layer which manifests in Chirp as the _Chirp.Infrastructure_ package. Here lies all classes related to the data handling and database management. Following dependencies going towards the center, this package depends on the _Chirp.Core_ package, as _Chirp.Infrastructure_ holds the implementation of the repository interfaces. This dependency shows how the architecture implements the Dependency Inversion principle, which states that implementations should depend on abstractions and not the other way around.
+The next layer in the architecture is the data layer which manifests in _Chirp!_ as the _Chirp.Infrastructure_ package. Here lies all classes related to the data handling and database management. Following dependencies going towards the center, this package depends on the _Chirp.Core_ package, as _Chirp.Infrastructure_ holds the implementation of the repository interfaces. This dependency shows how the architecture implements the Dependency Inversion principle, which states that implementations should depend on abstractions and not the other way around.
 
-The outermost layer is the entry point for our Chirp application. In the code this is the _Chirp.Web_ package, which holds a RazorPage Application. This package depends on both the _Chirp.Core_ and the _Chirp.Infrastructure_ package. It is also in this class the Program.cs file resides, which is responsible for configuring the application, including the configuration for dependency injection. Here it configures implementation from the _Chirp.Infrastructure_ layer to be used when abstractions from the _Chirp.Core_ layer is requested.
+The outermost layer is the entry point for our _Chirp!_ application. In the code this is the _Chirp.Web_ package, which holds a RazorPage Application. This package depends on both the _Chirp.Core_ and the _Chirp.Infrastructure_ package. It is also in this class the Program.cs file resides, which is responsible for configuring the application, including the configuration for dependency injection. Here it configures implementation from the _Chirp.Infrastructure_ layer to be used when abstractions from the _Chirp.Core_ layer is requested.
 
 ![Package Diagram\label{PackageDiagram}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/PackageDiagram.png?raw=true)
 
@@ -45,7 +45,7 @@ For a more in depth visualization of which classes reside in which of the packag
 
 In this section, we will delve into the overall architecture of _Chirp!_ as a deployed web application. Figure \ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of _Chirp!_ on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory Business to Consumer (Azure AD B2C).
 
-Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of Chirp! through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an access token when a user logs in.
+Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of _Chirp!_ through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an access token when a user logs in.
 
 ![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\label{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
 
@@ -61,11 +61,11 @@ The **unauthenticated** users have access to the **Public Timeline** tab, the **
 
 #### Public Timeline
 
-The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
+The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons at the bottom of the page.
 
 #### Register    
 
-If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to Chirp. After signing in with GitHub, the user is registered and logged in to Chirp, and is now an authenticated user. If the user have registered before, this information might still be stored in cookies managed by the browser, and will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's Chirp username.
+If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to _Chirp!_. After signing in with GitHub, the user is registered and logged in to _Chirp!_, and is now an authenticated user. If the user has registered before, this information might still be stored in cookies managed by the browser, and the user will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's _Chirp!_ username.
 Only unauthenticated users have access to the register tab.
 
 #### Login
@@ -122,13 +122,13 @@ See figure \ref{sendingCheep} below, a user flow diagram showing a typical scena
     
 ## Sequence of functionality/calls through _Chirp!_
 
-In this section, we will examine the sequence of calls made during a user journey, from an unauthorized user to an authorized user. Figure \ref{UserRegistration} shows a client computer requesting an HTTP call in their internet browser by calling the root URL of _Chirp!_. The request is received by our Azure-deployed Web Application, which, through the use of Microsoft Identity, checks if the HTTP request has the needed access token to be authorized. Since the user is not authorized, the HTTP response is a limited version of Chirp!, as shown in the previous section _User Activities_.
+In this section, we will examine the sequence of calls made during a user journey, from an unauthorized user to an authorized user. Figure \ref{UserRegistration} shows a client computer requesting an HTTP call in their internet browser by calling the root URL of _Chirp!_. The request is received by our Azure-deployed Web Application, which, through the use of Microsoft Identity, checks if the HTTP request has the needed access token to be authorized. Since the user is not authorized, the HTTP response is a limited version of _Chirp!_, as shown in the previous section _User Activities_.
 
 The next step is for a user to press 'Register/Login.' This action triggers an ASP controller, 'Account,' to generate a URL pointing to the Azure Active Directory Business to Consumer Tenant's (Azure Tenant) SignUpSignIn user flow using the ID, secret, and information of our Azure Tenant provided by the connection strings from the appsettings.json. (https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest) Since we have chosen GitHub as the identity provider, our Azure Tenant sends a GET request to a GitHub OAuth App we have created in our GitHub repository. The OAuth App provides the user with a login dialog, which the user fills in. If the authentication is successful, the OAuth App provides our Azure Tenant with an access_token through the callback URL provided to the OAuth App. In the Azure Tenant, we have selected some claims for which information about the user is needed in our Web Application. (https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app)
 
 When the callback URL with the access token arrives in the Azure Tenant, it checks if the access_token have the necessary claims. Since we need the user's email, and GitHub doesn't provide this, our Azure Tenant needs to provide it for us. If the user exists as a user in the Azure Tenant, then the user's email is provided there, and it can be fetched from there. Otherwise, the Azure Tenant sends a dialog to the client where the user can fill in the email input. Now the Azure Tenant can create a user with sufficient claims and send the access token to the App service through the callback URL provided in the connection strings of the App Service.
 
-Using Microsoft Identity, our web application now sets properties like name, email, and isAuthenticated to the values provided by the access token. Before accessing our Chirp! web application, the login redirects to an AuthorAuthenticator. Our user is at this point stored in the Azure Tenant but may not yet be stored in our SQL Server database, which we need to ensure.
+Using Microsoft Identity, our web application now sets properties like name, email, and isAuthenticated to the values provided by the access token. Before accessing our _Chirp!_ web application, the login redirects to an AuthorAuthenticator. Our user is at this point stored in the Azure Tenant but may not yet be stored in our SQL Server database, which we need to ensure.
 
 ![Sequence diagram of register as a User on _Chirp!_.\label{UserRegistration}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-RegisterUser.drawio.png)
 
@@ -195,7 +195,7 @@ See figure \ref{The life of an issue}, a user flow diagram showing the process o
 
 ## How to make _Chirp!_ work locally
 ### Prerequisites
-In order to run Chirp locally one should follow these steps:
+In order to run _Chirp!_ locally one should follow these steps:
 
 Start by cloning the Chirp repository by running the following command in your terminal. After this step you should have the entire Chirp repository in a directory called Chirp.
 ```
@@ -205,7 +205,7 @@ Next you move to your newly cloned repository's root directory:
 ```
 cd Chirp
 ```
-Before being able to build, test or run the Chirp application you need to make sure you have docker installed, and then start an mssql using the following command:
+Before being able to build, test or run the _Chirp!_ application you need to make sure you have docker installed, and then start an mssql using the following command:
 ```
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Password>" \
    -p 1433:1433 --name sqlServer1 --hostname sqlServer1 \
@@ -231,7 +231,7 @@ dotnet user-secrets set "ConnectionStrings:DeleteSecret":
    "n4x8Q~ULLEGdgNVvcSoSqwoHFJ0AgyYfyroMQchJ"
 ```
 
-Now you should be ready to build, test and run the Chirp application.
+Now you should be ready to build, test and run the _Chirp!_ application.
 
 **Note**
 We are aware that during normal circumstances one should never include user-secrets in source control. Given that this is educational purposes, we have chosen to include the above-mentioned secret, in order for the reader to be able to test deletion functionality locally.
@@ -252,7 +252,7 @@ dotnet build
 ```
 
 ### Running the application
-To run the Chirp application locally you have to move to the Chirp.Web package (/src/Chip.Web).
+To run the _Chirp!_ application locally you have to move to the Chirp.Web package (/src/Chip.Web).
 When in the Chirp.Web package, run the following command:
 ```
 dotnet run
@@ -261,7 +261,7 @@ This should prompt a message in your terminal including the line:
 "info: Microsoft.Hosting.Lifetime[14]
 Now listening on: https://localhost:7028"
 
-Chirp is now running locally on your machine, and you can access it by going to: https://localhost:7028 in your browser of choice.
+_Chirp!_ is now running locally on your machine, and you can access it by going to: https://localhost:7028 in your browser of choice.
 
 ## How to run test suite locally
 ### Prerequisites
@@ -274,8 +274,8 @@ pwsh bin/Debug/net8.0/playwright.ps1 install
 If pwsh is not available, you have to install PowerShell.
 
 ### Running test suite
-The test suite of Chirp is divided in two test-projects. 'Chirp.Infrastructure.Tests' and 'Chirp.Web.Test'.
-In order to run all test suites of the Chirp application, you simply need to be located in the root directory (Chirp) and run the following command:
+The test suite of _Chirp!_ is divided in two test-projects. 'Chirp.Infrastructure.Tests' and 'Chirp.Web.Test'.
+In order to run all test suites of the _Chirp!_ application, you simply need to be located in the root directory (Chirp) and run the following command:
 ```
 dotnet test
 ```
@@ -306,7 +306,9 @@ List of all our dependencies:
 
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
+
 We tried asking ChatGPT when hitting an error that we could not figure out why we received. ChatGPT is often helpful with both finding but also explain what the error is to understand _why_ we get the error. This has been great to get a better understanding of what we need to fix to make good and functional code. Furthermore ChatGPT has proven to be a solid tool for discovering keywords and to figure out what documentation needs to be delved into.
 ChatGPT is also good at comprehending how components work together, whereas documentation for each part (being Azure, .NET or even GitHub) is excellent at focusing on the specific domain. When "integrating" these domains, ChatGPT has been helpful with sharing its insights and filled the gaps between documentation. This has definitely saved us time.
+
 Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expedited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
