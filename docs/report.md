@@ -11,7 +11,7 @@ numbersections: true
 
 references:
 
-  - id: [Software license]
+  - id: Softwarelicense
     title: Software license
     author:
       - Wikipedia
@@ -19,7 +19,7 @@ references:
     issued:
       year: 2015
 
-   - id: [License compatibility]
+  - id: Licensecompatibility
     title: License compatibility
     author:
       - Wikipedia
@@ -27,7 +27,7 @@ references:
     issued:
       year: 2016
    
-     - id: [Choose a license]
+  - id: Choosealicense
     title: Choose a license
     author:
       - GitHub
@@ -265,8 +265,7 @@ See figure \ref{The life of an issue} for a user flow diagram showing the proces
 
 ### Project Board
 
-![Our project board almost finished. \label{Project board}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/project board%20.png?raw=true)
-
+![Our project board almost finished. \label{Project board}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/project%20board.png)
 
 \pagebreak
 
@@ -388,7 +387,7 @@ List of all our dependencies:
 * Azure Identity		    MIT
 
 
-We have used @[Software license], @[License compatibility] and @[Choose a license] to help grasp licenses and what license to choose.
+We have used [@Softwarelicense], [@Licensecompatibility] and [@Choosealicense] to help grasp licenses and what license to choose.
 
 \pagebreak
 
