@@ -120,7 +120,26 @@ The AuthorAuthenticate model concludes its GET methode by redirecting the user t
 ## How to make _Chirp!_ work locally
 
 ## How to run test suite locally
+#### Prerequisites #####
+The test suite of _Chirp!_ includes User Interface Test made with Playwright. In order to run theese you need to make sure you have the needed browsers and dependencies installed.:
 
+First move to 'Chirp/test/Chirp.Web.Test'. Then run the following command:
+```
+pwsh bin/Debug/net8.0/playwright.ps1 install
+```
+If pwsh is not available, you have to install PowerShell.
+#### Running test suite #####
+The test suite of Chirp is divided in two test-projects. 'Chirp.Infrastructure.Tests' and 'Chirp.Web.Test'.
+In order to run all test suites of the Chirp application, you simply need to be located in the root directory (Chirp) and run the following command:
+```
+dotnet test
+```
+First this should run the UI Tests located in the 'Chirp.Web.Test' project, and should return a prompt with 3 tests passed.
+After that is will run the integrationtests from the 'Chirp.Infrastructure.Tests' project, which should return a promt with 26 tests passed.
+
+**Note**
+As mentioned the 'Chirp.Web.Test' prject holds userinterface tests made using playwright. Upon review of the test class in this project it will be clear that there are more tests than the 3 being run. This is because we have five UI tests where we use a github 'test account' to test logged in features, theese have been a great help during development. The problem is that in order for them to run on a new computer, the github 'test account' will have to verify the new device with an email code. Therefore we have chosen to comment theese test out, in order for the reader to be able to run our test suite.
+If you wish to run the test suite including theese five test, then get in contact wiht any member of the team, and we will then help verify you device.
 # Ethics
 
 ## License
