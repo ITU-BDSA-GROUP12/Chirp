@@ -60,11 +60,10 @@ The use of our application is defined by a range of tabs, a **cheep box** and tw
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
 
 #### Public Timeline
-
-
+<br/>
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
 
-#### Register
+#### Register    
 
 If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to Chirp. After signing in with GitHub, the user is registered and logged in to Chirp, and is now an authenticated user. If the user have registered before, this information might still be stored in cookies managed by the browser, and will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's Chirp username.
 Only unauthenticated users have access to the register tab.
