@@ -53,18 +53,24 @@ We employ Microsoft Graph to delete a user from Azure AD by using a management a
 ## User activities
 The gist of our application lies in two main activities; writing cheeps and reading cheeps. A **cheep** is a short message of 1-160 characters, and is not messaged to a particular person. Each cheep is publicly available for everyone to see, and there is no functionality to direct the attention of particular users onto your cheep. Lastly, the user has an option to follow other users, to get easier access to cheeps written by them.
 The use of our application is defined by a range of tabs, a **cheep box** and two different kinds of users - **authenticated** users and **unauthenticated** users. That is, users that are logged in and users that are not. The two kinds of users differ in the elements that they have access to on the site. 
+
 ### Unauthenticated
+
 ![Chirp public timeline unauthenticated](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/unregistered%20chirp.png?raw=true)
 
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
+
 #### Public Timeline
+
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
 
 #### Register
+
 If the user has not registered before, clicking the **Register** tab redirects the user to a prompt for signing in to GitHub to continue to Chirp. After signing in with GitHub, the user is registered and logged in to Chirp, and is now an authenticated user. If the user have registered before, this information might still be stored in cookies managed by the browser, and will then not be asked to sign in with GitHub - they will simply be logged in right away and immediately turn into an authenticated user. Once authenticated, the user's GitHub username is also used as the user's Chirp username.
 Only unauthenticated users have access to the register tab.
 
 #### Login
+
 The **Login** tab does the exact same thing as the register tab - their behavior is the same in every way.
 
 ### Authenticated
@@ -74,20 +80,28 @@ The **Login** tab does the exact same thing as the register tab - their behavior
 The **authenticated** user has access to the **Public Timeline**, **My Timeline**, **Discover**, **Logout**, and **About Me** tabs.
 
 #### The follow mechanic
+
 An authenticated user has, attached to each cheep on the public timeline, a **follow** button. Upon clicking this, the follow button is replaced by an **unfollow** button, and the user will be regarded as following the user that sent the particular cheep.
 
 #### My Timeline
+
 The **my timeline** tab is similar to the public timeline, but here only the user's own cheeps and cheeps written by users that the user is following are displayed. One can visit other people's private timelines, but here the user's followed users' cheeps will not be showed.
+
 #### Discover
+
 Let the user of the application be A.
 The **discover** tab contains the latest cheep of each user B that is deemed interesting for A. B is deemed interesting if at least two users followed by A are following B, and the users of B are sorted after how many of A's followed users are following them. Here, A can browse through users that might be more relevant to A. The discover tab is only accessible to authenticated users. 
 The users B is illustrated in the red box in figure \ref{discover}
 
 
 ![The discover page illustrated\label{discover}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/363-design-and-architecture-user-activities/docs/images/the%20discover%20page%20but%20better.png?raw=true)
+
 #### Logout
+
 The **logout** tab turns the user into an unauthenticated user. This tab is only accessible to authenticated users.
+
 #### About me
+
 The **about** me page displays information about the user. It:
 - displays the GitHub **username** and **email** used for authentication. 
 - holds a **Forget Me!** button that **deletes all information** associated with the user, including sent cheeps, from the application.
@@ -98,13 +112,16 @@ The **about** me page displays information about the user. It:
 The about me tab is only accessible for authenticated users, and is only privately accessible.
 
 #### The cheep box
+
 The **cheep box** is a text entry field accompanied by a **Share** button to send any text entered as a cheep. The cheep box is available on the **public timeline** page and on the **my timeline** page, and only for authenticated users.
 
 ### Sending a cheep
+
 See figure \ref{sending cheep} below, a user flow diagram showing a typical scenario of a user logging in and sending a cheep.
 ![Sending a cheep user flow diagram\label{sending cheep}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/cheep%20user%20flow.png?raw=true)
     
-## Sequence of functionality/calls trough _Chirp!_
+## Sequence of functionality/calls through _Chirp!_
+
 In this section, we will examine the sequence of calls made during a user journey, from an unauthorized user to an authorized user. Figure \ref{UserRegistration} shows a client computer requesting an HTTP call in their internet browser by calling the root URL of _Chirp!_. The request is received by our Azure-deployed Web Application, which, through the use of Microsoft Identity, checks if the HTTP request has the needed access token to be authorized. Since the user is not authorized, the HTTP response is a limited version of Chirp!, as shown in the previous section _User Activities_.
 
 The next step is for a user to press 'Register/Login.' This action triggers an ASP controller, 'Account,' to generate a URL pointing to the Azure Active Directory Business to Consumer Tenant's (Azure Tenant) SignUpSignIn user flow using the ID, secret, and information of our Azure Tenant provided by the connection strings from the appsettings.json. (https://learn.microsoft.com/en-us/dotnet/api/microsoft.identity.web.ui.areas.microsoftidentity.controllers.accountcontroller?view=msal-model-dotnet-latest) Since we have chosen GitHub as the identity provider, our Azure Tenant sends a GET request to a GitHub OAuth App we have created in our GitHub repository. The OAuth App provides the user with a login dialog, which the user fills in. If the authentication is successful, the OAuth App provides our Azure Tenant with an access_token through the callback URL provided to the OAuth App. In the Azure Tenant, we have selected some claims for which information about the user is needed in our Web Application. (https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app)
