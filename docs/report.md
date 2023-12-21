@@ -40,6 +40,7 @@ The outermost layer is the entry point for our Chirp application. In the code th
 ![Package Diagram\label{PackageDiagram}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/PackageDiagram.png?raw=true)
 
 For a more in depth visualization of which classes reside in which of the packages mentioned, see the figure \ref{PackageDiagram}, a complete UML package diagram for _Chirp!_.
+
 ## Architecture of deployed application
 
 In this section, we will delve into the overall architecture of _Chirp!_ as a deployed web application.\ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of _Chirp!_ on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory Business to Consumer (Azure AD B2C).
@@ -59,6 +60,7 @@ The use of our application is defined by a range of tabs, a **cheep box** and tw
 The **unauthenticated** users have access to the **Public Timeline** tab, the **Register** tab and the **Login** tab.
 
 #### Public Timeline
+
 
 The **Public Timeline** contains a list of each (non-deleted) cheep ever sent, and is available to both authenticated and unauthenticated users. The cheeps are displayed on pages of 32 cheeps, and the pages can browse between using the **next** and **previous** buttons on the button of the page.
 
