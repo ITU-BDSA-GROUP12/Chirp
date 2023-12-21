@@ -8,6 +8,16 @@ author:
 - "Mads Voss Hvelplund <mhve@itu.dk>"
 - "Lukas Brandt Pallesen <lupa@itu.dk>"
 numbersections: true
+
+references:
+  - id: bibID
+    title: Title of the article
+    author:
+      - Author/Organization
+    URL: "https://some_website.com"
+    issued:
+      year: 2012
+    urldate: {2022-10-27}
 ---
 
 # Design and Architecture of _Chirp!_
@@ -24,7 +34,7 @@ An Author represents the user in our program. The user can write posts (Cheeps),
 
 Our domain model consists of two data entities, which depict the attributes of a 'Cheep' and an 'Author' in the context of our application. Figure \ref{domainModelImage} shows the two classes, 'Cheep' and 'Author,' with their fields and cardinality relationships between each other and within themselves. The 'Cheep' class has a one-to-one relationship with an 'Author' class, and an 'Author' class has a zero-to-many relationship with the 'Cheep' class. Furthermore the 'Author' class has a zero-to-many relationship with authors who follow it and a zero-to-many relationship with authors whom it follows.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.\lable{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
+<!-- ![Illustration of the _Chirp!_ data model as UML class diagram.\lable{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png) -->
 
 
 ## Architecture — In the small
@@ -55,3 +65,7 @@ We tried asking ChatGPT when hitting an error that we could not figure out why w
 ChatGPT is also good at comprehending how components work together, whereas documentation for each part (being Azure, .NET or even GitHub) is really good at focusing on the specific domain. When "integrating" these domains, ChatGPT has been helpful with sharing its insights and filled the gaps between documentation. This has definitely saved us time.
 Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expidited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
+
+test quote @bibID
+
+# References
