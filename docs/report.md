@@ -42,11 +42,9 @@ The outermost layer is the entry point for our Chirp application. In the code th
 For a more in depth visualization of which classes reside in which of the packages mentioned, see the figure \ref{PackageDiagram}, a complete UML package diagram for _Chirp!_.
 ## Architecture of deployed application
 
-In this section, we will delve into the overall architecture of Chirp! as a deployed web application.\ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of Chirp! on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory (AD) B2C.
+In this section, we will delve into the overall architecture of _Chirp!_ as a deployed web application.\ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of _Chirp!_ on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory Business to Consumer (Azure AD B2C).
 
-Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of Chirp! through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an authentication token, which either creates a new user on Azure AD or logs the user into Chirp!.
-
-We employ Microsoft Graph to delete a user from Azure AD by using a management application with Read-Write API permissions on Users in Azure AD.
+Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of Chirp! through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an access token when a user logs in.
 
 ![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\label{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
 
