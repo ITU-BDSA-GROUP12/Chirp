@@ -51,6 +51,8 @@ Our domain model consists of two data entities, which depict the attributes of a
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.\label{domainModelImage}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/DomainModel.drawio1.png)
 
+\pagebreak
+
 ## Architecture — In the small
 Our _Chir!_ application is written following the clean (or onion) architecture. This clean architecture of _Chirp!_ can be seen visualized in figure \ref{OnionDiagram}. The idea with building _Chirp!_ with a clean architecture, is that it implements both the principle of Domain Driven Development (DDD) and Dependency Inversion. [@cleanref]
 
@@ -66,6 +68,8 @@ The outermost layer is the entry point for our _Chirp!_ application. In the code
 
 For a more in depth visualization of which classes reside in which of the packages mentioned, see the figure \ref{PackageDiagram}, a complete UML package diagram for _Chirp!_.
 
+\pagebreak
+
 ## Architecture of deployed application
 
 In this section, we will delve into the overall architecture of _Chirp!_ as a deployed web application. Figure \ref{ArchitectureDeployment} shows the structure of the architecture. Our application is hosted on the cloud-based Microsoft Azure platform. The code is accessible through an Azure service called 'Azure Web Service.' A client can make an HTTP request to our web application, and the response will return an instance of _Chirp!_ on their computer. We utilize two additional Azure services: Azure SQL Server and Azure Active Directory Business to Consumer (Azure AD B2C).
@@ -73,6 +77,8 @@ In this section, we will delve into the overall architecture of _Chirp!_ as a de
 Azure SQL Server is employed to host our database by providing a connection string to the web service, which connects to our EF Core implementation. Azure AD B2C is used to authenticate users of _Chirp!_ through a SignUpSignIn user flow. This flow redirects a login or signup request to GitHub, our chosen Identity provider. GitHub returns an access token when a user logs in.
 
 ![Illustration of the architecture of the deployed _Chirp!_ app as a UML diagram.\label{ArchitectureDeployment}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/ArchitectureDeployment.drawio%20(2).png)
+
+\pagebreak
 
 ## User activities
 The gist of our application lies in two main activities; writing cheeps and reading cheeps. A **cheep** is a short message of 1-160 characters, and is not messaged to a particular person. Each cheep is publicly available for everyone to see, and there is no functionality to direct the attention of particular users onto your cheep. Lastly, the user has an option to follow other users, to get easier access to cheeps written by them.
@@ -170,6 +176,8 @@ The AuthorAuthenticate model concludes its GET method by redirecting the user to
 
 ![Sequence diagram of creating a user on the Azure SQL Server if User does not exist.\label{AuthorAuthentication}](https://raw.githubusercontent.com/ITU-BDSA23-GROUP12/Chirp/main/docs/images/SequenceOfFunctionality-AuthorAuthenticazion.drawio%20(1).png)
 
+\pagebreak
+
 # Process
 ## Build, test, release, and deployment
 During development of the application, we have used GitHub workflows to automate some processes. It is defined in a YAML file and set to run on a trigger event. We have used one for Build and testing the application, one for creating a release on GitHub and one for deploying our .NET app to Azure and the schemas for our database. Workflows consist of one or more jobs, which have a sequence of steps that has to be executed. The diagrams below illustrate the steps and jobs of each workflow.
@@ -193,6 +201,8 @@ The workflow can be triggered manually on GitHub or by push to main. Again it se
 Then the second part of the workflow called 'deploy', takes care of uploading the new web-app to Azure and deploy the new migrations to the Azure database. See figure \ref{deploy-workflow}
 
 ![UML Diagram of the deploy workflow\label{deploy-workflow}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/main/docs/images/Deployment-Workflow.drawio.png?raw=true)
+
+\pagebreak
 
 ## Team work
 We managed to implement all the functionality we aspired to implement during this project. A lot of features could have been added, but we decided on some core features that we felt like we could manage within the time frame, and managed those. Had we more time, we could have discussed which other features we might implement. 
@@ -223,6 +233,8 @@ Upon merge, the issue is closed and moved to Done in our project board.
 See figure \ref{The life of an issue} for a user flow diagram showing the process of an issue.
 
 ![The life of an issue. \label{The life of an issue}](https://github.com/ITU-BDSA23-GROUP12/Chirp/blob/366-process-team-work/docs/images/issue%20process.png?raw=true)
+
+\pagebreak
 
 ## How to make _Chirp!_ work locally
 ### Prerequisites
@@ -294,6 +306,8 @@ Now listening on: https://localhost:7028"
 
 _Chirp!_ is now running locally on your machine, and you can access it by going to: https://localhost:7028 in your browser of choice.
 
+\pagebreak
+
 ## How to run test suite locally
 ### Prerequisites
 The test suite of _Chirp!_ includes User Interface Test made with Playwright. In order to run these you need to make sure you have the needed browsers and dependencies installed.:
@@ -317,6 +331,8 @@ After that it will run the integrationtests from the 'Chirp.Infrastructure.Tests
 As mentioned the 'Chirp.Web.Test' project holds user interface tests made using playwright. Upon review of the test class in this project it will be clear that there are more tests than the 3 being run. This is because we have five UI tests where we use a GitHub 'test account' to test logged-in features, these have been a great help during development. The problem is that in order for them to run on a new computer, the GitHub 'test account' will have to verify the new device with an email code. Therefore, we have chosen to comment these test out, in order for the reader to be able to run our test suite.
 If you wish to run the test suite including these five test, then get in contact with any member of the team, and we will then help verify you device.
 
+\pagebreak
+
 # Ethics
 ## License
 It became clear to us that choosing a license is important to us as developers. This is to avoid legal issues regarding copyrights and to protect ourselves from liabilities. Also, it is always good practice to add a license to guide other developers to what they can do with our code.
@@ -336,6 +352,8 @@ List of all our dependencies:
 * Microsoft.data.sqlite  MIT
 * Azure Identity		    MIT
 
+\pagebreak
+
 ## LLMs, ChatGPT, CoPilot, and others
 A large level model is used for language understanding and generation. We have used ChatGPT and Co-Pilot in this project. We used these to expedite the coding in certain areas. 
 
@@ -344,5 +362,7 @@ ChatGPT is also good at comprehending how components work together, whereas docu
 
 Co-Pilot were used on the fly, as we were coding it would suggest what we might write, and often it was right and expedited the coding. It was also helpful, as we could write a comment stating what we want and Co-Pilot will then suggest the code for this. 
 We have always been careful when using these tools as they may be wrong, inaccurate, etc. and researched upon information it gave that we were going to use. The way these tool were used in the process, made the code writing a bit faster, and sometimes **way** faster to debug.
+
+\pagebreak
 
 # References
